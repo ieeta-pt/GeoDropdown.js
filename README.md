@@ -5,9 +5,19 @@ Under development
 GeoDropdown makes use of [geonames data server](http://geonames.org/) to create a multiple drodpdown lists system, which guarantees that users will provides well formatted locations, according to ISO-3166.
 
 # How to use the API
-To display the dropdowns system on a web page just include the geo-dropdown tag in the HTML.
+To display the dropdowns system on a web page just include the geo-dropdown tag in the HTML, and an identifier for each hierarchical levels.
+Here is an example:
 
-    <geo-dropdown></geo-dropdown> 
+    <geo-dropdown continent="cont" country="count" adm1="a1" adm2="a2" adm3="a3" adm4="a4" adm5="a5"></geo-dropdown> 
+
+By default:
+* continent="continent"
+* country="country"
+* adm1="adm1"
+* adm2="adm2"
+* adm3="adm3"
+* adm4="adm4"
+* adm5="adm5"
 
 # Hierarchical levels
 There are 7 hierarchical levels, which corresponds to 7 dropdown list:
