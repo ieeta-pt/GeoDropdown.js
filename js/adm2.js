@@ -1,42 +1,44 @@
-function populateADM2(continentElementId, countryElementId, adm1ElementId, adm2ElementId, adm3ElementId, adm4ElementId, adm5ElementId){
-	var adm2Element;
-	var selectedADM2Index;
-	var selectedADM2Text;
+function populateADM2(self){
+	console.log(self.level+" adm2");
 
 	// ADM2 View
-	$("#"+countryElementId).show();
-	$("#"+adm1ElementId).show();
-	$("#"+adm2ElementId).show();
-	$("#"+adm3ElementId).hide();
-	$("#"+adm4ElementId).hide();
-	$("#"+adm5ElementId).hide();
+	$("#"+self.country).show();
+	$("#"+self.adm1).show();
+	$("#"+self.adm2).show();
+	$("#"+self.adm3).hide();
+	$("#"+self.adm4).hide();
+	$("#"+self.adm5).hide();
 
-	adm2Element = document.getElementById( adm2ElementId );
-	if(document.getElementById( adm2ElementId ).selectedIndex != 0)
-		selectedADM2Index = document.getElementById( adm2ElementId ).selectedIndex;
+	adm2Element = document.getElementById( self.adm2 );
 
 	adm2Element.length=1;
-	if(selectedADM2Index == -1){
+	if(self.selectedADM2Index == -1){
 		adm2Element.options[0] = new Option('Select ADM2','');
 		adm2Element.selectedIndex = 0;
 	}
-	else adm2Element.options[0] = new Option(stripGCode(levels[3][selectedADM2Index-1]),stripGCode(levels[3][selectedADM2Index-1]));
+	else adm2Element.options[0] = new Option(stripGCode(self.levels[3][self.selectedADM2Index-1]),stripGCode(self.levels[3][self.selectedADM2Index-1]));
 	
-	for(i=0,x=levels[3].length;i<x;i++)
-	 	adm2Element.options[adm2Element.length] = new Option(stripGCode(levels[3][i]),stripGCode(levels[3][i]));
+	for(i=0,x=self.levels[3].length;i<x;i++)
+	 	adm2Element.options[adm2Element.length] = new Option(stripGCode(self.levels[3][i]),stripGCode(self.levels[3][i]));
 
-	names = new Array;
-	geoParent.append('<ol>'+g.join('')+'</ol>');
+	self.names = new Array;
+	self.geoParent.append('<ol>'+self.g.join('')+'</ol>');
+
 	// Assigned all states. Now assign event listener for the cities.
-	if(validData(levels[4],4)) populateADM3(continentElementId, countryElementId, adm1ElementId, adm2ElementId, adm3ElementId, adm4ElementId, adm5ElementId);
-	if( adm3ElementId )
+	if( self.adm3 )
 	{
-		$("#"+adm2ElementId).change(function(){
-			selectedADM3Index=selectedADM4Index=selectedADM5Index=-1;
-			selectedADM2Text = $("#"+adm2ElementId+" option:selected").text();
-			levels[5]=levels[6]=null;
-			level=4;
-			geoClick($('a:contains("'+selectedADM2Text+'")'));
+		$("#"+self.adm2).change(function(){
+			self.selectedADM3Index=self.selectedADM4Index=self.selectedADM5Index=-1;
+			self.selectedADM2Text = $("#"+self.adm2+" option:selected").text();
+			
+			self.levels[5]=self.levels[6]=null;
+			self.level=4;
+			
+			if(document.getElementById( self.adm2 ).selectedIndex != 0)
+				self.selectedADM2Index = document.getElementById( self.adm2 ).selectedIndex;
+			
+			var geoClickText = self.levels[3][self.selectedADM2Index-1];
+			self.geoClick($('a:contains("'+geoClickText+'")'));
 		});
 	}
 }

@@ -1,37 +1,41 @@
-function populateADM5(continentElementId, countryElementId, adm1ElementId, adm2ElementId, adm3ElementId, adm4ElementId, adm5ElementId){
-	var adm5Element;
-	var selectedADM5Index;
-	var selectedADM5Text;
+var adm5Element;
+var selectedADM5Index;
+var selectedADM5Text;
+
+function populateADM5(self){
+	console.log(self.level+" adm5");
 
 	// ADM5 View
-	$("#"+countryElementId).show();
-	$("#"+adm1ElementId).show();
-	$("#"+adm2ElementId).show();
-	$("#"+adm3ElementId).show();
-	$("#"+adm4ElementId).show();
-	$("#"+adm5ElementId).show();
+	$("#"+self.country).show();
+	$("#"+self.adm1).show();
+	$("#"+self.adm2).show();
+	$("#"+self.adm3).show();
+	$("#"+self.adm4).show();
+	$("#"+self.adm5).show();
 
-	adm5Element = document.getElementById( adm5ElementId );
-	
-	if(document.getElementById( adm5ElementId ).selectedIndex != 0)
-		selectedADM5Index = document.getElementById( adm5ElementId ).selectedIndex;
+	adm5Element = document.getElementById( self.adm5 );
 
 	adm5Element.length=1;
-	if(selectedADM5Index == -1){
+	if(self.selectedADM5Index == -1){
 		adm5Element.options[0] = new Option('Select ADM5','');
 		adm5Element.selectedIndex = 0;
 	}
-	else adm5Element.options[0] = new Option(stripGCode(levels[6][selectedADM5Index-1]),stripGCode(levels[6][selectedADM5Index-1]));
-	for(i=0,x=levels[6].length;i<x;i++){
-	 	adm3Element.options[adm5Element.length] = new Option(stripGCode(levels[6][i]),stripGCode(levels[6][i]));
+	else adm5Element.options[0] = new Option(stripGCode(self.levels[6][self.selectedADM5Index-1]),stripGCode(self.levels[6][self.selectedADM5Index-1]));
+	for(i=0,x=self.levels[6].length;i<x;i++){
+	 	adm3Element.options[adm5Element.length] = new Option(stripGCode(self.levels[6][i]),stripGCode(self.levels[6][i]));
 	}
 
-	names = new Array;
-	geoParent.append('<ol>'+g.join('')+'</ol>');
+	self.names = new Array;
+	self.geoParent.append('<ol>'+self.g.join('')+'</ol>');
 
 	// Assigned all cities.
-	$("#"+adm5ElementId).change(function(){
-		selectedADM5Text = $("#"+adm5ElementId+" option:selected").text();
-		geoClick($('a:contains("'+selectedADM5Text+'")'));
+	$("#"+self.adm5).change(function(){
+		selectedADM5Text = $("#"+self.adm5+" option:selected").text();
+		
+		if(document.getElementById( self.adm5 ).selectedIndex != 0)
+			self.selectedADM5Index = document.getElementById( self.adm5 ).selectedIndex;
+		
+		var geoClickText = self.levels[6][self.selectedADM5Index-1];
+		self.geoClick($('a:contains("'+geoClickText+'")'));
 	});
 }

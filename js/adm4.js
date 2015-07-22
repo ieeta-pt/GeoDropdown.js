@@ -1,41 +1,41 @@
-function populateADM4(continentElementId, countryElementId, adm1ElementId, adm2ElementId, adm3ElementId, adm4ElementId, adm5ElementId){
-	var adm4Element;
-	var selectedADM4Index;
-	var selectedADM4Text;
+function populateADM4(self){
+	console.log(self.level+" adm4");
 
 	// ADM4 View
-	$("#"+countryElementId).show();
-	$("#"+adm1ElementId).show();
-	$("#"+adm2ElementId).show();
-	$("#"+adm3ElementId).show();
-	$("#"+adm4ElementId).show();
-	$("#"+adm5ElementId).hide();
+	$("#"+self.country).show();
+	$("#"+self.adm1).show();
+	$("#"+self.adm2).show();
+	$("#"+self.adm3).show();
+	$("#"+self.adm4).show();
+	$("#"+self.adm5).hide();
 
-	adm4Element = document.getElementById( adm4ElementId );
-	if(document.getElementById( adm4ElementId ).selectedIndex != 0)
-		selectedADM4Index = document.getElementById( adm4ElementId ).selectedIndex;
+	adm4Element = document.getElementById( self.adm4 );
 
 	adm4Element.length=1;
-	if(selectedADM4Index == -1){
+	if(self.selectedADM4Index == -1){
 		adm4Element.options[0] = new Option('Select ADM4','');
 		adm4Element.selectedIndex = 0;
 	}
-	else adm4Element.options[0] = new Option(stripGCode(levels[5][selectedADM4Index-1]),stripGCode(levels[5][selectedADM4Index-1]));
+	else adm4Element.options[0] = new Option(stripGCode(self.levels[5][self.selectedADM4Index-1]),stripGCode(self.levels[5][self.selectedADM4Index-1]));
 	
-	for(i=0,x=levels[5].length;i<x;i++)
-	 	adm4Element.options[adm4Element.length] = new Option(stripGCode(levels[5][i]),stripGCode(levels[5][i]));
+	for(i=0,x=self.levels[5].length;i<x;i++)
+	 	adm4Element.options[adm4Element.length] = new Option(stripGCode(self.levels[5][i]),stripGCode(self.levels[5][i]));
 
-	names = new Array;
-	geoParent.append('<ol>'+g.join('')+'</ol>');
+	self.names = new Array;
+	self.geoParent.append('<ol>'+self.g.join('')+'</ol>');
 
 	// Assigned all cities.
-	if(validData(levels[6],6)) populateADM5(continentElementId, countryElementId, adm1ElementId, adm2ElementId, adm3ElementId, adm4ElementId, adm5ElementId);
-	if( adm5ElementId ){
-		$("#"+adm4ElementId).change(function(){
-			selectedADM5Index=-1;
-			selectedADM4Text = $("#"+adm4ElementId+" option:selected").text();
-			level=6;
-			geoClick($('a:contains("'+selectedADM4Text+'")'));
+	if( self.adm5 ){
+		$("#"+self.adm4).change(function(){
+			self.selectedADM5Index=-1;
+			selectedADM4Text = $("#"+self.adm4+" option:selected").text();
+			self.level=6;
+			
+			if(document.getElementById( self.adm4 ).selectedIndex != 0)
+				self.selectedADM4Index = document.getElementById( self.adm4 ).selectedIndex;
+
+			var geoClickText = self.levels[5][self.selectedADM4Index-1];
+			self.geoClick($('a:contains("'+geoClickText+'")'));
 		});
 	}
 }

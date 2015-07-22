@@ -22,15 +22,7 @@
 	<script type="text/javascript" src="http://ajax.googleapis.com/ajax/libs/jquery/1.8.2/jquery.min.js"></script>
 	<script type="text/javascript" src="http://geotree.geonames.org/jquery.rightClick.js"></script>
 	<script type="text/javascript" src="http://geotree.geonames.org/jquery.scrollTo-min.js"></script>
-	<script type="text/javascript" src="../js/GeoDropdown.js"></script>
-	<script type="text/javascript" src="../js/continent.js"></script>
-	<script type="text/javascript" src="../js/country.js"></script>
-	<script type="text/javascript" src="../js/adm1.js"></script>
-	<script type="text/javascript" src="../js/adm2.js"></script>
-	<script type="text/javascript" src="../js/adm3.js"></script>
-	<script type="text/javascript" src="../js/adm4.js"></script>
-	<script type="text/javascript" src="../js/adm5.js"></script>
-	<script type="text/javascript" src="../js/countriesDictionary.js"></script>
+	<script type="text/javascript" src="../min/GeoDropdown.min.js"></script>
 
 	<script>
 		Polymer({
@@ -47,7 +39,7 @@
 				var adm4ID = this.adm4;
 				var adm5ID = this.adm5;
 
-				geoDrop = new geoConstructor(continentID,countryID,adm1ID,adm2ID,adm3ID,adm4ID,adm5ID);
+				var geoDrop = new geoDropdown(continentID,countryID,adm1ID,adm2ID,adm3ID,adm4ID,adm5ID);
 				geoDrop.geoReady();
 			},
 			
