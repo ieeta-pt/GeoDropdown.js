@@ -1,6 +1,6 @@
 function populateCountries(self){
-	console.log(self.level+" country "+self.country);
 	// Country View
+	if(self.continent=="continent") $("#"+self.continent).hide();
 	$("#"+self.country).show();
 	$("#"+self.adm1).hide();
 	$("#"+self.adm2).hide();
@@ -15,7 +15,7 @@ function populateCountries(self){
 
 	countryElement.length=1;
 	// init country dropdown list
-	if(self.selectedCountryIndex == -1){
+	if(self.selectedCountryIndex == -1 || self.selectedCountryIndex == undefined){
 		countryElement.options[0] = new Option('Select Country','');
 		countryElement.selectedIndex = 0;
 		// Get all correct country self.names
@@ -40,7 +40,7 @@ function populateCountries(self){
 			
 			self.levels[3]=self.levels[4]=self.levels[5]=self.levels[6]=null;
 			self.level=2;
-
+			
 			if(self.selectedCountryText != 'Antarctica')
 				self.geoClick($('a:contains("'+self.selectedCountryText+'")'));
 		});

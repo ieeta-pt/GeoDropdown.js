@@ -59,7 +59,18 @@ geoDropdown.prototype.geoReady = function(){
 	defaultLang = navigator.language /* Mozilla */ || navigator.userLanguage /* IE */;
 
 	// entry point
-	this.geoClick($("#earth"));
+	if(this.continent!="continent")
+		this.geoClick($("#earth"));
+	else
+	{
+		this.geoClick($("#africa"));
+		this.geoClick($("#antarctica"));
+		this.geoClick($("#asia"));
+		this.geoClick($("#europe"));
+		this.geoClick($("#north_america"));
+		this.geoClick($("#oceania"));
+		this.geoClick($("#south_america"));
+	}
 }
 
 geoDropdown.prototype.geoClick = function(geo) {
@@ -87,7 +98,11 @@ geoDropdown.prototype.geoClick = function(geo) {
 				$.each(response.geonames, function() {
 					// add hierarchy as title
 					var title = '';
-					if (this.fcode=='CONT' && this.continentCode) { title = this.continentCode; self.level=0; }
+					if (this.fcode=='CONT' && this.continentCode) 
+					{ 
+						title = this.continentCode; 
+						if(self.continent!="continent") self.level=0; 
+					}
 					else if (this.countryCode && this.fcl!=='P') {
 						title += this.countryCode;
 						if (this.adminCode1) {
@@ -116,8 +131,13 @@ geoDropdown.prototype.geoClick = function(geo) {
 						for (var i=1; i<=5; i++) if (this.fcode=='ADM'+i) gcode = s[i];
 					}
 					self.g.push('<li><a href="#" sort="'+asciiName(this.name)+'" title="'+title+'" fcode="'+this.fcode+'" gid="'+this.geonameId+'" class="id_'+this.geonameId+'">'+this.name+gcode+'</a></li>');
-                    self.names.push(this.name+gcode);
+                    self.names.push(this.name+"gcode"+gcode);
 				});
+
+				if(self.continent=="continent") 
+					if(self.level==-1) 
+						if(self.names.length<248) { self.geoParent.append('<ol>'+self.g.join('')+'</ol>'); return; }
+						else self.level=1;
 				
 				// Ensure that all data will be correct
 				if(self.names==null || self.names=={}) return;
@@ -170,5 +190,5 @@ asciiName = function(s){
 };
 
 function stripGCode(string){
-    return string.replace(/\d+/g, '').replace(/[A-Z][A-Z]+/,'');
+    return string.replace(/gcode(.)*/,'');
 }

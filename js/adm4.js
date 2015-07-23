@@ -1,6 +1,4 @@
 function populateADM4(self){
-	console.log(self.level+" adm4");
-
 	// ADM4 View
 	$("#"+self.country).show();
 	$("#"+self.adm1).show();
@@ -35,7 +33,7 @@ function populateADM4(self){
 				self.selectedADM4Index = document.getElementById( self.adm4 ).selectedIndex;
 
 			var geoClickText = self.levels[5][self.selectedADM4Index-1];
-			self.geoClick($('a:contains("'+geoClickText+'")'));
+			self.geoClick($('a:contains("'+geoClickText.replace(/gcode/,'')+'")'));
 		});
 	}
 }
