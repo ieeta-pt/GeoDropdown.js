@@ -31,6 +31,7 @@ function populateADM3(self){
 
 			// Clear and deselect the following dropdowns
 			self.selectedADM4Index=self.selectedADM5Index=-1;
+			self.selectedADM4Text=self.selectedADM5Text='';
 			self.levels[6]=null;
 
 			if(document.getElementById( self.adm3 ).selectedIndex != 0)

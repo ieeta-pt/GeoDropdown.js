@@ -75,8 +75,10 @@ geoDropdown.prototype.geoReady = function(){
 
 // Request method
 geoDropdown.prototype.geoClick = function(geo) {
-	this.geoParent = geo.parent();
 	var self = this;
+	this.geoParent = geo.parent();
+
+	var defaultLang = navigator.language /* Mozilla */ || navigator.userLanguage /* IE */;
 	// server request
 	$.ajax({
 		url: 'http://geotree.geonames.net/childrenJSON',
@@ -134,7 +136,7 @@ geoDropdown.prototype.geoClick = function(geo) {
 					}
 					self.g.push('<li><a href="#" sort="'+asciiName(this.name)+'" title="'+title+'" fcode="'+this.fcode+'" gid="'+this.geonameId+'" class="id_'+this.geonameId+'">'+this.name+gcode+'</a></li>');
 					// Stop if non ISO-3166 location
-					if(gcode=='') return;
+					if(gcode=='') return; 
                     self.names.push(this.name+"gcode"+gcode);
 				});
 				
@@ -145,12 +147,12 @@ geoDropdown.prototype.geoClick = function(geo) {
 						else self.level=1;
 				
 				// Ensure that all data is correct
-				if(self.names==null || self.names=={} || self.names.length==0) return;
+				if(self.names.length==0) { castView(self.level,self); return; }
 				self.names = $.unique(self.names).sort();
 				
 				for(i=0;i<7;i++){
 					if(i!=self.level && self.levels[i] != undefined){
-						if(self.levels[i][0] == self.names[0]) return; 
+						if(self.levels[i][0] == self.names[0]) { castView(self.level,self); return; }
 					}
 				}
                
@@ -169,6 +171,7 @@ geoDropdown.prototype.geoClick = function(geo) {
                     case 6: { populateADM5(self); break; }
                 }
 			}
+			else castView(self.level,self);
 		},
 		error: function() {
 			// error handling goes here
@@ -198,4 +201,14 @@ asciiName = function(s){
 // Remove the gcode to display in the dropdowns
 function stripGCode(string){
     return string.replace(/gcode(.)*/,'');
+}
+
+// Update view when something went wrong with geoClick
+function castView(level,self){
+	if(self.level<2)	{ $("#"+self.country).hide(); self.selectedCountryText=''; }
+	if(self.level<3)	{ $("#"+self.adm1).hide(); self.selectedADM1Text=''; }
+	if(self.level<4)	{ $("#"+self.adm2).hide(); self.selectedADM2Text=''; }
+	if(self.level<5)	{ $("#"+self.adm3).hide(); self.selectedADM3Text=''; }
+	if(self.level<6)	{ $("#"+self.adm4).hide(); self.selectedADM4Text=''; }
+	if(self.level<7)	{ $("#"+self.adm5).hide(); self.selectedADM5Text=''; }
 }
