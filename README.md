@@ -6,18 +6,37 @@ GeoDropdown makes use of [geonames data server](http://geonames.org/) to create 
 
 # How to use the API
 To display the dropdowns system on a web page just include the geo-dropdown tag in the HTML, and an identifier for each hierarchical levels.
-Here is an example:
+Here are some examples:
 
     <geo-dropdown continent="cont" country="count" adm1="a1" adm2="a2" adm3="a3" adm4="a4" adm5="a5"></geo-dropdown> 
+    <geo-dropdown country="count" adm1="a1" adm2="a2" adm3="a3" adm4="a4" adm5="a5"></geo-dropdown>
+    <geo-dropdown></geo-dropdown> 
 
 By default:
-* continent="continent"
 * country="country"
 * adm1="adm1"
 * adm2="adm2"
 * adm3="adm3"
 * adm4="adm4"
 * adm5="adm5"
+
+# First Level
+The developer can choose to have continents as first level or countries. If the continent identifier is declared in the GeoDropdown tag, the correspondent dropdown will appear. If not, it won't appear.
+
+# Reach level
+The developer can choose the reach level, ie the end point of the GeoDropdown object, this is made by the reach identifier.
+####How reach works:
+| Identifier Value | Reach Level
+|------------------| :-----------: |
+| no identifier | adm5 |    
+| reach="continent" | continet |
+| reach="country" | country |
+| reach="adm1" | adm1 |
+| reach="adm2" | adm2 |
+| reach="adm3" | adm3 |
+| reach="adm4" | adm4 |
+| reach="adm5" | adm5 |
+| reach with other level | adm5 |
 
 # Hierarchical levels
 There are 7 hierarchical levels, which corresponds to 7 dropdown list:
@@ -35,4 +54,4 @@ There are 7 hierarchical levels, which corresponds to 7 dropdown list:
 
 #Example 
 You can consult a live example of the GeoDropdown library at http://bioinformatics-ua.github.io/GeoDropdown.js/.
-This page displays two Geodropdowns widgets, working simultaneously. One that does not aggregate continents-country, and other that aggregates.
+This page displays two Geodropdowns widgets, working simultaneously. One that does not aggregate continents-country and has adm5 as reach level, and other that aggregates and has adm1 as reach level.
