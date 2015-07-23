@@ -13,11 +13,14 @@ function populateADM5(self){
 	adm5Element = document.getElementById( self.adm5 );
 
 	adm5Element.length=1;
+	// init adm5 dropdown list
 	if(self.selectedADM5Index == -1){
 		adm5Element.options[0] = new Option('Select ADM5','');
 		adm5Element.selectedIndex = 0;
 	}
+	// If there is a selected item put it at the top of the dropdown
 	else adm5Element.options[0] = new Option(stripGCode(self.levels[6][self.selectedADM5Index-1]),stripGCode(self.levels[6][self.selectedADM5Index-1]));
+	// Fill the dropdown
 	for(i=0,x=self.levels[6].length;i<x;i++){
 	 	adm5Element.options[adm5Element.length] = new Option(stripGCode(self.levels[6][i]),stripGCode(self.levels[6][i]));
 	}
@@ -25,7 +28,7 @@ function populateADM5(self){
 	self.names = new Array;
 	self.geoParent.append('<ol>'+self.g.join('')+'</ol>');
 
-	// Assigned all cities.
+	// Assigned all adm5.
 	$("#"+self.adm5).change(function(){
 		selectedADM5Text = $("#"+self.adm5+" option:selected").text();
 		

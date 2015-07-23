@@ -1,3 +1,4 @@
+// Dictionary gcode => country name
 var isoCountries = {
     'AF' : 'Afghanistan',
     'AX' : 'Aland Islands',

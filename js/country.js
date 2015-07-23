@@ -18,7 +18,8 @@ function populateCountries(self){
 	if(self.selectedCountryIndex == -1 || self.selectedCountryIndex == undefined){
 		countryElement.options[0] = new Option('Select Country','');
 		countryElement.selectedIndex = 0;
-		// Get all correct country self.names
+
+		// Get all country names (not the official ones)
 		for(i=0,x=self.levels[1].length;i<x;i++) self.levels[1][i] = getCountryName(self.levels[1][i].substring(self.levels[1][i].length-2,self.levels[1][i].length))
 		self.levels[1] = $.unique(self.levels[1]).sort();
 	}
@@ -31,16 +32,18 @@ function populateCountries(self){
 	self.names = new Array;
 	self.geoParent.append('<ol>'+self.g.join('')+'</ol>');
 
-	// Assigned all countries. Now assign event listener for the regions.
+	// Assigned all countries. Now assign event listener for the adm1.
 	if( self.adm1 ){
 		$("#"+self.country).change(function(){
-			// Ask for country code again, in order to execute geoClick
+			// Ask for country code again, in order to make a correct server request
 			self.selectedCountryText = getCountryCode(isoCountries,$("#"+self.country+" option:selected").text());
+			
+			// Clear and deselect the following dropdowns
 			self.selectedADM1Index=self.selectedADM2Index=self.selectedADM3Index=self.selectedADM4Index=self.selectedADM5Index=-1;
-			
 			self.levels[3]=self.levels[4]=self.levels[5]=self.levels[6]=null;
-			self.level=2;
 			
+			// Server request with the selected data
+			self.level=2;
 			if(self.selectedCountryText != 'Antarctica')
 				self.geoClick($('a:contains("'+self.selectedCountryText+'")'));
 		});
