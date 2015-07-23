@@ -31,6 +31,7 @@ function populateADM4(self){
 
 			// Deselect the following dropdown
 			self.selectedADM5Index=-1;
+			self.selectedADM5Text='';
 			
 			if(document.getElementById( self.adm4 ).selectedIndex != 0)
 				self.selectedADM4Index = document.getElementById( self.adm4 ).selectedIndex;

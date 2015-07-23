@@ -32,6 +32,7 @@ function populateADM2(self){
 
 			// Clear and deselect the following dropdowns
 			self.selectedADM3Index=self.selectedADM4Index=self.selectedADM5Index=-1;
+			self.selectedADM3Text=self.selectedADM4Text=self.selectedADM5Text='';
 			self.levels[5]=self.levels[6]=null;
 			
 			// Get selected index

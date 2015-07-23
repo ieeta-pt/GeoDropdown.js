@@ -40,6 +40,7 @@ function populateCountries(self){
 			
 			// Clear and deselect the following dropdowns
 			self.selectedADM1Index=self.selectedADM2Index=self.selectedADM3Index=self.selectedADM4Index=self.selectedADM5Index=-1;
+			self.selectedADM1Text=self.selectedADM2Text=self.selectedADM3Text=self.selectedADM4Text=self.selectedADM5Text='';
 			self.levels[3]=self.levels[4]=self.levels[5]=self.levels[6]=null;
 			
 			// Server request with the selected data
