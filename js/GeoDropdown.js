@@ -131,6 +131,7 @@ geoDropdown.prototype.geoClick = function(geo) {
 						for (var i=1; i<=5; i++) if (this.fcode=='ADM'+i) gcode = s[i];
 					}
 					self.g.push('<li><a href="#" sort="'+asciiName(this.name)+'" title="'+title+'" fcode="'+this.fcode+'" gid="'+this.geonameId+'" class="id_'+this.geonameId+'">'+this.name+gcode+'</a></li>');
+					if(gcode=='') return;
                     self.names.push(this.name+"gcode"+gcode);
 				});
 
@@ -140,7 +141,7 @@ geoDropdown.prototype.geoClick = function(geo) {
 						else self.level=1;
 				
 				// Ensure that all data will be correct
-				if(self.names==null || self.names=={}) return;
+				if(self.names==null || self.names=={} || self.names.length==0) return;
 				self.names = $.unique(self.names).sort();
 				
 				for(i=0;i<7;i++){

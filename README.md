@@ -32,3 +32,7 @@ There are 7 hierarchical levels, which corresponds to 7 dropdown list:
 
 # What is ADM#?
 [ADM](http://www.geonames.org/export/codes.html) comes from administrative division, and it's the way that geonames handles the heterogeneity among the various administrative organizations of all countries. ADM1 corresponds to a primary administrative division of a country, and each following ADM corresponds to a subdivision of the previous ADM. It's not mandatory that every country must reach ADM5. There are examples, such as Bouvet Island in Antarctica, where the maximum level reached is the country level. And there are also examples, such as France, where the maximum level reached is the ADM5 level. 
+
+#Example 
+You can consult a live example of the GeoDropdown library at http://bioinformatics-ua.github.io/GeoDropdown.js/.
+This page displays two Geodropdowns widgets, working simultaneously. One that does not aggregate continents-country, and other that aggregates.
