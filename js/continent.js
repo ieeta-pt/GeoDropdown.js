@@ -33,6 +33,7 @@ function populateContinents(self){
 			// Server request with the selected data
 			self.level=1;
 			selectedContinentText = $("#"+self.continent+" option:selected").text();
+			if(self.reach=="continent") return;
 			self.geoClick($('a:contains("'+selectedContinentText+'")'));
 		});
 	}

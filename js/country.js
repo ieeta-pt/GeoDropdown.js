@@ -45,6 +45,7 @@ function populateCountries(self){
 			
 			// Server request with the selected data
 			self.level=2;
+			if(self.reach=="country") return;
 			if(self.selectedCountryText != 'Antarctica')
 				self.geoClick($('a:contains("'+self.selectedCountryText+'")'));
 		});

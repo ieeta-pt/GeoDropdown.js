@@ -42,6 +42,7 @@ function populateADM2(self){
 			// Server request with the selected data
 			self.level=4;
 			var geoClickText = self.levels[3][self.selectedADM2Index-1];
+			if(self.reach=="adm2") return;
 			self.geoClick($('a:contains("'+geoClickText.replace(/gcode/,'')+'")'));
 		});
 	}

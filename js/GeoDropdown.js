@@ -1,5 +1,5 @@
 // GeoDropdown object
-var geoDropdown = function(continent,country,adm1,adm2,adm3,adm4,adm5){
+var geoDropdown = function(continent,country,adm1,adm2,adm3,adm4,adm5,reach){
 	// HTML Elements ID
 	this.continent = continent;
 	this.country = country;
@@ -8,6 +8,7 @@ var geoDropdown = function(continent,country,adm1,adm2,adm3,adm4,adm5){
 	this.adm3 = adm3;
 	this.adm4 = adm4;
 	this.adm5 = adm5;
+	this.reach = reach;
 
 	// 3D array with all the hierarchical information
 	this.levels = new Array;

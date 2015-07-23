@@ -45,9 +45,10 @@
 				var adm3ID = this.adm3;
 				var adm4ID = this.adm4;
 				var adm5ID = this.adm5;
+				var reachID = this.reach;
 
 				// Local GeoDropdown object
-				var geoDrop = new geoDropdown(continentID,countryID,adm1ID,adm2ID,adm3ID,adm4ID,adm5ID);
+				var geoDrop = new geoDropdown(continentID,countryID,adm1ID,adm2ID,adm3ID,adm4ID,adm5ID,reachID);
 				// start 
 				geoDrop.geoReady();
 			},
@@ -78,6 +79,10 @@
 					value: "adm4"
 				},
 				adm5:{
+					type: String,
+					value: "adm5"
+				},
+				reach:{
 					type: String,
 					value: "adm5"
 				}

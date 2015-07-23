@@ -40,6 +40,7 @@ function populateADM3(self){
 			// Server request with the selected data
 			self.level=5;
 			var geoClickText = self.levels[4][self.selectedADM3Index-1];
+			if(self.reach=="adm3") return;
 			self.geoClick($('a:contains("'+geoClickText.replace(/gcode/,'')+'")'));
 		});
 	}
