@@ -1,6 +1,4 @@
 function populateADM3(self){
-	console.log(self.level+" adm3");
-
 	// ADM3 View
 	$("#"+self.country).show();
 	$("#"+self.adm1).show();
@@ -37,7 +35,7 @@ function populateADM3(self){
 				self.selectedADM3Index = document.getElementById( self.adm3 ).selectedIndex;
 
 			var geoClickText = self.levels[4][self.selectedADM3Index-1];
-			self.geoClick($('a:contains("'+geoClickText+'")'));
+			self.geoClick($('a:contains("'+geoClickText.replace(/gcode/,'')+'")'));
 		});
 	}
 }

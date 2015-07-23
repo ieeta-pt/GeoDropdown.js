@@ -1,6 +1,4 @@
 function populateADM2(self){
-	console.log(self.level+" adm2");
-
 	// ADM2 View
 	$("#"+self.country).show();
 	$("#"+self.adm1).show();
@@ -38,7 +36,7 @@ function populateADM2(self){
 				self.selectedADM2Index = document.getElementById( self.adm2 ).selectedIndex;
 			
 			var geoClickText = self.levels[3][self.selectedADM2Index-1];
-			self.geoClick($('a:contains("'+geoClickText+'")'));
+			self.geoClick($('a:contains("'+geoClickText.replace(/gcode/,'')+'")'));
 		});
 	}
 }

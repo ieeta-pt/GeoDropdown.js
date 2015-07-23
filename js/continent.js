@@ -1,5 +1,4 @@
 function populateContinents(self){
-	console.log(self.level+" countinent");
 	// Continent View
 	$("#"+self.country).hide();
 	$("#"+self.adm1).hide();

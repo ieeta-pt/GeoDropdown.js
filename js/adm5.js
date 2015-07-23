@@ -1,10 +1,7 @@
 var adm5Element;
 var selectedADM5Index;
 var selectedADM5Text;
-
 function populateADM5(self){
-	console.log(self.level+" adm5 "+self.levels[6][0]);
-
 	// ADM5 View
 	$("#"+self.country).show();
 	$("#"+self.adm1).show();
@@ -34,8 +31,5 @@ function populateADM5(self){
 		
 		if(document.getElementById( self.adm5 ).selectedIndex != 0)
 			self.selectedADM5Index = document.getElementById( self.adm5 ).selectedIndex;
-		
-		var geoClickText = self.levels[6][self.selectedADM5Index-1];
-		self.geoClick($('a:contains("'+geoClickText+'")'));
 	});
 }
