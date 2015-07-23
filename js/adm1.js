@@ -36,7 +36,6 @@ function populateADM1(self){
 				self.selectedADM1Index = document.getElementById( self.adm1 ).selectedIndex;
 			
 			var geoClickText = self.levels[2][self.selectedADM1Index-1];
-			console.log(geoClickText);
 			self.geoClick($('a:contains("'+geoClickText.replace(/gcode/,'')+'")'));
 		});
 	}
