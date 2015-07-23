@@ -11,13 +11,15 @@ Here is an example:
     <geo-dropdown continent="cont" country="count" adm1="a1" adm2="a2" adm3="a3" adm4="a4" adm5="a5"></geo-dropdown> 
 
 By default:
-* continent="continent"
 * country="country"
 * adm1="adm1"
 * adm2="adm2"
 * adm3="adm3"
 * adm4="adm4"
 * adm5="adm5"
+
+# First Level
+The developer can choose to have continents as first level or countries. If the continent identifier is declared in the GeoDropdown tag, the correspondent dropdown will appear. If not, it won't appear.  
 
 # Hierarchical levels
 There are 7 hierarchical levels, which corresponds to 7 dropdown list:
