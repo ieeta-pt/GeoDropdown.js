@@ -1,5 +1,6 @@
 // GeoDropdown object
 var geoDropdown = function(continent,country,adm1,adm2,adm3,adm4,adm5){
+	// HTML Elements ID
 	this.continent = continent;
 	this.country = country;
 	this.adm1 = adm1;
@@ -13,8 +14,7 @@ var geoDropdown = function(continent,country,adm1,adm2,adm3,adm4,adm5){
 	this.names = new Array;
 	this.level = -1;
 
-	// Server request variables
-	this.defaultLang;
+	// Tree variables 
 	this.geoParent;
 	this.g;
 
@@ -54,13 +54,13 @@ var geoDropdown = function(continent,country,adm1,adm2,adm3,adm4,adm5){
 	this.selectedADM5Text;
 }
 
+// Init method
 geoDropdown.prototype.geoReady = function(){
-	// browser default lang
-	defaultLang = navigator.language /* Mozilla */ || navigator.userLanguage /* IE */;
 
-	// entry point
+	// entry point without aggregation
 	if(this.continent!="continent")
 		this.geoClick($("#earth"));
+	// entry point with aggregation
 	else
 	{
 		this.geoClick($("#africa"));
@@ -73,6 +73,7 @@ geoDropdown.prototype.geoReady = function(){
 	}
 }
 
+// Request method
 geoDropdown.prototype.geoClick = function(geo) {
 	this.geoParent = geo.parent();
 	var self = this;
@@ -92,6 +93,7 @@ geoDropdown.prototype.geoClick = function(geo) {
 			if (response.status) {
 				$("#alert").html(response.status.message+' ('+response.status.value+')').show();
 			}
+
 			// ws returns an array of data
 			if (response.geonames && response.geonames.length) {
 				self.g = new Array;
@@ -131,16 +133,18 @@ geoDropdown.prototype.geoClick = function(geo) {
 						for (var i=1; i<=5; i++) if (this.fcode=='ADM'+i) gcode = s[i];
 					}
 					self.g.push('<li><a href="#" sort="'+asciiName(this.name)+'" title="'+title+'" fcode="'+this.fcode+'" gid="'+this.geonameId+'" class="id_'+this.geonameId+'">'+this.name+gcode+'</a></li>');
+					// Stop if non ISO-3166 location
 					if(gcode=='') return;
                     self.names.push(this.name+"gcode"+gcode);
 				});
-
+				
+				// append all countries
 				if(self.continent=="continent") 
 					if(self.level==-1) 
 						if(self.names.length<248) { self.geoParent.append('<ol>'+self.g.join('')+'</ol>'); return; }
 						else self.level=1;
 				
-				// Ensure that all data will be correct
+				// Ensure that all data is correct
 				if(self.names==null || self.names=={} || self.names.length==0) return;
 				self.names = $.unique(self.names).sort();
 				
@@ -153,6 +157,7 @@ geoDropdown.prototype.geoClick = function(geo) {
                 // add the required data to 3D array
                 self.levels[self.level] = self.names;
 
+                // Populate the fresh data
                 switch(self.level)
                 {
                     case 0: { populateContinents(self); break; } 
@@ -190,6 +195,7 @@ asciiName = function(s){
     return r;
 };
 
+// Remove the gcode to display in the dropdowns
 function stripGCode(string){
     return string.replace(/gcode(.)*/,'');
 }
