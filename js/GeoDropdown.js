@@ -119,16 +119,15 @@ geoDropdown.prototype.geoClick = function(geo) {
                     self.names.push(this.name+gcode);
 				});
 				
+				// Ensure that all data will be correct
 				if(self.names==null || self.names=={}) return;
+				self.names = $.unique(self.names).sort();
 				
-				/*for(i=0;i<7;i++){
+				for(i=0;i<7;i++){
 					if(i!=self.level && self.levels[i] != undefined){
-						var is_same = (self.levels[i].length == self.names.length) && self.levels[i].every(function(element, index) {
-						    return element === self.names[index]; 
-						});
-						if(is_same) return;
+						if(self.levels[i][0] == self.names[0]) return; 
 					}
-				}*/
+				}
                
                 // add the required data to 3D array
                 self.levels[self.level] = self.names;

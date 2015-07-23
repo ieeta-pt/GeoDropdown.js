@@ -3,7 +3,7 @@ var selectedADM5Index;
 var selectedADM5Text;
 
 function populateADM5(self){
-	console.log(self.level+" adm5");
+	console.log(self.level+" adm5 "+self.levels[6][0]);
 
 	// ADM5 View
 	$("#"+self.country).show();
@@ -22,7 +22,7 @@ function populateADM5(self){
 	}
 	else adm5Element.options[0] = new Option(stripGCode(self.levels[6][self.selectedADM5Index-1]),stripGCode(self.levels[6][self.selectedADM5Index-1]));
 	for(i=0,x=self.levels[6].length;i<x;i++){
-	 	adm3Element.options[adm5Element.length] = new Option(stripGCode(self.levels[6][i]),stripGCode(self.levels[6][i]));
+	 	adm5Element.options[adm5Element.length] = new Option(stripGCode(self.levels[6][i]),stripGCode(self.levels[6][i]));
 	}
 
 	self.names = new Array;
