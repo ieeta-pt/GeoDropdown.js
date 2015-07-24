@@ -34,15 +34,15 @@ The developer can choose the reach level, ie the end point of the GeoDropdown ob
 | reach with other level | adm5 |
 
 # What is ADM#?
-[ADM](http://www.geonames.org/export/codes.html) comes from administrative division, and it's the way that geonames handles the heterogeneity among the various administrative organizations of all countries. ADM1 corresponds to a primary administrative division of a country, and each following ADM corresponds to a subdivision of the previous ADM. It's not mandatory that every country must reach ADM5. There are examples, such as Bouvet Island in Antarctica, where the maximum level reached is the country level. And there are also examples, such as France, where the maximum level reached is the ADM5 level.
+[ADM](http://www.geonames.org/export/codes.html) comes from administrative division, and it's the way that geonames handles the heterogeneity among the various administrative organizations of all countries. ADM1 corresponds to a primary administrative division of a country, and each following ADM corresponds to a subdivision of the previous ADM. It's not mandatory that every country reaches ADM5. There are examples, such as Bouvet Island in Antarctica, where the maximum level reached is the country level. And there are also examples, such as France, where the maximum level reached is the ADM5 level.
 
 # How to use the API
-To display the dropdowns system on a web page just include the geo-dropdown tag in the HTML, and an identifier for each hierarchical levels.
+To display the dropdowns system on a web page just include the geo-dropdown tag in the HTML, an identifier for each hierarchical levels and a reach identifier.
 Here are some examples:
 
     <geo-dropdown continent="cont" country="count" adm1="a1" adm2="a2" adm3="a3" adm4="a4" adm5="a5"></geo-dropdown> 
     <geo-dropdown country="count" adm1="a1" adm2="a2" adm3="a3" adm4="a4" adm5="a5"></geo-dropdown>
-    <geo-dropdown></geo-dropdown> 
+    <geo-dropdown reach="adm1"></geo-dropdown> 
 
 By default:
 * country="country"
