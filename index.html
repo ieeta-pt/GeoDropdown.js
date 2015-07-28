@@ -1,15 +1,33 @@
 <!DOCTYPE html>
 <html>
-	<head>
-		<meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />
-  	<script src="bower_components/webcomponentsjs/webcomponents-lite.min.js"></script>
-  	<link rel="import" href="./custom-elements/geo-dropdown.html">
- 	</head>
-  	
-  	<body>
-  		<!-- all identifiers defined (no aggregation) -->
-    	<geo-dropdown continent = "c1" country = "c2" adm1="a1" adm2="a2" adm3="a3" adm4="a4" adm5="a5"></geo-dropdown>
-    	<!-- all identifiers by default (aggregation) -->
-    	<geo-dropdown reach="adm1"></geo-dropdown>
-  	</body>
+  <head>
+    <meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />
+    <script src="bower_components/webcomponentsjs/webcomponents-lite.min.js"></script>
+    <link rel="import" href="./custom-elements/geo-dropdown.html">
+
+    <style>
+      div{
+        margin-bottom: 5%; 
+        margin-left: 2%;
+      }
+      p{
+        text-align: center;
+        color: #001f7f;
+      }
+    </style>
+  </head>
+
+  <body>
+
+    <div>
+       <!-- all identifiers defined (no aggregation) -->
+      <p>Example1 (no aggregation, reach level adm5):</p> <geo-dropdown continent = "c1" country = "c2" adm1="a1" adm2="a2" adm3="a3" adm4="a4" adm5="a5"></geo-dropdown>
+    </div>
+   
+    <div>
+      <!-- all identifiers by default (aggregation) -->
+      <p>Example2 (aggregation, reach level adm1):</p> <geo-dropdown reach="adm1"></geo-dropdown>
+    </div>
+
+  </body>
 </html>
