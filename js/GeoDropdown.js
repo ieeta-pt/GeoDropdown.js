@@ -1,5 +1,5 @@
 // GeoDropdown object
-var geoDropdown = function(continent,country,adm1,adm2,adm3,adm4,adm5,reach){
+var geoDropdown = function(continent,country,adm1,adm2,adm3,adm4,adm5,reach,answer,clean){
 	// HTML Elements ID
 	this.continent = continent;
 	this.country = country;
@@ -9,6 +9,8 @@ var geoDropdown = function(continent,country,adm1,adm2,adm3,adm4,adm5,reach){
 	this.adm4 = adm4;
 	this.adm5 = adm5;
 	this.reach = reach;
+	this.answer = answer;
+	this.clean = clean;
 
 	// 3D array with all the hierarchical information
 	this.levels = new Array;
@@ -21,45 +23,45 @@ var geoDropdown = function(continent,country,adm1,adm2,adm3,adm4,adm5,reach){
 
 	// continent dropdown variables
 	this.continentElement;
-	this.selectedContinentIndex;
-	this.selectedContinentText;
+	this.selectedContinentIndex = -1;
+	this.selectedContinentText = '';
 
 	// country dropdown variables
 	this.countryElement;
-	this.selectedCountryIndex;
-	this.selectedCountryText;
+	this.selectedCountryIndex = -1;
+	this.selectedCountryText = '';
 
 	// adm1 dropdown variables
 	this.adm1Element;
-	this.selectedADM1Index;
-	this.selectedADM1Text;
+	this.selectedADM1Index = -1;
+	this.selectedADM1Text = '';
 
 	// adm2 dropdown variables
 	this.adm2Element;
-	this.selectedADM2Index;
-	this.selectedADM2Text;
+	this.selectedADM2Index = -1;
+	this.selectedADM2Text = '';
 	
 	// adm3 dropdown variables
 	this.adm3Element;
-	this.selectedADM3Index;
-	this.selectedADM3Text;
+	this.selectedADM3Index = -1;
+	this.selectedADM3Text = '';
 	
 	// adm4 dropdown variables
 	this.adm4Element;
-	this.selectedADM4Index;
-	this.selectedADM4Text;
+	this.selectedADM4Index = -1;
+	this.selectedADM4Text = '';
 
 	// adm5 dropdown variables
 	this.adm5Element;
-	this.selectedADM5Index;
-	this.selectedADM5Text;
+	this.selectedADM5Index = -1;
+	this.selectedADM5Text = '';
 }
 
 // Init method
 geoDropdown.prototype.geoReady = function(){
 
 	// entry point without aggregation
-	if(this.continent!="continent")
+	if(this.continent!="default_continent")
 		this.geoClick($("#earth"));
 	// entry point with aggregation
 	else
@@ -72,6 +74,7 @@ geoDropdown.prototype.geoReady = function(){
 		this.geoClick($("#oceania"));
 		this.geoClick($("#south_america"));
 	}
+
 }
 
 // Request method
@@ -106,7 +109,7 @@ geoDropdown.prototype.geoClick = function(geo) {
 					if (this.fcode=='CONT' && this.continentCode) 
 					{ 
 						title = this.continentCode; 
-						if(self.continent!="continent") self.level=0; 
+						if(self.continent!="default_continent") self.level=0; 
 					}
 					else if (this.countryCode && this.fcl!=='P') {
 						title += this.countryCode;
@@ -138,11 +141,12 @@ geoDropdown.prototype.geoClick = function(geo) {
 					self.g.push('<li><a href="#" sort="'+asciiName(this.name)+'" title="'+title+'" fcode="'+this.fcode+'" gid="'+this.geonameId+'" class="id_'+this.geonameId+'">'+this.name+gcode+'</a></li>');
 					// Stop if non ISO-3166 location
 					if(gcode=='') return; 
+
                     self.names.push(this.name+"gcode"+gcode);
 				});
 				
 				// append all countries
-				if(self.continent=="continent") 
+				if(self.continent=="default_continent") 
 					if(self.level==-1) 
 						if(self.names.length<248) { self.geoParent.append('<ol>'+self.g.join('')+'</ol>'); return; }
 						else self.level=1;
@@ -173,6 +177,8 @@ geoDropdown.prototype.geoClick = function(geo) {
                 }
 			}
 			else castView(self.level,self);
+
+
 		},
 		error: function() {
 			// error handling goes here
