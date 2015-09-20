@@ -1,4 +1,4 @@
-function populateADM3(self){
+function populateADM3(self,instanceLocal){
 	// ADM3 View
 	$('select[id="' + self.country + '"]').show();
 	$('select[id="' + self.adm1 + '"]').show()
@@ -14,11 +14,11 @@ function populateADM3(self){
 	if(self.selectedADM3Index < 0){
 		
 		if(self.answer!=undefined && JSON.parse(self.answer)[0]['adm3'] && self.selectedADM3Index==-2){
-			adm3Element.options[0] = new Option(JSON.parse(self.answer)[0]['adm3'],'');
+			adm3Element.options[0] = new Option(stripGCode(JSON.parse(self.answer)[0]['adm3']),'');
 			self.selectedADM3Text = JSON.parse(self.answer)[0]['adm3'];
 		}
 		else{
-			adm3Element.options[0] = new Option('Select Region/State','');
+			adm3Element.options[0] = new Option('Select ADM3','');
 			adm3Element.selectedIndex = 0;
 		}
 	}
@@ -35,8 +35,6 @@ function populateADM3(self){
 	// Assigned all adm3. Now assign event listener for the adm4.
 	if( self.adm4 ){
 		$('select[id="' + self.adm3 + '"]').change(function(){
-			self.selectedADM3Text = $('select[id="' + self.adm3 + '"] option:selected').text();
-
 			// Clear and deselect the following dropdowns
 			self.selectedADM4Index=self.selectedADM5Index=-1;
 			self.selectedADM4Text=self.selectedADM5Text='';
@@ -49,15 +47,19 @@ function populateADM3(self){
 			
 			// Server request with the selected data
 			self.level=5;
-			var geoClickText = self.levels[4][self.selectedADM3Index-1];
+			self.selectedADM3Text = self.levels[4][self.selectedADM3Index-1];
+
+			instanceLocal.fire(
+				'changeVal', 
+				{ continent:self.selectedContinentText,country:getCountryName(self.selectedCountryText),adm1:self.selectedADM1Text,adm2:self.selectedADM2Text,adm3:self.selectedADM3Text,adm4:'',adm5:'' }
+			);
 			if(self.reach=="adm3") return;
-			self.geoClick($('a:contains("'+geoClickText.replace(/gcode/,'')+'")'));
+
+			self.geoClick($('a:contains("'+self.selectedADM3Text.replace(/gcode/,'')+'")'),instanceLocal);
 		});
 	}
 
 	if((self.selectedADM3Index==undefined || self.selectedADM3Index<0) && self.selectedADM3Text!=''){
-		self.selectedADM3Text = $('select[id="' + self.adm3 + '"] option:selected').text();
-
 		// Clear and deselect the following dropdowns
 		self.selectedADM4Index=self.selectedADM5Index=-2;
 		self.selectedADM4Text=self.selectedADM5Text='';
@@ -70,6 +72,6 @@ function populateADM3(self){
 		// Server request with the selected data
 		self.level=5;
 		if(self.reach=="adm3") return;
-		self.geoClick($('a:contains("'+self.selectedADM3Text+'")'));
+		self.geoClick($('a:contains("'+self.selectedADM3Text.replace(/gcode/,'')+'")'),instanceLocal);
 	}
 }

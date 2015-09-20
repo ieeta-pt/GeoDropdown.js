@@ -1,4 +1,4 @@
-function populateContinents(self){
+function populateContinents(self,instanceLocal){
 	// Continent View
 	$('select[id="' + self.country + '"]').hide();
 	$('select[id="' + self.adm1 + '"]').hide()
@@ -15,7 +15,7 @@ function populateContinents(self){
 		continentElement.length=0;	
 
 		if(self.answer!=undefined && JSON.parse(self.answer)[0]['continent']){
-			continentElement.options[0] = new Option(JSON.parse(self.answer)[0]['continent'],'');
+			continentElement.options[0] = new Option(stripGCode(JSON.parse(self.answer)[0]['continent']),'');
 			self.selectedContinentText = JSON.parse(self.answer)[0]['continent'];
 		}
 		else continentElement.options[0] = new Option('Select Continent','');
@@ -42,8 +42,14 @@ function populateContinents(self){
 			// Server request with the selected data
 			self.level=1;
 			self.selectedContinentText = $('select[id="' + self.continent + '"] option:selected').text();
+
+			instanceLocal.fire(
+				'changeVal', 
+				{ continent:self.selectedContinentText,country:'',adm1:'',adm2:'',adm3:'',adm4:'',adm5:'' }
+			);
 			if(self.reach=="continent") return;
-			self.geoClick($('a:contains("'+self.selectedContinentText+'")'));
+
+			self.geoClick($('a:contains("'+self.selectedContinentText+'")'),instanceLocal);
 		});
 	}
 
@@ -57,6 +63,6 @@ function populateContinents(self){
 		self.level=1;
 		self.selectedContinentText = $('select[id="' + self.continent + '"] option:selected').text();
 		if(self.reach=="continent") return;
-		self.geoClick($('a:contains("'+self.selectedContinentText+'")'));
+		self.geoClick($('a:contains("'+self.selectedContinentText+'")'),instanceLocal);
 	}
 }

@@ -1,7 +1,7 @@
 var adm5Element;
 var selectedADM5Index;
 var selectedADM5Text;
-function populateADM5(self){
+function populateADM5(self,instanceLocal){
 	// ADM5 View
 	$('select[id="' + self.country + '"]').show();
 	$('select[id="' + self.adm1 + '"]').show()
@@ -17,15 +17,15 @@ function populateADM5(self){
 	if(self.selectedADM5Index < 0){
 		
 		if(self.answer!=undefined && JSON.parse(self.answer)[0]['adm5'] && self.selectedADM5Index==-2){
-			adm5Element.options[0] = new Option(JSON.parse(self.answer)[0]['adm5'],'');
+			adm5Element.options[0] = new Option(stripGCode(JSON.parse(self.answer)[0]['adm5']),'');
 			self.selectedADM5Text = JSON.parse(self.answer)[0]['adm5'];
 		}
 		else{
-			adm5Element.options[0] = new Option('Select Region/State','');
+			adm5Element.options[0] = new Option('Select ADM5','');
 			adm5Element.selectedIndex = 0;
 		}
 	}
-	
+
 	// If there is a selected item put it at the top of the dropdown
 	else adm5Element.options[0] = new Option(stripGCode(self.levels[6][self.selectedADM5Index-1]),stripGCode(self.levels[6][self.selectedADM5Index-1]));
 	// Fill the dropdown
@@ -42,5 +42,10 @@ function populateADM5(self){
 		
 		if(document.getElementById( self.adm5 ).selectedIndex != 0)
 			self.selectedADM5Index = document.getElementById( self.adm5 ).selectedIndex;
+
+		instanceLocal.fire(
+			'changeVal', 
+			{ continent:self.selectedContinentText,country:getCountryName(self.selectedCountryText),adm1:self.selectedADM1Text,adm2:self.selectedADM2Text,adm3:self.selectedADM3Text,adm4:self.selectedADM4Text,adm5:self.selectedADM5Text }
+		);
 	});
 }

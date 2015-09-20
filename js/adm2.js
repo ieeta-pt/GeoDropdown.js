@@ -1,4 +1,4 @@
-function populateADM2(self){
+function populateADM2(self,instanceLocal){
 	// ADM2 View
 	$('select[id="' + self.country + '"]').show();
 	$('select[id="' + self.adm1 + '"]').show()
@@ -14,11 +14,11 @@ function populateADM2(self){
 	if(self.selectedADM2Index < 0){
 		
 		if(self.answer!=undefined && JSON.parse(self.answer)[0]['adm2'] && self.selectedADM2Index==-2){
-			adm2Element.options[0] = new Option(JSON.parse(self.answer)[0]['adm2'],'');
+			adm2Element.options[0] = new Option(stripGCode(JSON.parse(self.answer)[0]['adm2']),'');
 			self.selectedADM2Text = JSON.parse(self.answer)[0]['adm2'];
 		}
 		else{
-			adm2Element.options[0] = new Option('Select Region/State','');
+			adm2Element.options[0] = new Option('Select City','');
 			adm2Element.selectedIndex = 0;
 		}
 	}
@@ -36,8 +36,6 @@ function populateADM2(self){
 	if( self.adm3 )
 	{
 		$('select[id="' + self.adm2 + '"]').change(function(){
-			self.selectedADM2Text = $('select[id="' + self.adm2 + '"] option:selected').text();
-
 			// Clear and deselect the following dropdowns
 			self.selectedADM3Index=self.selectedADM4Index=self.selectedADM5Index=-1;
 			self.selectedADM3Text=self.selectedADM4Text=self.selectedADM5Text='';
@@ -49,15 +47,19 @@ function populateADM2(self){
 
 			// Server request with the selected data
 			self.level=4;
-			var geoClickText = self.levels[3][self.selectedADM2Index-1];
+			self.selectedADM2Text = self.levels[3][self.selectedADM2Index-1];
+
+			instanceLocal.fire(
+				'changeVal', 
+				{ continent:self.selectedContinentText,country:getCountryName(self.selectedCountryText),adm1:self.selectedADM1Text,adm2:self.selectedADM2Text,adm3:'',adm4:'',adm5:'' }
+			);
 			if(self.reach=="adm2") return;
-			self.geoClick($('a:contains("'+geoClickText.replace(/gcode/,'')+'")'));
+
+			self.geoClick($('a:contains("'+self.selectedADM2Text.replace(/gcode/,'')+'")'),instanceLocal);
 		});
 	}
 
 	if((self.selectedADM2Index==undefined || self.selectedADM2Index<0) && self.selectedADM2Text!=''){
-		self.selectedADM2Text = $('select[id="' + self.adm2 + '"] option:selected').text();
-
 		// Clear and deselect the following dropdowns
 		self.selectedADM3Index=self.selectedADM4Index=self.selectedADM5Index=-2;
 		self.selectedADM3Text=self.selectedADM4Text=self.selectedADM5Text='';
@@ -70,6 +72,6 @@ function populateADM2(self){
 		// Server request with the selected data
 		self.level=4;
 		if(self.reach=="adm2") return;
-		self.geoClick($('a:contains("'+self.selectedADM2Text+'")'));
+		self.geoClick($('a:contains("'+self.selectedADM2Text.replace(/gcode/,'')+'")'),instanceLocal);
 	}
 }

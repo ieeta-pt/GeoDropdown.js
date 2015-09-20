@@ -58,30 +58,31 @@ var geoDropdown = function(continent,country,adm1,adm2,adm3,adm4,adm5,reach,answ
 }
 
 // Init method
-geoDropdown.prototype.geoReady = function(){
+geoDropdown.prototype.geoReady = function(instance){
 
 	// entry point without aggregation
 	if(this.continent!="default_continent")
-		this.geoClick($("#earth"));
+		this.geoClick($("#earth"),instance);
 	// entry point with aggregation
 	else
 	{
-		this.geoClick($("#africa"));
-		this.geoClick($("#antarctica"));
-		this.geoClick($("#asia"));
-		this.geoClick($("#europe"));
-		this.geoClick($("#north_america"));
-		this.geoClick($("#oceania"));
-		this.geoClick($("#south_america"));
+		this.geoClick($("#africa"),instance);
+		this.geoClick($("#antarctica"),instance);
+		this.geoClick($("#asia"),instance);
+		this.geoClick($("#europe"),instance);
+		this.geoClick($("#north_america"), instance);
+		this.geoClick($("#oceania"), instance);
+		this.geoClick($("#south_america"), instance);
+		
 	}
 
 }
 
 // Request method
-geoDropdown.prototype.geoClick = function(geo) {
+geoDropdown.prototype.geoClick = function(geo, instance) {
 	var self = this;
 	this.geoParent = geo.parent();
-
+	var instanceLocal = instance ; 
 	var defaultLang = navigator.language /* Mozilla */ || navigator.userLanguage /* IE */;
 	// server request
 	$.ajax({
@@ -165,15 +166,16 @@ geoDropdown.prototype.geoClick = function(geo) {
                 self.levels[self.level] = self.names;
 
                 // Populate the fresh data
+                
                 switch(self.level)
                 {
-                    case 0: { populateContinents(self); break; } 
-                    case 1: { populateCountries(self); break; }
-                    case 2: { populateADM1(self); break; }
-                    case 3: { populateADM2(self); break; }
-                    case 4: { populateADM3(self); break; }
-                    case 5: { populateADM4(self); break; }
-                    case 6: { populateADM5(self); break; }
+                    case 0: { populateContinents(self,instanceLocal); break; } 
+                    case 1: { populateCountries(self,instanceLocal); break; }
+                    case 2: { populateADM1(self,instanceLocal); break; }
+                    case 3: { populateADM2(self,instanceLocal); break; }
+                    case 4: { populateADM3(self,instanceLocal); break; }
+                    case 5: { populateADM4(self,instanceLocal); break; }
+                    case 6: { populateADM5(self,instanceLocal); break; }
                 }
 			}
 			else castView(self.level,self);
@@ -182,6 +184,7 @@ geoDropdown.prototype.geoClick = function(geo) {
 		},
 		error: function() {
 			// error handling goes here
+			castView(self.level,self);
 			$("#alert").html('ws timeout').show();
 		}
 	});

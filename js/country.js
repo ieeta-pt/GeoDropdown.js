@@ -1,4 +1,4 @@
-function populateCountries(self){
+function populateCountries(self, instanceLocal){
 	// Country View
 	if(self.continent=="default_continent") $('select[id="' + self.continent + '"]').hide();
 	$('select[id="' + self.country + '"]').show();
@@ -17,7 +17,7 @@ function populateCountries(self){
 
 	// init country dropdown list
 	if(self.selectedContinentIndex<0 && self.answer!=undefined && JSON.parse(self.answer)[0]['country']){
-		countryElement.options[0] = new Option(JSON.parse(self.answer)[0]['country'],'');
+		countryElement.options[0] = new Option(stripGCode(JSON.parse(self.answer)[0]['country']),'');
 		self.selectedCountryText = JSON.parse(self.answer)[0]['country'];
 	}
 	else countryElement.options[0] = new Option('Select Country','');
@@ -47,9 +47,15 @@ function populateCountries(self){
 			
 			// Server request with the selected data
 			self.level=2;
+
+			instanceLocal.fire(
+				'changeVal', 
+				{ continent:self.selectedContinentText,country:getCountryName(self.selectedCountryText),adm1:'',adm2:'',adm3:'',adm4:'',adm5:'' }
+			);
 			if(self.reach=="country") return;
-			if(self.selectedCountryText != 'Antarctica')
-				self.geoClick($('a:contains("'+self.selectedCountryText+'")'));
+
+			if(self.selectedCountryText != 'AD')
+				self.geoClick($('a:contains("'+self.selectedCountryText+'")'),instanceLocal);
 		});
 		
 		if((self.selectedCountryIndex < 0 || self.selectedCountryIndex == undefined) && self.selectedCountryText!=''){
@@ -64,8 +70,8 @@ function populateCountries(self){
 			// Server request with the selected data
 			self.level=2;
 			if(self.reach=="country") return;
-			if(self.selectedCountryText != 'Antarctica')
-				self.geoClick($('a:contains("'+self.selectedCountryText+'")'));
+			if(self.selectedCountryText != 'AD')
+				self.geoClick($('a:contains("'+self.selectedCountryText+'")'),instanceLocal);
 		}
 	}
 }

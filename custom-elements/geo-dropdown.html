@@ -16,16 +16,19 @@
 		</fieldset>
 
 		<div>
-			<select id="{{continent}}" name="continent"></select>
-			<select id="{{country}}" name="country"></select>
-			<select id="{{adm1}}" name="adm1"></select>
-			<select id="{{adm2}}" name="adm2"></select>
-			<select id="{{adm3}}" name="adm3"></select>
-			<select id="{{adm4}}" name="adm4"></select>
-			<select id="{{adm5}}" name="adm5"></select>
-		</div>
-		<div>
-			<button id="{{clean}}" type="button" class="btn btn-primary"><i class="fa fa-trash-o"></i> Clean </button>
+			<div style="float:left;">
+				<select id="{{continent}}" name="continent"></select>
+				<select id="{{country}}" name="country"></select>
+				<select id="{{adm1}}" name="adm1"></select>
+				<select id="{{adm2}}" name="adm2"></select>
+				<select id="{{adm3}}" name="adm3"></select>
+				<select id="{{adm4}}" name="adm4"></select>
+				<select id="{{adm5}}" name="adm5"></select>
+			</div>
+			<div title="Click to clean answer">
+				<button id="{{clean}}" type="button" class="btn btn-primary" style="float:right;"><i class="fa fa-trash-o"></i></button>
+			</div>
+			<div style="clear:both;"></div>
 		</div>
 	</template>
 
@@ -46,6 +49,9 @@
 		Polymer({
 			is: "geo-dropdown",
 
+			myStaff: function() {
+			},
+
 			//Lifecycle callbacks
 			ready: function() {
 				var geodropdown = this;
@@ -57,21 +63,27 @@
 				var adm4ID = this.adm4;
 				var adm5ID = this.adm5;
 				var reachID = this.reach;
-				var answerID = this.answer;
+
+				var answerID = this.answer; 
+				if(answerID=="" || answerID==undefined) answerID="[{}]"; 
+				if(answerID[0]!='[') answerID="["+answerID+"]";
+				
 				var cleanID = this.clean;
 
 				// Local GeoDropdown object
 				var geoDrop = new geoDropdown(continentID,countryID,adm1ID,adm2ID,adm3ID,adm4ID,adm5ID,reachID,answerID,cleanID);
 				
 				// start 
-				geoDrop.geoReady();
-
+				geoDrop.geoReady(this);
+				var self = this;
 				$('button[id="'+ this.clean +'"]').bind( "click", function() {
-				    geoDrop = new geoDropdown(continentID,countryID,adm1ID,adm2ID,adm3ID,adm4ID,adm5ID,reachID,"[{}]",cleanID);
-				    geoDrop.geoReady();
+				    geoDrop = new geoDropdown(continentID,countryID,adm1ID,adm2ID,adm3ID,adm4ID,adm5ID,reachID,"[\{\}]",cleanID);
+				    geoDrop.geoReady(self);
+				    self.fire('changeVal', { continent:'',country:'',adm1:'',adm2:'',adm3:'',adm4:'',adm5:'' });
 			    });
+			     
 			},
-			
+
 			properties:{
 				continent:{
 					type: String,
@@ -83,7 +95,8 @@
 				},
 				adm1:{
 					type: String,
-					value: "default_adm1"
+					value: "default_adm1",	
+
 				},
 				adm2:{
 					type: String,
@@ -108,6 +121,12 @@
 				answer:{
 					type:String
 				},
+				answerJson:{
+					type:String,
+					notify: true ,
+					observer: '_adm1Changed'
+				},
+
 				clean:{
 					type:String,
 					value: "default_clean"
