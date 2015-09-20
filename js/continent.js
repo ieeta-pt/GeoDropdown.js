@@ -1,18 +1,25 @@
-function populateContinents(self){
+function populateContinents(self,instanceLocal){
 	// Continent View
-	$("#"+self.country).hide();
-	$("#"+self.adm1).hide();
-	$("#"+self.adm2).hide();
-	$("#"+self.adm3).hide();
-	$("#"+self.adm4).hide();
-	$("#"+self.adm5).hide();
+	$('select[id="' + self.country + '"]').hide();
+	$('select[id="' + self.adm1 + '"]').hide()
+	$('select[id="' + self.adm2 + '"]').hide()
+	$('select[id="' + self.adm3 + '"]').hide()
+	$('select[id="' + self.adm4 + '"]').hide()
+	$('select[id="' + self.adm5 + '"]').hide()
+
 
 	continentElement = document.getElementById(self.continent);
 	selectedContinentIndex = document.getElementById( self.continent ).selectedIndex;
 
-	if(selectedContinentIndex == -1){
+	if(self.selectedContinentIndex == -1){
 		continentElement.length=0;	
-		continentElement.options[0] = new Option('Select Continent','');
+
+		if(self.answer!=undefined && JSON.parse(self.answer)[0]['continent']){
+			continentElement.options[0] = new Option(stripGCode(JSON.parse(self.answer)[0]['continent']),'');
+			self.selectedContinentText = JSON.parse(self.answer)[0]['continent'];
+		}
+		else continentElement.options[0] = new Option('Select Continent','');
+		
 		continentElement.selectedIndex = 0;
 
 		// Fill the continent dropdown
@@ -24,7 +31,9 @@ function populateContinents(self){
 
 	// Assigned all continents. Now assign event listener for the countries.
 	if( self.country ){
-		 $("#"+self.continent).change(function(){
+		 $('select[id="' + self.continent + '"]').change(function(){
+		 	self.selectedContinentIndex = document.getElementById( self.continent ).selectedIndex;
+
 		 	// Clear and deselect the following dropdowns
 			self.selectedCountryIndex=self.selectedADM1Index=self.selectedADM2Index=self.selectedADM3Index=self.selectedADM4Index=self.selectedADM5Index=-1;
 			self.selectedCountryText=self.selectedADM1Text=self.selectedADM2Text=self.selectedADM3Text=self.selectedADM4Text=self.selectedADM5Text='';
@@ -32,9 +41,28 @@ function populateContinents(self){
 
 			// Server request with the selected data
 			self.level=1;
-			selectedContinentText = $("#"+self.continent+" option:selected").text();
+			self.selectedContinentText = $('select[id="' + self.continent + '"] option:selected').text();
+
+			instanceLocal.fire(
+				'changeVal', 
+				{ continent:self.selectedContinentText,country:'',adm1:'',adm2:'',adm3:'',adm4:'',adm5:'' }
+			);
 			if(self.reach=="continent") return;
-			self.geoClick($('a:contains("'+selectedContinentText+'")'));
+
+			self.geoClick($('a:contains("'+self.selectedContinentText+'")'),instanceLocal);
 		});
+	}
+
+	if((self.selectedContinentIndex < 0 || self.selectedContinentIndex == undefined) && self.selectedContinentText!=''){
+		// Clear and deselect the following dropdowns
+		self.selectedCountryIndex=self.selectedADM1Index=self.selectedADM2Index=self.selectedADM3Index=self.selectedADM4Index=self.selectedADM5Index=-1;
+		self.selectedCountryText=self.selectedADM1Text=self.selectedADM2Text=self.selectedADM3Text=self.selectedADM4Text=self.selectedADM5Text='';
+		self.levels[2]=self.levels[3]=self.levels[4]=self.levels[5]=self.levels[6]=null;
+
+		// Server request with the selected data
+		self.level=1;
+		self.selectedContinentText = $('select[id="' + self.continent + '"] option:selected').text();
+		if(self.reach=="continent") return;
+		self.geoClick($('a:contains("'+self.selectedContinentText+'")'),instanceLocal);
 	}
 }
