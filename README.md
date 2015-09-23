@@ -44,13 +44,19 @@ Here are some examples:
     <geo-dropdown country="count" adm1="a1" adm2="a2" adm3="a3" adm4="a4" adm5="a5"></geo-dropdown>
     <geo-dropdown reach="adm1"></geo-dropdown> 
 
+**Note that:**It is also possible to define a delete button with the clean identifier.And, you can define a answer with the answer identifier. If the answer identifier was defined, that value will be loaded when the geodropdown object starts.
+
+    <geo-dropdown clean="del_button" answer="[{continent:'Europe',country:'Portugal'}]"></geo-dropdown>
+
 By default:
-* country="country"
-* adm1="adm1"
-* adm2="adm2"
-* adm3="adm3"
-* adm4="adm4"
-* adm5="adm5"
+* country="default_country"
+* adm1="default_adm1"
+* adm2="default_adm2"
+* adm3="default_adm3"
+* adm4="default_adm4"
+* adm5="default_adm5"
+* clean="default_clean"
+* answer="empty"
 
 #Example 
 You can consult a live example of the GeoDropdown library at http://bioinformatics-ua.github.io/GeoDropdown.js/.
