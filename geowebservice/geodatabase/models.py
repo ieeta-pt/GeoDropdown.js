@@ -25,8 +25,27 @@ class AuthUser(models.Model):
     class Meta:
         db_table = u'auth_user'
 
+class Countryinfo(models.Model):
+    iso_alpha2 = models.CharField(max_length=765, blank=True)
+    iso_alpha3 = models.CharField(max_length=765, blank=True)
+    iso_numeric = models.IntegerField(null=True, blank=True)
+    fips_code = models.CharField(max_length=900, blank=True)
+    name = models.CharField(max_length=6000, blank=True)
+    capital = models.CharField(max_length=6000, blank=True)
+    areainsqkm = models.FloatField(null=True, blank=True)
+    population = models.IntegerField(null=True, blank=True)
+    continent = models.CharField(max_length=765, blank=True)
+    currency = models.CharField(max_length=765, blank=True)
+    currencyName = models.CharField(max_length=765, db_column='currencyName', blank=True) 
+    geonameId = models.IntegerField(primary_key=True,db_column='geonameId', blank=True) 
+    class Meta:
+        db_table = u'countryInfo'
+
+    def __unicode__(self):
+        return str(self.geonameId)+','+self.name+','+self.continent
+
 class Geoname(models.Model):
-    geonameid = models.IntegerField(primary_key=True)
+    geonameid = models.IntegerField(primary_key=True,)
     name = models.CharField(max_length=600, blank=True)
     asciiname = models.CharField(max_length=600, blank=True)
     alternatenames = models.CharField(max_length=12000, blank=True)
@@ -50,13 +69,13 @@ class Geoname(models.Model):
         db_table = u'geoname'
     
     def __unicode__(self):
-        selfName = 'geonameid:'+str(self.geonameid)+' name:'+self.name+' fcode:'+self.fcode
+        selfName = str(self.geonameid)+','+self.name+','+self.fcode
         if self.admin1:
-            selfName += ' adm1:'+self.admin1
+            selfName += ','+str(self.admin1)
         if self.admin2:
-            selfName += ' adm2:'+self.admin2
+            selfName += ','+str(self.admin2)
         if self.admin3:
-            selfName += ' adm3:'+self.admin3
+            selfName += ','+str(self.admin3)
         if self.admin4:
-            selfName += ' adm4:'+self.admin4
+            selfName += ','+str(self.admin4)
         return selfName
