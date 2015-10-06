@@ -69,9 +69,10 @@
 				if(answerID[0]!='[') answerID="["+answerID+"]";
 				
 				var cleanID = this.clean;
+				var urlID = this.url;
 
 				// Local GeoDropdown object
-				var geoDrop = new geoDropdown(continentID,countryID,adm1ID,adm2ID,adm3ID,adm4ID,adm5ID,reachID,answerID,cleanID);
+				var geoDrop = new geoDropdown(continentID,countryID,adm1ID,adm2ID,adm3ID,adm4ID,adm5ID,reachID,answerID,cleanID,urlID);
 				
 				// start 
 				geoDrop.geoReady(this);
@@ -130,6 +131,11 @@
 				clean:{
 					type:String,
 					value: "default_clean"
+				}, 
+
+				url:{
+					type:String,
+					value: "no_url"
 				}
 			}
 		});
