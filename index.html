@@ -15,10 +15,6 @@
     <link rel="import" href="./custom-elements/geo-dropdown.html">
 
     <style>
-      div{
-        margin-bottom: 5%; 
-        margin-left: 2%;
-      }
       p{
         text-align: center;
         color: #001f7f;
@@ -30,12 +26,17 @@
 
     <div>
        <!-- all identifiers defined (no aggregation) -->
-      <p>Example1 (no aggregation, reach level adm5):</p> <geo-dropdown continent="c1" country="c2" adm1="a1" adm2="a2" adm3="a3" adm4="a4" adm5="a5"></geo-dropdown>
+      <p>Example1 (no aggregation, reach level adm5):</p> <geo-dropdown id="ex1" continent="ex1_a" country="ex1_b" adm1="ex1_c" adm2="ex1_d" adm3="ex1_e" adm4="ex1_f" adm5="ex1_g"></geo-dropdown>
     </div>
    
     <div>
       <!-- all identifiers by default (aggregation) -->
-      <p>Example2 (aggregation, reach level adm1):</p> <geo-dropdown reach="adm1"></geo-dropdown>
+      <p>Example2 (aggregation, reach level adm1):</p> <geo-dropdown id="ex2" reach="adm1"></geo-dropdown>
+    </div>
+
+    <div>
+      <!-- all identifiers by default (aggregation) -->
+      <p>Example3 (no aggregation, reach level adm5, has answer):</p> <geo-dropdown id="ex3" continent="ex3_a" country = "ex3_b" adm1="ex3_c" adm2="ex3_d" adm3="ex3_e" adm4="ex3_f" adm5="ex3_g" answer='[{"continent":"Europe","country":"France","adm1":"Île-de-FrancegcodeA8","adm2":"Parisgcode75","adm3":"Parisgcode751","adm4":"Parisgcode75056","adm5":"Paris 01"}]'></geo-dropdown>
     </div>
 
   </body>

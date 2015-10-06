@@ -2,7 +2,7 @@
 Under development
 
 # GeoDropdown
-GeoDropdown makes use of [geonames data server](http://geonames.org/) to create a multiple drodpdown lists system, which guarantees that users will provides well formatted locations, according to ISO-3166.
+GeoDropdown makes use of geowebservice to create a multiple drodpdown lists system, which guarantees that users will provides well formatted locations, according to ISO-3166.
 
 # Hierarchical levels
 There are 7 hierarchical levels, which corresponds to 7 dropdown list:
@@ -61,3 +61,16 @@ By default:
 #Example 
 You can consult a live example of the GeoDropdown library at http://bioinformatics-ua.github.io/GeoDropdown.js/.
 This page displays two Geodropdowns widgets, working simultaneously. One that does not aggregate continents-country and has adm5 as reach level, and other that aggregates and has adm1 as reach level.
+
+#Web Service 
+The web service is developed in Django, using a MySQL database. The web service functionality is pretty simple, when a geonameid is given to the service, it responds with a json containing all children of the desired location.
+
+###Example
+Portugal (wich is a country) geonameid is 2264397, so you can use the link /geodatabase/2264397 to get all ADM1 of Portugal. It will return a json like this:
+
+```json
+[{"geonameid": 2262961, "fcode": "ADM1", "name": "Distrito de Set\u00c3\u00babal", "adm1": 19}, {"geonameid": 2263478, "fcode": "ADM1", "name": "Distrito de Santar\u00c3\u00a9m", "adm1": 18}, {"geonameid": 2264507, "fcode": "ADM1", "name": "Distrito de Portalegre", "adm1": 16}, {"geonameid": 2267056, "fcode": "ADM1", "name": "Distrito de Lisboa", "adm1": 14}, {"geonameid": 2267094, "fcode": "ADM1", "name": "Distrito de Leiria", "adm1": 13}, {"geonameid": 2268337, "fcode": "ADM1", "name": "Distrito de Faro", "adm1": 9}, {"geonameid": 2268404, "fcode": "ADM1", "name": "Distrito de \u00c3\u2030vora", "adm1": 8}, {"geonameid": 2269513, "fcode": "ADM1", "name": "Distrito de Castelo Branco", "adm1": 6}, {"geonameid": 2270984, "fcode": "ADM1", "name": "Distrito de Beja", "adm1": 3}, {"geonameid": 2593105, "fcode": "ADM1", "name": "Madeira", "adm1": 10}, {"geonameid": 2732264, "fcode": "ADM1", "name": "Distrito de Viseu", "adm1": 22}, {"geonameid": 2732437, "fcode": "ADM1", "name": "Distrito de Vila Real", "adm1": 21}, {"geonameid": 2732772, "fcode": "ADM1", "name": "Distrito de Viana do Castelo", "adm1": 20}, {"geonameid": 2735941, "fcode": "ADM1", "name": "Distrito do Porto", "adm1": 17}, {"geonameid": 2738782, "fcode": "ADM1", "name": "Distrito da Guarda", "adm1": 11}, {"geonameid": 2740636, "fcode": "ADM1", "name": "Distrito de Coimbra", "adm1": 7}, {"geonameid": 2742026, "fcode": "ADM1", "name": "Distrito de Bragan\u00c3\u00a7a", "adm1": 5}, {"geonameid": 2742031, "fcode": "ADM1", "name": "Distrito de Braga", "adm1": 4}, {"geonameid": 2742610, "fcode": "ADM1", "name": "Distrito de Aveiro", "adm1": 2}]
+```
+
+# How to load data to the Web Service databases
+There are two databases to support the service: Geoname and Countryinfo. And there will also exists two csv files with the needed content: allCountries.txt and country.csv. To load the content into the databases just run the following script:
