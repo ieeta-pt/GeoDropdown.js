@@ -1,11 +1,11 @@
 function populateADM2(self,instanceLocal){
 	// ADM2 View
-	$('select[id="' + self.country + '"]').show();
-	$('select[id="' + self.adm1 + '"]').show()
-	$('select[id="' + self.adm2 + '"]').show()
-	$('select[id="' + self.adm3 + '"]').hide()
-	$('select[id="' + self.adm4 + '"]').hide()
-	$('select[id="' + self.adm5 + '"]').hide()
+	$('select[id="' + self.country + '"]').selectpicker('show');
+	$('select[id="' + self.adm1 + '"]').selectpicker('show');
+	$('select[id="' + self.adm2 + '"]').selectpicker('show');
+	$('select[id="' + self.adm3 + '"]').selectpicker('hide');
+	$('select[id="' + self.adm4 + '"]').selectpicker('hide');
+	$('select[id="' + self.adm5 + '"]').selectpicker('hide');
 
 	adm2Element = document.getElementById( self.adm2 );
 
@@ -74,4 +74,5 @@ function populateADM2(self,instanceLocal){
 		if(self.reach=="adm2") return;
 		self.geoClick($('a:contains("'+self.selectedADM2Text.replace(/gcode/,'')+'")'),instanceLocal);
 	}
+	$(adm2Element).selectpicker('refresh').selectpicker('show');
 }

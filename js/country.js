@@ -1,12 +1,12 @@
 function populateCountries(self, instanceLocal){
 	// Country View
-	if(self.continent=="default_continent") $('select[id="' + self.continent + '"]').hide();
-	$('select[id="' + self.country + '"]').show();
-	$('select[id="' + self.adm1 + '"]').hide()
-	$('select[id="' + self.adm2 + '"]').hide()
-	$('select[id="' + self.adm3 + '"]').hide()
-	$('select[id="' + self.adm4 + '"]').hide()
-	$('select[id="' + self.adm5 + '"]').hide()
+	if(self.continent=="default_continent") $('select[id="' + self.continent + '"]').selectpicker('hide');
+	$('select[id="' + self.country + '"]').selectpicker('show');
+	$('select[id="' + self.adm1 + '"]').selectpicker('hide');
+	$('select[id="' + self.adm2 + '"]').selectpicker('hide');
+	$('select[id="' + self.adm3 + '"]').selectpicker('hide');
+	$('select[id="' + self.adm4 + '"]').selectpicker('hide');
+	$('select[id="' + self.adm5 + '"]').selectpicker('hide');
 
 	countryElement = document.getElementById( self.country );
 	
@@ -74,4 +74,6 @@ function populateCountries(self, instanceLocal){
 				self.geoClick($('a:contains("'+self.selectedCountryText+'")'),instanceLocal);
 		}
 	}
+
+	$(countryElement).selectpicker('refresh').selectpicker('show');
 }

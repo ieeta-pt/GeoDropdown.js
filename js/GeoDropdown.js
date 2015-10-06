@@ -60,9 +60,19 @@ var geoDropdown = function(continent,country,adm1,adm2,adm3,adm4,adm5,reach,answ
 // Init method
 geoDropdown.prototype.geoReady = function(instance){
 
+	/* initialize selectpickers */
+	$('#' + this.country).selectpicker().selectpicker('hide');
+	$('#' + this.adm1).selectpicker().selectpicker('hide');
+	$('#' + this.adm2).selectpicker().selectpicker('hide');
+	$('#' + this.adm3).selectpicker().selectpicker('hide');
+	$('#' + this.adm4).selectpicker().selectpicker('hide');
+	$('#' + this.adm5).selectpicker().selectpicker('hide');
+
 	// entry point without aggregation
-	if(this.continent!="default_continent")
+	if(this.continent!="default_continent") {
+		$('#' + this.continent).selectpicker().selectpicker('hide');
 		this.geoClick($("#earth"),instance);
+	}
 	// entry point with aggregation
 	else
 	{
@@ -81,7 +91,7 @@ geoDropdown.prototype.geoReady = function(instance){
 // Request method
 geoDropdown.prototype.geoClick = function(geo, instance) {
 	var self = this;
-	this.geoParent = geo.parent();
+	this.geoParent = geo.parent().first();
 	var instanceLocal = instance ; 
 	var defaultLang = navigator.language /* Mozilla */ || navigator.userLanguage /* IE */;
 	// server request

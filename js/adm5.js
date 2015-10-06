@@ -3,12 +3,12 @@ var selectedADM5Index;
 var selectedADM5Text;
 function populateADM5(self,instanceLocal){
 	// ADM5 View
-	$('select[id="' + self.country + '"]').show();
-	$('select[id="' + self.adm1 + '"]').show()
-	$('select[id="' + self.adm2 + '"]').show()
-	$('select[id="' + self.adm3 + '"]').show()
-	$('select[id="' + self.adm4 + '"]').show()
-	$('select[id="' + self.adm5 + '"]').show()
+	$('select[id="' + self.country + '"]').selectpicker('show');
+	$('select[id="' + self.adm1 + '"]').selectpicker('show');
+	$('select[id="' + self.adm2 + '"]').selectpicker('show');
+	$('select[id="' + self.adm3 + '"]').selectpicker('show');
+	$('select[id="' + self.adm4 + '"]').selectpicker('show');
+	$('select[id="' + self.adm5 + '"]').selectpicker('show');
 
 	adm5Element = document.getElementById( self.adm5 );
 
@@ -48,4 +48,6 @@ function populateADM5(self,instanceLocal){
 			{ continent:self.selectedContinentText,country:getCountryName(self.selectedCountryText),adm1:self.selectedADM1Text,adm2:self.selectedADM2Text,adm3:self.selectedADM3Text,adm4:self.selectedADM4Text,adm5:self.selectedADM5Text }
 		);
 	});
+
+	$(adm5Element).selectpicker('refresh').selectpicker('show');
 }

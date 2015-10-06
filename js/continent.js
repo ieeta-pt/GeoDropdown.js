@@ -1,11 +1,11 @@
 function populateContinents(self,instanceLocal){
 	// Continent View
-	$('select[id="' + self.country + '"]').hide();
-	$('select[id="' + self.adm1 + '"]').hide()
-	$('select[id="' + self.adm2 + '"]').hide()
-	$('select[id="' + self.adm3 + '"]').hide()
-	$('select[id="' + self.adm4 + '"]').hide()
-	$('select[id="' + self.adm5 + '"]').hide()
+	$('select[id="' + self.country + '"]').selectpicker('hide');
+	$('select[id="' + self.adm1 + '"]').selectpicker('hide');
+	$('select[id="' + self.adm2 + '"]').selectpicker('hide');
+	$('select[id="' + self.adm3 + '"]').selectpicker('hide');
+	$('select[id="' + self.adm4 + '"]').selectpicker('hide');
+	$('select[id="' + self.adm5 + '"]').selectpicker('hide');
 
 
 	continentElement = document.getElementById(self.continent);
@@ -65,4 +65,6 @@ function populateContinents(self,instanceLocal){
 		if(self.reach=="continent") return;
 		self.geoClick($('a:contains("'+self.selectedContinentText+'")'),instanceLocal);
 	}
+
+	$(continentElement).selectpicker('refresh').selectpicker('show');
 }
