@@ -69,13 +69,15 @@ class Geoname(models.Model):
         db_table = u'geoname'
     
     def __unicode__(self):
-        selfName = str(self.geonameid)+','+self.name+','+self.fcode
+        selfName = str(self.geonameid)+'\t'+self.asciiname+'\t'+self.fcode
+        if self.country:
+            selfName += '\t'+str(self.country)
         if self.admin1:
-            selfName += ','+str(self.admin1)
+            selfName += '\t'+str(self.admin1)
         if self.admin2:
-            selfName += ','+str(self.admin2)
+            selfName += '\t'+str(self.admin2)
         if self.admin3:
-            selfName += ','+str(self.admin3)
+            selfName += '\t'+str(self.admin3)
         if self.admin4:
-            selfName += ','+str(self.admin4)
+            selfName += '\t'+str(self.admin4)
         return selfName

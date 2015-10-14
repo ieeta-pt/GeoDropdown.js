@@ -26,11 +26,13 @@ function populateADM4(self,instanceLocal){
 	// If there is a selected item put it at the top of the dropdown
 	else adm4Element.options[0] = new Option(stripGCode(self.levels[5][self.selectedADM4Index-1]),stripGCode(self.levels[5][self.selectedADM4Index-1]));
 	// Fill the dropdown
-	for(i=0,x=self.levels[5].length;i<x;i++)
-	 	adm4Element.options[adm4Element.length] = new Option(stripGCode(self.levels[5][i]),stripGCode(self.levels[5][i]));
+	for(i=0,x=self.levels[5].length;i<x;i++){
+	 	if(self.webservice=="childrenJSON") adm4Element.options[adm4Element.length] = new Option(stripGCode(self.levels[5][i]),stripGCode(self.levels[5][i]));
+	 	else adm4Element.options[adm4Element.length] = new Option(self.levels[5][i]['name'],self.levels[5][i]['name']);
+	 }
 
 	self.names = new Array;
-	self.geoParent.append('<ol>'+self.g.join('')+'</ol>');
+	if(self.webservice=="childrenJSON") self.geoParent.append('<ol>'+self.g.join('')+'</ol>');
 
 	// Assigned all adm4. Now assign event listener for the adm5.
 	if( self.adm5 ){
@@ -46,7 +48,7 @@ function populateADM4(self,instanceLocal){
 
 			// Server request with the selected data
 			self.level=6;
-			self.selectedADM4Text = self.levels[5][self.selectedADM4Index-1];
+			self.selectedADM4Text = self.levels[5][self.selectedADM4Index-1]['name'];
 
 			instanceLocal.fire(
 				'changeVal', 
@@ -54,7 +56,13 @@ function populateADM4(self,instanceLocal){
 			);
 			if(self.reach=="adm4") return;
 
-			self.geoClick($('a:contains("'+self.selectedADM4Text.replace(/gcode/,'')+'")'),instanceLocal);
+			if(self.webservice=="childrenJSON") self.geoClick($('a:contains("'+self.selectedADM4Text.replace(/gcode/,'')+'")'),instanceLocal);
+			else{
+				for(i=0;i<self.levels[self.level-1].length;i++){
+					if(self.levels[self.level-1][i]['name'] == self.selectedADM4Text)
+						self.geoClick(undefined,instanceLocal,self.levels[self.level-1][i]['geonameId']);
+				}
+			}
 		});
 	}
 
@@ -70,6 +78,12 @@ function populateADM4(self,instanceLocal){
 		// Server request with the selected data
 		self.level=6;
 		if(self.reach=="adm4") return;
-		self.geoClick($('a:contains("'+self.selectedADM4Text.replace(/gcode/,'')+'")'),instanceLocal);
+		if(self.webservice=="childrenJSON") self.geoClick($('a:contains("'+self.selectedADM4Text.replace(/gcode/,'')+'")'),instanceLocal);
+		else{
+			for(i=0;i<self.levels[self.level-1].length;i++){
+				if(self.levels[self.level-1][i]['name'] == self.selectedADM4Text)
+					self.geoClick(undefined,instanceLocal,self.levels[self.level-1][i]['geonameId']);
+			}
+		}
 	}
 }
