@@ -59,11 +59,6 @@ class Geoname(models.Model):
     admin2 = models.CharField(max_length=240, blank=True)
     admin3 = models.CharField(max_length=60, blank=True)
     admin4 = models.CharField(max_length=60, blank=True)
-    population = models.IntegerField(null=True, blank=True)
-    elevation = models.IntegerField(null=True, blank=True)
-    gtopo30 = models.IntegerField(null=True, blank=True)
-    timezone = models.CharField(max_length=120, blank=True)
-    moddate = models.DateField(null=True, blank=True)
     
     class Meta:
         db_table = u'geoname'

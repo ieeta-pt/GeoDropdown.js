@@ -4,6 +4,7 @@ from django.http import HttpResponse
 from geodatabase.models import Geoname,Countryinfo
 
 def detail(request, geonameid):
+
 	location = Geoname.objects.filter(geonameid=geonameid)
 	fcode = location[0].fcode
 
@@ -57,9 +58,15 @@ def detail(request, geonameid):
 		elif location[0].name == 'Asia':
 			tmp = Countryinfo.objects.filter(continent='AS')
 			response_object = []
+
 			for i in range(0,len(tmp)-1):
 				geonameId = int(str(tmp[i]).split(',')[0])
-				response_object = response_object + [Geoname.objects.get(geonameid = geonameId)]
+				print geonameId
+				try:
+					response_object = response_object + [Geoname.objects.get(geonameid = geonameId)]
+				except:
+					print "fodeu -se :D  "
+					print geonameId
 			response_data = buildJson(response_object,response_data)
 
 	elif fcode == 'PCLI':
