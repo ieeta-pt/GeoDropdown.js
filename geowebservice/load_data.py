@@ -19,10 +19,7 @@ with open('/Users/bastiao/Downloads/allCountries.txt') as csvfile:
 	l = []
 	
 	for row in spamreader:
-		#print row
-		#print row[0]
 		i = i + 1
-		
 			
 		g = Geoname()
 		try:
