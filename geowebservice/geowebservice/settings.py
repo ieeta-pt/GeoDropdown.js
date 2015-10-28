@@ -8,13 +8,21 @@ ADMINS = (
 
 MANAGERS = ADMINS
 
+
+DATABASES = {
+    'default' : {
+        'ENGINE' :'django.db.backends.sqlite3',
+        'NAME' : 'sqlite3.db',
+    }
+}
+
 DATABASES = {
     'default': {
         'ENGINE': 'django.db.backends.mysql',
         'NAME': 'geonames',
         'USER': 'root',
-        'PASSWORD': 'papepipopu1',
-        'HOST': 'localhost',
+        'PASSWORD': 'root',
+        'HOST': 'hs',
         'PORT': '3306',
     }
 }

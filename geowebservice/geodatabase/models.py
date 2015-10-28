@@ -9,21 +9,7 @@
 
 from django.db import models
 
-class AuthUser(models.Model):
-    id = models.IntegerField(primary_key=True)
-    username = models.CharField(max_length=90, unique=True)
-    first_name = models.CharField(max_length=90)
-    last_name = models.CharField(max_length=90)
-    email = models.CharField(max_length=225)
-    password = models.CharField(max_length=384)
-    is_staff = models.IntegerField()
-    is_active = models.IntegerField()
-    is_superuser = models.IntegerField()
-    last_login = models.DateTimeField()
-    date_joined = models.DateTimeField()
-    
-    class Meta:
-        db_table = u'auth_user'
+
 
 class Countryinfo(models.Model):
     iso_alpha2 = models.CharField(max_length=765, blank=True)
