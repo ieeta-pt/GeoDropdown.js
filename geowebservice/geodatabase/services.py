@@ -56,7 +56,7 @@ class ServiceSolr(object):
             # Maybe should load default settings here? 
             logger.error("It is not running in Django enviroment")
             raise 
-    def __init__(self, host="127.0.0.1", port="8983", path="/solr", timeout=CONNECTION_TIMEOUT_DEFAULT, core='collection1'):
+    def __init__(self, host="hs", port="8983", path="/solr", timeout=CONNECTION_TIMEOUT_DEFAULT, core='geonames'):
         # Setup a Solr instance. The timeout is optional.
         logger.info("Initial Solr Service")
         try:
@@ -112,15 +112,26 @@ class ServiceSolr(object):
             list_docs_to_commit = []
             self.solr.optimize()
                 
-    def search(self):
-        pass
-            
+    def search(self, geonameId, start=0, rows=100, fl='', sort='', facet="off"):
+        results = self.solr.search("geonameId_t:"+geonameId,**{
+            'facet': facet,
+            'rows': rows,
+            'start': start,
+            'fl': fl,
+            'sort': sort
+        })
+        return results
+        
     
 def main():
     
     s = ServiceSolr()
     allCountriesFile = '/home/sysadmin/Downloads/allCountries.txt'
+    allCountriesFile = '/Users/bastiao/Downloads/allCountries.txt'
     print(allCountriesFile)
-    s.load_initial_data(allCountriesFile)
+    #s.load_initial_data(allCountriesFile)
+    results = s.search("3039162")
+    d = results.docs[0]
+    print(d)
     
 main()
