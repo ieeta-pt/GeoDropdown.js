@@ -74,3 +74,18 @@ Portugal (wich is a country) geonameid is 2264397, so you can use the link /geod
 
 # How to load data to the Web Service databases
 There are two databases to support the service: Geoname and Countryinfo. And there will also exists two csv files with the needed content: allCountries.txt and country.csv. To load the content into the databases just run the following script:
+
+
+# Authors:
+
+- Leonardo Coelho
+
+# Contributors
+- Renato Pinho 
+- Luis A. Bastião Silva
+
+
+# Mantainers 
+
+- Leonardo Coelho
+- Luis A. Bastião Silva
