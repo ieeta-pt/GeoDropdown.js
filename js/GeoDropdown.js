@@ -93,7 +93,10 @@ geoDropdown.prototype.geoReady = function(instance){
 // Request method
 geoDropdown.prototype.geoClick = function(geo,instance,geonameid) {
 	var self = this;
-	if(geo!=undefined) this.geoParent = geo.parent();
+	//if(geo!=undefined) this.geoParent = geo.parent();
+	if(geo!=undefined)
+		this.geoParent = geo.parent().first();
+	 
 	var instanceLocal = instance ; 
 	var defaultLang = navigator.language /* Mozilla */ || navigator.userLanguage /* IE */;
 	// server request
