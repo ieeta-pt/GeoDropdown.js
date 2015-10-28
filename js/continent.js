@@ -1,12 +1,11 @@
 function populateContinents(self,instanceLocal){
 	// Continent View
-	$('select[id="' + self.country + '"]').selectpicker('hide');
-	$('select[id="' + self.adm1 + '"]').selectpicker('hide');
-	$('select[id="' + self.adm2 + '"]').selectpicker('hide');
-	$('select[id="' + self.adm3 + '"]').selectpicker('hide');
-	$('select[id="' + self.adm4 + '"]').selectpicker('hide');
-	$('select[id="' + self.adm5 + '"]').selectpicker('hide');
-
+	$('select[id="' + self.country + '"]').hide();
+	$('select[id="' + self.adm1 + '"]').hide();
+	$('select[id="' + self.adm2 + '"]').hide();
+	$('select[id="' + self.adm3 + '"]').hide();
+	$('select[id="' + self.adm4 + '"]').hide();
+	$('select[id="' + self.adm5 + '"]').hide();
 
 	continentElement = document.getElementById(self.continent);
 	selectedContinentIndex = document.getElementById( self.continent ).selectedIndex;
@@ -23,11 +22,13 @@ function populateContinents(self,instanceLocal){
 		continentElement.selectedIndex = 0;
 
 		// Fill the continent dropdown
-		for(i=0,x=self.levels[0].length;i<x;i++)
-	 		continentElement.options[continentElement.length] = new Option(stripGCode(self.levels[0][i]),stripGCode(self.levels[0][i]));
+		for(i=0,x=self.levels[0].length;i<x;i++){
+	 		if(self.webservice=="childrenJSON") continentElement.options[continentElement.length] = new Option(stripGCode(self.levels[0][i]),stripGCode(self.levels[0][i]));
+	 		else continentElement.options[continentElement.length] = new Option(self.levels[0][i]['name'],self.levels[0][i]['name']);
+	 	}
 	}
 	self.names = new Array;
-	self.geoParent.append('<ol>'+self.g.join('')+'</ol>');
+	if(self.webservice=="childrenJSON") self.geoParent.append('<ol>'+self.g.join('')+'</ol>');
 
 	// Assigned all continents. Now assign event listener for the countries.
 	if( self.country ){
@@ -49,7 +50,13 @@ function populateContinents(self,instanceLocal){
 			);
 			if(self.reach=="continent") return;
 
-			self.geoClick($('a:contains("'+self.selectedContinentText+'")'),instanceLocal);
+			if(self.webservice=="childrenJSON") self.geoClick($('a:contains("'+self.selectedContinentText+'")'),instanceLocal,undefined);
+			else{
+				for(i=0;i<self.levels[self.level-1].length;i++){
+					if(self.levels[self.level-1][i]['name'] == self.selectedContinentText)
+						self.geoClick(undefined,instanceLocal,self.levels[self.level-1][i]['geonameId']);
+				}
+			}
 		});
 	}
 
@@ -63,7 +70,14 @@ function populateContinents(self,instanceLocal){
 		self.level=1;
 		self.selectedContinentText = $('select[id="' + self.continent + '"] option:selected').text();
 		if(self.reach=="continent") return;
-		self.geoClick($('a:contains("'+self.selectedContinentText+'")'),instanceLocal);
+		
+		if(self.webservice=="childrenJSON") self.geoClick($('a:contains("'+self.selectedContinentText+'")'),instanceLocal);
+		else{
+			for(i=0;i<self.levels[self.level-1].length;i++){
+				if(self.levels[self.level-1][i]['name'] == self.selectedContinentText)
+					self.geoClick(undefined,instanceLocal,self.levels[self.level-1][i]['geonameId']);
+			}
+		}
 	}
 
 	$(continentElement).selectpicker('refresh').selectpicker('show');

@@ -26,11 +26,13 @@ function populateADM1(self,instanceLocal){
 	// If there is a selected item put it at the top of the dropdown
 	else adm1Element.options[0] = new Option(stripGCode(self.levels[2][selectedADM1Index-1]),stripGCode(self.levels[2][selectedADM1Index-1]));
 	// Fill the dropdown
-	for(i=0,x=self.levels[2].length;i<x;i++)
-	 	adm1Element.options[adm1Element.length] = new Option(stripGCode(self.levels[2][i]),stripGCode(self.levels[2][i]));
+	for(i=0,x=self.levels[2].length;i<x;i++){
+	 	if(self.webservice=="childrenJSON") adm1Element.options[adm1Element.length] = new Option(stripGCode(self.levels[2][i]),stripGCode(self.levels[2][i]));
+	 	else adm1Element.options[adm1Element.length] = new Option(self.levels[2][i]['name'],self.levels[2][i]['name']);
+	 }
 
 	self.names = new Array;
-	self.geoParent.append('<ol>'+self.g.join('')+'</ol>');
+	if(self.webservice=="childrenJSON") self.geoParent.append('<ol>'+self.g.join('')+'</ol>');
 	
 	// Assigned all adm1. Now assign event listener for the adm2.
 	if( self.adm2 ){
@@ -46,7 +48,7 @@ function populateADM1(self,instanceLocal){
 			
 			// Server request with the selected data
 			self.level=3;
-			self.selectedADM1Text = self.levels[2][self.selectedADM1Index-1];
+			self.selectedADM1Text = self.levels[2][self.selectedADM1Index-1]['name'];
 
 			instanceLocal.fire(
 				'changeVal', 
@@ -54,7 +56,13 @@ function populateADM1(self,instanceLocal){
 			);
 			if(self.reach=="adm1") return;
 
-			self.geoClick($('a:contains("'+self.selectedADM1Text.replace(/gcode/,'')+'")'),instanceLocal);
+			if(self.webservice=="childrenJSON") self.geoClick($('a:contains("'+self.selectedADM1Text.replace(/gcode/,'')+'")'),instanceLocal);
+			else{
+				for(i=0;i<self.levels[self.level-1].length;i++){
+					if(self.levels[self.level-1][i]['name'] == self.selectedADM1Text)
+						self.geoClick(undefined,instanceLocal,self.levels[self.level-1][i]['geonameId']);
+				}
+			}
 		});
 
 		if((self.selectedADM1Index==undefined || self.selectedADM1Index<0) && self.selectedADM1Text!=''){
@@ -70,7 +78,13 @@ function populateADM1(self,instanceLocal){
 			// Server request with the selected data
 			self.level=3;
 			if(self.reach=="adm1") return;
-			self.geoClick($('a:contains("'+self.selectedADM1Text.replace(/gcode/,'')+'")'),instanceLocal);
+			if(self.webservice=="childrenJSON") self.geoClick($('a:contains("'+self.selectedADM1Text.replace(/gcode/,'')+'")'),instanceLocal);
+			else{
+				for(i=0;i<self.levels[self.level-1].length;i++){
+					if(self.levels[self.level-1][i]['name'] == self.selectedADM1Text)
+						self.geoClick(undefined,instanceLocal,self.levels[self.level-1][i]['geonameId']);
+				}
+			}
 		}
 	}
 	$(adm1Element).selectpicker('refresh').selectpicker('show');

@@ -4,11 +4,17 @@ from django.http import HttpResponse
 from geodatabase.models import Geoname,Countryinfo
 
 def detail(request, geonameid):
+
 	location = Geoname.objects.filter(geonameid=geonameid)
 	fcode = location[0].fcode
 
 	response_data = []
-	if fcode == 'CONT':
+
+	if location[0].name == 'Earth':
+		response_object = Geoname.objects.filter(fcode='CONT')
+		response_data = buildJson(response_object,response_data)
+
+	elif fcode == 'CONT':
 		if location[0].name == 'Europe':
 			tmp = Countryinfo.objects.filter(continent='EU')
 			response_object = []
@@ -17,7 +23,7 @@ def detail(request, geonameid):
 				response_object = response_object + [Geoname.objects.get(geonameid = geonameId)]
 			response_data = buildJson(response_object,response_data)
 		
-		elif location[0].name == 'AFrica':
+		elif location[0].name == 'Africa':
 			tmp = Countryinfo.objects.filter(continent='AF')
 			response_object = []
 			for i in range(0,len(tmp)-1):
@@ -52,9 +58,15 @@ def detail(request, geonameid):
 		elif location[0].name == 'Asia':
 			tmp = Countryinfo.objects.filter(continent='AS')
 			response_object = []
+
 			for i in range(0,len(tmp)-1):
 				geonameId = int(str(tmp[i]).split(',')[0])
-				response_object = response_object + [Geoname.objects.get(geonameid = geonameId)]
+				print geonameId
+				try:
+					response_object = response_object + [Geoname.objects.get(geonameid = geonameId)]
+				except:
+					print "fodeu -se :D  "
+					print geonameId
 			response_data = buildJson(response_object,response_data)
 
 	elif fcode == 'PCLI':
@@ -82,15 +94,18 @@ def buildJson(response_object,response_data):
 
 def addEntry(geoname,response_data):	
 	response = {}	
-	result = str(geoname).split(',')
+	result = str(geoname).split('\t')
 	response['geonameid'] = int(result[0])
 	response['name'] = result[1]
 	response['fcode'] = result[2]
-	response['adm1'] = int(result[3])
-	if 'adm2' in response:
-		response['adm2'] = int(result[4])
-	if 'adm3' in response:
-		response['adm3'] = int(result[5])
-	if 'adm4' in response:
-		response['adm4'] = int(result[6])
+	if len(result)>3:
+		response['country'] = result[3]
+	if len(result)>4 and result[4].isdigit():
+		response['adm1'] = int(result[4])
+	if len(result)>5 and result[5].isdigit():
+		response['adm2'] = int(result[5])
+	if len(result)>6 and result[6].isdigit():
+		response['adm3'] = int(result[6])
+	if len(result)>7 and result[7].isdigit():
+		response['adm4'] = int(result[7])
 	return [response]
