@@ -1,21 +1,44 @@
+# -*- coding: utf-8 -*-
+# Copyright (C) 2015 Universidade de Aveiro, DETI/IEETA, Bioinformatics Group - http://bioinformatics.ua.pt/
+#
+# This program is free software: you can redistribute it and/or modify
+# it under the terms of the GNU General Public License as published by
+# the Free Software Foundation, either version 3 of the License, or
+# (at your option) any later version.
+#
+# This program is distributed in the hope that it will be useful,
+# but WITHOUT ANY WARRANTY; without even the implied warranty of
+# MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+# GNU General Public License for more details.
+#
+# You should have received a copy of the GNU General Public License
+# along with this program.  If not, see <http://www.gnu.org/licenses/>.
 # Create your views here.
 import json
 from django.http import HttpResponse
 from geodatabase.models import Geoname,Countryinfo
+from django.http import HttpResponseNotAllowed, HttpResponseBadRequest, HttpResponseNotFound, HttpResponse, HttpResponseForbidden
+
+from geodatabase.services import * 
 
 def detail(request, geonameid):
-
-	location = Geoname.objects.filter(geonameid=geonameid)
-	fcode = location[0].fcode
+    
+    solr = ServiceSolr()
+    results = solr.search(geonameid)
+    if (len(results)==0):
+        return HttpResponseBadRequest()
+    d = results.docs[0]
+	
+	fcode = d['fcode_t']
 
 	response_data = []
-
-	if location[0].name == 'Earth':
+    name = d['name_t']    
+	if name == 'Earth':
 		response_object = Geoname.objects.filter(fcode='CONT')
 		response_data = buildJson(response_object,response_data)
 
 	elif fcode == 'CONT':
-		if location[0].name == 'Europe':
+		if name == 'Europe':
 			tmp = Countryinfo.objects.filter(continent='EU')
 			response_object = []
 			for i in range(0,len(tmp)-1):
@@ -23,7 +46,7 @@ def detail(request, geonameid):
 				response_object = response_object + [Geoname.objects.get(geonameid = geonameId)]
 			response_data = buildJson(response_object,response_data)
 		
-		elif location[0].name == 'Africa':
+		elif name == 'Africa':
 			tmp = Countryinfo.objects.filter(continent='AF')
 			response_object = []
 			for i in range(0,len(tmp)-1):
@@ -31,7 +54,7 @@ def detail(request, geonameid):
 				response_object = response_object + [Geoname.objects.get(geonameid = geonameId)]
 			response_data = buildJson(response_object,response_data)
 		
-		elif location[0].name == 'Oceania':
+		elif name == 'Oceania':
 			tmp = Countryinfo.objects.filter(continent='OC')
 			response_object = []
 			for i in range(0,len(tmp)-1):
@@ -39,7 +62,7 @@ def detail(request, geonameid):
 				response_object = response_object + [Geoname.objects.get(geonameid = geonameId)]
 			response_data = buildJson(response_object,response_data)
 		
-		elif location[0].name == 'South America':
+		elif name == 'South America':
 			tmp = Countryinfo.objects.filter(continent='SA')
 			response_object = []
 			for i in range(0,len(tmp)-1):
@@ -47,7 +70,7 @@ def detail(request, geonameid):
 				response_object = response_object + [Geoname.objects.get(geonameid = geonameId)]
 			response_data = buildJson(response_object,response_data)
 		
-		elif location[0].name == 'North America':
+		elif name == 'North America':
 			tmp = Countryinfo.objects.filter(continent='NA')
 			response_object = []
 			for i in range(0,len(tmp)-1):
@@ -55,7 +78,7 @@ def detail(request, geonameid):
 				response_object = response_object + [Geoname.objects.get(geonameid = geonameId)]
 			response_data = buildJson(response_object,response_data)
 		
-		elif location[0].name == 'Asia':
+		elif name == 'Asia':
 			tmp = Countryinfo.objects.filter(continent='AS')
 			response_object = []
 

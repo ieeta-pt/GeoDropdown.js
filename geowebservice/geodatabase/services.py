@@ -67,6 +67,22 @@ class ServiceSolr(object):
             self.SOLR_PATH = path
         self.solr = pysolr.Solr('http://' +self.SOLR_HOST+ ':'+ self.SOLR_PORT+self.SOLR_PATH+'/'+core, timeout=timeout)
         logger.info("Connected to Solr")   
+        
+    def load_contry_info(self, countryFile="country.csv"):
+        self.contryInfo = {}
+        
+        import csv
+        ifile = open(countryFile, "rU")
+        reader = csv.reader(ifile, delimiter='\t')
+        for row in reader:
+            
+            #a.name = row[4]
+            # a.continent = row[8]
+            # a.geonameId = row[11]
+            self.contryInfo[row[11]] = {'continent': row[8],'name':  row[4]} 
+            
+            
+    
     def load_initial_data(self, allCountriesFile):
         logger.info("Load initial data to Solr")
         
@@ -75,13 +91,12 @@ class ServiceSolr(object):
             list_docs_to_commit = []
             i = 0 
             for row in spamreader:
-                
                 if not (row[1]=='Earth' or row[7] == 'CONT' or row[7] == 'PCLI' or row[7] == 'ADM1' or  row[7] == 'ADM2' or  row[7] == 'ADM3' or  row[7] == 'ADM4'): 
                     continue
-                
                 i = i + 1
-
                 d = {}
+                
+                
                 d['geonameId_t'] = row[0]
                 d['name_t'] = row[1]
                 d['asciiname_t'] = row[2]
@@ -100,6 +115,11 @@ class ServiceSolr(object):
                 d['elevation_t'] = row[15]
                 d['gtopo30_t'] = row[16]
                 d['timezone_t'] = row[17]
+                
+                if row[0] in self.contryInfo:
+                    d['continent_t'] = self.contryInfo[row[0]]['continent']
+                    d['name_t'] = self.contryInfo[row[0]]['name']
+                    
                 #print(d)
                 d = dict(d.items())
                 list_docs_to_commit.append(d)
@@ -111,8 +131,17 @@ class ServiceSolr(object):
             xml_answer = self.solr.add(list_docs_to_commit)
             list_docs_to_commit = []
             self.solr.optimize()
+    def geonameId(self, query, start=0, rows=100, fl='', sort='', facet="off"):
+        results = self.solr.search("geonameId_t:"+geonameId,**{
+            'facet': facet,
+            'rows': rows,
+            'start': start,
+            'fl': fl,
+            'sort': sort
+        })
+        return results
                 
-    def search(self, geonameId, start=0, rows=100, fl='', sort='', facet="off"):
+    def search(self, query, start=0, rows=100, fl='', sort='', facet="off"):
         results = self.solr.search("geonameId_t:"+geonameId,**{
             'facet': facet,
             'rows': rows,
@@ -124,14 +153,16 @@ class ServiceSolr(object):
         
     
 def main():
-    
     s = ServiceSolr()
     allCountriesFile = '/home/sysadmin/Downloads/allCountries.txt'
     allCountriesFile = '/Users/bastiao/Downloads/allCountries.txt'
+    countryFile = '/Users/bastiao/GeoDropdown.js/geowebservice/country.csv'
     print(allCountriesFile)
-    #s.load_initial_data(allCountriesFile)
-    results = s.search("3039162")
-    d = results.docs[0]
-    print(d)
+    s.load_contry_info(countryFile)
+    s.load_initial_data(allCountriesFile)
+    
+    #results = s.search("3039162")
+    #d = results.docs[0]
+    #print(d)
     
 main()
