@@ -21,6 +21,12 @@ from django.http import HttpResponseNotAllowed, HttpResponseBadRequest, HttpResp
 
 from geodatabase.services import * 
 
+
+import logging
+logger = logging.getLogger()
+
+logging.basicConfig(level=logging.DEBUG)
+
 # TODO: a refactor on that method need to be done. 
 # The business logic should not leave here!
 
@@ -45,7 +51,9 @@ def detail(request, geonameid):
     
     # Fetch the data to variables, only to facilitate the access and to become the code easy to read. 
     fcode = d['fcode_t']
-    name = d['name_t']
+    name = d['name_t'][0]
+    print(name)
+    logger.debug(str(name));
     
     response_data = []
 
@@ -108,6 +116,7 @@ def detail(request, geonameid):
 """ Builds the answer with multiples geonames entries"""
 def buildJson(response_object,response_data):
     for i in range(0,len(response_object)-1):
+        print(response_object[i])
         response_data = response_data+addEntry(response_object[i],response_data)
     return response_data
 
@@ -117,18 +126,13 @@ Handles a GeoName entry
 """
 def addEntry(geoname,response_data):    
     response = {}    
-    result = str(geoname).split('\t')
-    response['geonameid'] = int(result[0])
-    response['name'] = result[1]
-    response['fcode'] = result[2]
-    if len(result)>3:
-        response['country'] = result[3]
-    if len(result)>4 and result[4].isdigit():
-        response['adm1'] = int(result[4])
-    if len(result)>5 and result[5].isdigit():
-        response['adm2'] = int(result[5])
-    if len(result)>6 and result[6].isdigit():
-        response['adm3'] = int(result[6])
-    if len(result)>7 and result[7].isdigit():
-        response['adm4'] = int(result[7])
+    print(geoname)
+    response['geonameid'] = int(geoname['geonameId_t'][0])
+    response['name'] = geoname['name_t']
+    response['fcode'] = geoname['fcode_t']
+    response['country'] = geoname['country_t']
+    response['adm1'] = geoname['admin1_t']
+    response['adm2'] = geoname['admin2_t']
+    response['adm3'] = geoname['admin2_t']
+    response['adm4'] = geoname['admin3_t']
     return [response]

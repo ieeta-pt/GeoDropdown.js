@@ -20,12 +20,14 @@
 from __future__ import print_function
 import pysolr
 
-import logging
+
 import ast
 from django.conf import settings
 
 import csv
 import random
+
+import logging
 logger = logging.getLogger()
 
 logging.basicConfig(level=logging.DEBUG)
@@ -56,7 +58,7 @@ class ServiceSolr(object):
             # Maybe should load default settings here? 
             logger.error("It is not running in Django enviroment")
             raise 
-    def __init__(self, host="hs", port="8983", path="/solr", timeout=CONNECTION_TIMEOUT_DEFAULT, core=''):
+    def __init__(self, host="127.0.0.1", port="8983", path="/solr", timeout=CONNECTION_TIMEOUT_DEFAULT, core=""):
         # Setup a Solr instance. The timeout is optional.
         logger.info("Initial Solr Service")
         try:
@@ -161,8 +163,8 @@ class ServiceSolr(object):
 def main():
     s = ServiceSolr()
     allCountriesFile = '/home/sysadmin/Downloads/allCountries.txt'
-    allCountriesFile = '/Users/bastiao/Downloads/allCountries.txt'
-    countryFile = '/Users/bastiao/GeoDropdown.js/geowebservice/country.csv'
+    #allCountriesFile = '/Users/bastiao/Downloads/allCountries.txt'
+    countryFile = '/home/sysadmin/GeoDropdown.js/geowebservice/country.csv'
     print(allCountriesFile)
     #s.load_contry_info(countryFile)
     #s.load_initial_data(allCountriesFile)
