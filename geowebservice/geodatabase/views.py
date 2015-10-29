@@ -21,114 +21,114 @@ from django.http import HttpResponseNotAllowed, HttpResponseBadRequest, HttpResp
 
 from geodatabase.services import * 
 
+# TODO: a refactor on that method need to be done. 
+# The business logic should not leave here!
+
+"""This method handles with all request for all hierarchies. Thus, depending on the id,
+it will analyse what type of location that it handles and then returns 
+the proper locations according to the hierarchy.
+"""
 def detail(request, geonameid):
     
+    # TODO: validate geonameid properly.
+    
     solr = ServiceSolr()
-    results = solr.search(geonameid)
+    results = solr.geonameId(geonameid)
+    
+    # Check it, if no results in the geonames database, it returns an error 
     if (len(results)==0):
         return HttpResponseBadRequest()
+        
+    # Fetch one, and only one document 
+    # d variable corresponding now to the geoNameId that is passed as parameter    
     d = results.docs[0]
-	
-	fcode = d['fcode_t']
+    
+    # Fetch the data to variables, only to facilitate the access and to become the code easy to read. 
+    fcode = d['fcode_t']
+    name = d['name_t']
+    
+    response_data = []
 
-	response_data = []
-    name = d['name_t']    
-	if name == 'Earth':
-		response_object = Geoname.objects.filter(fcode='CONT')
-		response_data = buildJson(response_object,response_data)
+    if name == 'Earth':
+        response_object = solr.search("fcode_t:CONT")
+        response_data = buildJson(response_object.docs,response_data)
 
-	elif fcode == 'CONT':
-		if name == 'Europe':
-			tmp = Countryinfo.objects.filter(continent='EU')
-			response_object = []
-			for i in range(0,len(tmp)-1):
-				geonameId = int(str(tmp[i]).split(',')[0])
-				response_object = response_object + [Geoname.objects.get(geonameid = geonameId)]
-			response_data = buildJson(response_object,response_data)
-		
-		elif name == 'Africa':
-			tmp = Countryinfo.objects.filter(continent='AF')
-			response_object = []
-			for i in range(0,len(tmp)-1):
-				geonameId = int(str(tmp[i]).split(',')[0])
-				response_object = response_object + [Geoname.objects.get(geonameid = geonameId)]
-			response_data = buildJson(response_object,response_data)
-		
-		elif name == 'Oceania':
-			tmp = Countryinfo.objects.filter(continent='OC')
-			response_object = []
-			for i in range(0,len(tmp)-1):
-				geonameId = int(str(tmp[i]).split(',')[0])
-				response_object = response_object + [Geoname.objects.get(geonameid = geonameId)]
-			response_data = buildJson(response_object,response_data)
-		
-		elif name == 'South America':
-			tmp = Countryinfo.objects.filter(continent='SA')
-			response_object = []
-			for i in range(0,len(tmp)-1):
-				geonameId = int(str(tmp[i]).split(',')[0])
-				response_object = response_object + [Geoname.objects.get(geonameid = geonameId)]
-			response_data = buildJson(response_object,response_data)
-		
-		elif name == 'North America':
-			tmp = Countryinfo.objects.filter(continent='NA')
-			response_object = []
-			for i in range(0,len(tmp)-1):
-				geonameId = int(str(tmp[i]).split(',')[0])
-				response_object = response_object + [Geoname.objects.get(geonameid = geonameId)]
-			response_data = buildJson(response_object,response_data)
-		
-		elif name == 'Asia':
-			tmp = Countryinfo.objects.filter(continent='AS')
-			response_object = []
+    elif fcode == 'CONT':
+        if name == 'Europe':
+            tmp = solr.search("continent_t:EU")
+            response_data = buildJson(tmp.docs,response_data)
+        
+        elif name == 'Africa':
+            
+            tmp = solr.search("continent_t:AF")
+            response_data = buildJson(tmp.docs,response_data)
+        
+        elif name == 'Oceania':
+            tmp = solr.search("continent_t:OC")
+            response_data = buildJson(tmp.docs,response_data)
+        
+        elif name == 'South America':
+            tmp = solr.search("continent_t:SA")
+            response_data = buildJson(tmp.docs,response_data)
+        
+        elif name == 'North America':
+            tmp = solr.search("continent_t:NA")
+            response_data = buildJson(tmp.docs,response_data)
+        
+        elif name == 'Asia':
+            tmp = solr.search("continent_t:AS")
+            response_data = buildJson(tmp.docs,response_data)
 
-			for i in range(0,len(tmp)-1):
-				geonameId = int(str(tmp[i]).split(',')[0])
-				print geonameId
-				try:
-					response_object = response_object + [Geoname.objects.get(geonameid = geonameId)]
-				except:
-					print "fodeu -se :D  "
-					print geonameId
-			response_data = buildJson(response_object,response_data)
+    elif fcode == 'PCLI':
+        #response_object = Geoname.objects.filter(country=location[0].country,fcode='ADM1')
+        response_object = solr.search("contry_t:"+country+" AND fcode_t:ADM1")
+        response_data = buildJson(response_object,response_data)
+    elif fcode == 'ADM1':
+        response_object = solr.search("country_t:"+country+" AND admin1_t:"+admin1+" AND fcode_t:ADM2")
+        #response_object = Geoname.objects.filter(country=location[0].country,admin1=location[0].admin1,fcode='ADM2')
+        response_data=buildJson(response_object,response_data)
+    elif fcode == 'ADM2':
+        #response_object = Geoname.objects.filter(country=location[0].country,admin1=location[0].admin1,admin2=location[0].admin2,fcode='ADM3')
+        response_object = solr.search("country_t:"+country+" AND admin1_t:"+admin1+" AND admin2_t:"+admin2+" AND fcode_t:ADM2")
+        response_data = buildJson(response_object,response_data)
+    elif fcode == 'ADM3':
+        #response_object = Geoname.objects.filter(country=location[0].country,admin1=location[0].admin1,admin2=location[0].admin2,admin3=location[0].admin3,fcode='ADM4')
+        response_object = solr.search("country_t:"+country+" AND admin1_t:"+admin1+" AND admin2_t:"+admin2+" AND admin3_t:"+admin3+" AND fcode_t:ADM2")
+        
+        response_data = buildJson(response_object,response_data)
+    elif fcode == 'ADM4':
+        #response_object = Geoname.objects.filter(country=location[0].country,admin1=location[0].admin1,admin2=location[0].admin2,admin3=location[0].admin3,admin4=location[0].admin4,fcode='ADM5')
+        response_object = solr.search("country_t:"+country+" AND admin1_t:"+admin1+" AND admin2_t:"+admin2+" AND admin3_t:"+admin3+" AND admin4_t:"+admin4+" AND fcode_t:ADM2")
+        
+        response_data = buildJson(response_object,response_data)
 
-	elif fcode == 'PCLI':
-		response_object = Geoname.objects.filter(country=location[0].country,fcode='ADM1')
-		response_data = buildJson(response_object,response_data)
-	elif fcode == 'ADM1':
-		response_object = Geoname.objects.filter(country=location[0].country,admin1=location[0].admin1,fcode='ADM2')
-		response_data=buildJson(response_object,response_data)
-	elif fcode == 'ADM2':
-		response_object = Geoname.objects.filter(country=location[0].country,admin1=location[0].admin1,admin2=location[0].admin2,fcode='ADM3')
-		response_data = buildJson(response_object,response_data)
-	elif fcode == 'ADM3':
-		response_object = Geoname.objects.filter(country=location[0].country,admin1=location[0].admin1,admin2=location[0].admin2,admin3=location[0].admin3,fcode='ADM4')
-		response_data = buildJson(response_object,response_data)
-	elif fcode == 'ADM4':
-		response_object = Geoname.objects.filter(country=location[0].country,admin1=location[0].admin1,admin2=location[0].admin2,admin3=location[0].admin3,admin4=location[0].admin4,fcode='ADM5')
-		response_data = buildJson(response_object,response_data)
+    return HttpResponse(json.dumps(response_data),content_type="application/json")
 
-	return HttpResponse(json.dumps(response_data),content_type="application/json")
 
+""" Builds the answer with multiples geonames entries"""
 def buildJson(response_object,response_data):
-	for i in range(0,len(response_object)-1):
-		response_data = response_data+addEntry(response_object[i],response_data)
-	return response_data
+    for i in range(0,len(response_object)-1):
+        response_data = response_data+addEntry(response_object[i],response_data)
+    return response_data
 
-def addEntry(geoname,response_data):	
-	response = {}	
-	result = str(geoname).split('\t')
-	response['geonameid'] = int(result[0])
-	response['name'] = result[1]
-	response['fcode'] = result[2]
-	if len(result)>3:
-		response['country'] = result[3]
-	if len(result)>4 and result[4].isdigit():
-		response['adm1'] = int(result[4])
-	if len(result)>5 and result[5].isdigit():
-		response['adm2'] = int(result[5])
-	if len(result)>6 and result[6].isdigit():
-		response['adm3'] = int(result[6])
-	if len(result)>7 and result[7].isdigit():
-		response['adm4'] = int(result[7])
-	return [response]
+
+"""
+Handles a GeoName entry
+"""
+def addEntry(geoname,response_data):    
+    response = {}    
+    result = str(geoname).split('\t')
+    response['geonameid'] = int(result[0])
+    response['name'] = result[1]
+    response['fcode'] = result[2]
+    if len(result)>3:
+        response['country'] = result[3]
+    if len(result)>4 and result[4].isdigit():
+        response['adm1'] = int(result[4])
+    if len(result)>5 and result[5].isdigit():
+        response['adm2'] = int(result[5])
+    if len(result)>6 and result[6].isdigit():
+        response['adm3'] = int(result[6])
+    if len(result)>7 and result[7].isdigit():
+        response['adm4'] = int(result[7])
+    return [response]

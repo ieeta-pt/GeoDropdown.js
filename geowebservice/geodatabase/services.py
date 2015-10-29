@@ -56,7 +56,7 @@ class ServiceSolr(object):
             # Maybe should load default settings here? 
             logger.error("It is not running in Django enviroment")
             raise 
-    def __init__(self, host="hs", port="8983", path="/solr", timeout=CONNECTION_TIMEOUT_DEFAULT, core='geonames'):
+    def __init__(self, host="hs", port="8983", path="/solr", timeout=CONNECTION_TIMEOUT_DEFAULT, core=''):
         # Setup a Solr instance. The timeout is optional.
         logger.info("Initial Solr Service")
         try:
@@ -65,6 +65,7 @@ class ServiceSolr(object):
             self.SOLR_HOST = host
             self.SOLR_PORT = port
             self.SOLR_PATH = path
+            
         self.solr = pysolr.Solr('http://' +self.SOLR_HOST+ ':'+ self.SOLR_PORT+self.SOLR_PATH+'/'+core, timeout=timeout)
         logger.info("Connected to Solr")   
         
@@ -95,7 +96,6 @@ class ServiceSolr(object):
                     continue
                 i = i + 1
                 d = {}
-                
                 
                 d['geonameId_t'] = row[0]
                 d['name_t'] = row[1]
@@ -131,7 +131,10 @@ class ServiceSolr(object):
             xml_answer = self.solr.add(list_docs_to_commit)
             list_docs_to_commit = []
             self.solr.optimize()
-    def geonameId(self, query, start=0, rows=100, fl='', sort='', facet="off"):
+            
+    """Fetch the result by id"""
+    def geonameId(self, geonameId, start=0, rows=100, fl='', sort='', facet="off"):
+        print(self.solr)
         results = self.solr.search("geonameId_t:"+geonameId,**{
             'facet': facet,
             'rows': rows,
@@ -140,9 +143,12 @@ class ServiceSolr(object):
             'sort': sort
         })
         return results
-                
+   
+    
+    """Generic search
+    """            
     def search(self, query, start=0, rows=100, fl='', sort='', facet="off"):
-        results = self.solr.search("geonameId_t:"+geonameId,**{
+        results = self.solr.search(query,**{
             'facet': facet,
             'rows': rows,
             'start': start,
@@ -150,7 +156,7 @@ class ServiceSolr(object):
             'sort': sort
         })
         return results
-        
+    
     
 def main():
     s = ServiceSolr()
@@ -158,8 +164,8 @@ def main():
     allCountriesFile = '/Users/bastiao/Downloads/allCountries.txt'
     countryFile = '/Users/bastiao/GeoDropdown.js/geowebservice/country.csv'
     print(allCountriesFile)
-    s.load_contry_info(countryFile)
-    s.load_initial_data(allCountriesFile)
+    #s.load_contry_info(countryFile)
+    #s.load_initial_data(allCountriesFile)
     
     #results = s.search("3039162")
     #d = results.docs[0]

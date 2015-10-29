@@ -9,12 +9,7 @@ ADMINS = (
 MANAGERS = ADMINS
 
 
-DATABASES = {
-    'default' : {
-        'ENGINE' :'django.db.backends.sqlite3',
-        'NAME' : 'sqlite3.db',
-    }
-}
+
 
 DATABASES = {
     'default': {
@@ -24,6 +19,13 @@ DATABASES = {
         'PASSWORD': 'root',
         'HOST': 'hs',
         'PORT': '3306',
+    }
+}
+
+DATABASES = {
+    'default' : {
+        'ENGINE' :'django.db.backends.sqlite3',
+        'NAME' : 'sqlite3.db',
     }
 }
 
@@ -172,3 +174,8 @@ LOGGING = {
 }
 
 
+
+
+SOLR_HOST = "localhost"
+SOLR_PORT = "8983"
+SOLR_PATH = "/solr/collection1"
