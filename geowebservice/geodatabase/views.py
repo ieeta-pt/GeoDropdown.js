@@ -40,7 +40,7 @@ def detail(request, geonameid):
     if geonameid!="0":
         solr = ServiceSolr()
         results = solr.geonameId(geonameid)
-            
+        
         # Check it, if no results in the geonames database, it returns an error 
         if (len(results)==0):
             return HttpResponseBadRequest()
@@ -84,8 +84,9 @@ def detail(request, geonameid):
     if name == 'Earth':
         response_object = solr.search("fcode_t:CONT")
         response_data = buildJson(response_object.docs,response_data)
-
-    else if name == 'Mundus':
+        
+    elif name == 'Mundus':
+        solr = ServiceSolr()
         response_object = solr.search("fcode_t:PCLI")
         response_data = buildJson(response_object.docs,response_data)
 
