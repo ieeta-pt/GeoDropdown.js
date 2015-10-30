@@ -157,7 +157,7 @@ class ServiceSolr(object):
     
     """Generic search
     """            
-    def search(self, query, start=0, rows=100, fl='', sort='', facet="off"):
+    def search(self, query, start=0, rows=500, fl='', sort='', facet="off"):
         results = self.solr.search(query,**{
             'facet': facet,
             'rows': rows,
