@@ -208,7 +208,7 @@ geoDropdown.prototype.geoClick = function(geo,instance,geonameid) {
 	else{
 		if(geonameid == undefined) geonameid = geo.attr("gid");
 		$.ajax({ 
-				url: 'http://127.0.0.1:4000/geodatabase/'+geonameid+'/',
+				url: 'http://bioinformatics.ua.pt/geodropdown/geodatabase/'+geonameid+'/',
 				success: function(response){
 					// build the required data
 					if(self.level!=-1 || self.continent!="default_continent" || self.names.length>=233) self.names = new Array;  
