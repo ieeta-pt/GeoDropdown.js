@@ -1,12 +1,12 @@
 function populateContinents(self,instanceLocal){
 	// Continent View
 
-	$('select[id="' + self.country + '"]').selectpicker('show');
-	$('select[id="' + self.adm1 + '"]').selectpicker('show');
-	$('select[id="' + self.adm2 + '"]').selectpicker('show');
-	$('select[id="' + self.adm3 + '"]').selectpicker('show');
-	$('select[id="' + self.adm4 + '"]').selectpicker('show');
-	$('select[id="' + self.adm5 + '"]').selectpicker('show');
+	$('select[id="' + self.country + '"]').selectpicker('hide');
+	$('select[id="' + self.adm1 + '"]').selectpicker('hide');
+	$('select[id="' + self.adm2 + '"]').selectpicker('hide');
+	$('select[id="' + self.adm3 + '"]').selectpicker('hide');
+	$('select[id="' + self.adm4 + '"]').selectpicker('hide');
+	$('select[id="' + self.adm5 + '"]').selectpicker('hide');
 
 	continentElement = document.getElementById(self.continent);
 	selectedContinentIndex = document.getElementById( self.continent ).selectedIndex;
