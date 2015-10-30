@@ -77,8 +77,8 @@ def detail(request, geonameid):
             admin4 = d['admin4_t'][0]
         except:
             pass
-
-    name = "Mundus"
+    else:
+        name = "Mundus"
     response_data = []
 
     if name == 'Earth':
