@@ -1,12 +1,12 @@
 function populateCountries(self, instanceLocal){
 	// Country View
-	if(self.continent=="default_continent") $('select[id="' + self.continent + '"]').hide();
-	$('select[id="' + self.country + '"]').show();
-	$('select[id="' + self.adm1 + '"]').hide()
-	$('select[id="' + self.adm2 + '"]').hide()
-	$('select[id="' + self.adm3 + '"]').hide()
-	$('select[id="' + self.adm4 + '"]').hide()
-	$('select[id="' + self.adm5 + '"]').hide()
+	if(self.continent=="default_continent") $('select[id="' + self.continent + '"]').selectpicker('hide');
+	$('select[id="' + self.country + '"]').selectpicker('show');
+	$('select[id="' + self.adm1 + '"]').selectpicker('hide');
+	$('select[id="' + self.adm2 + '"]').selectpicker('hide');
+	$('select[id="' + self.adm3 + '"]').selectpicker('hide');
+	$('select[id="' + self.adm4 + '"]').selectpicker('hide');
+	$('select[id="' + self.adm5 + '"]').selectpicker('hide');
 
 	countryElement = document.getElementById( self.country );
 	
@@ -24,15 +24,19 @@ function populateCountries(self, instanceLocal){
 	countryElement.selectedIndex = 0;
 	
 	// Get all country names (not the official ones)
-	for(i=0,x=self.levels[1].length;i<x;i++) self.levels[1][i] = getCountryName(self.levels[1][i].substring(self.levels[1][i].length-2,self.levels[1][i].length))
-	self.levels[1] = $.unique(self.levels[1]).sort();
+	if(self.webservice=="childrenJSON"){
+		for(i=0,x=self.levels[1].length;i<x;i++) self.levels[1][i] = getCountryName(self.levels[1][i].substring(self.levels[1][i].length-2,self.levels[1][i].length))
+		self.levels[1] = $.unique(self.levels[1]).sort();
+	}
 
 	// Fill the dropdown
-	for(i=0,x=self.levels[1].length;i<x;i++)
-	 	countryElement.options[countryElement.length] = new Option(self.levels[1][i],self.levels[1][i]);
+	for(i=0,x=self.levels[1].length;i<x;i++){
+		if(self.webservice=="childrenJSON") countryElement.options[countryElement.length] = new Option(self.levels[1][i],self.levels[1][i]);
+		else countryElement.options[countryElement.length] = new Option(getCountryName(self.levels[1][i]['name']),getCountryName(self.levels[1][i]['name']));
+	}
 
 	self.names = new Array;
-	self.geoParent.append('<ol>'+self.g.join('')+'</ol>');
+	if(self.webservice=="childrenJSON") self.geoParent.append('<ol>'+self.g.join('')+'</ol>');
 
 	// Assigned all countries. Now assign event listener for the adm1.
 	if( self.adm1 ){
@@ -54,8 +58,13 @@ function populateCountries(self, instanceLocal){
 			);
 			if(self.reach=="country") return;
 
-			if(self.selectedCountryText != 'AD')
-				self.geoClick($('a:contains("'+self.selectedCountryText+'")'),instanceLocal);
+			if(self.webservice=="childrenJSON") /*if(self.selectedCountryText != 'AD')*/ self.geoClick($('a:contains("'+self.selectedCountryText+'")'),instanceLocal);
+			else{
+				for(i=0;i<self.levels[self.level-1].length;i++){
+					if(self.levels[self.level-1][i]['name'] == self.selectedCountryText)
+						self.geoClick(undefined,instanceLocal,self.levels[self.level-1][i]['geonameId']);
+				}
+			}
 		});
 		
 		if((self.selectedCountryIndex < 0 || self.selectedCountryIndex == undefined) && self.selectedCountryText!=''){
@@ -70,8 +79,15 @@ function populateCountries(self, instanceLocal){
 			// Server request with the selected data
 			self.level=2;
 			if(self.reach=="country") return;
-			if(self.selectedCountryText != 'AD')
-				self.geoClick($('a:contains("'+self.selectedCountryText+'")'),instanceLocal);
+			if(self.webservice=="childrenJSON") /*if(self.selectedCountryText != 'AD')*/ self.geoClick($('a:contains("'+self.selectedCountryText+'")'),instanceLocal);
+			else{
+				for(i=0;i<self.levels[self.level-1].length;i++){
+					if(self.levels[self.level-1][i]['name'] == self.selectedCountryText)
+						self.geoClick(undefined,instanceLocal,self.levels[self.level-1][i]['geonameId']);
+				}
+			}
 		}
 	}
+
+	$(countryElement).selectpicker('refresh').selectpicker('show');
 }

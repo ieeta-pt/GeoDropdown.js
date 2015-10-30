@@ -17,13 +17,13 @@
 
 		<div>
 			<div style="float:left;">
-				<select id="{{continent}}" name="continent"></select>
-				<select id="{{country}}" name="country"></select>
-				<select id="{{adm1}}" name="adm1"></select>
-				<select id="{{adm2}}" name="adm2"></select>
-				<select id="{{adm3}}" name="adm3"></select>
-				<select id="{{adm4}}" name="adm4"></select>
-				<select id="{{adm5}}" name="adm5"></select>
+				<select id="{{continent}}" data-live-search="true" name="continent"></select>
+				<select id="{{country}}" data-live-search="true" name="country"></select>
+				<select id="{{adm1}}" data-live-search="true" name="adm1"></select>
+				<select id="{{adm2}}" data-live-search="true" name="adm2"></select>
+				<select id="{{adm3}}" data-live-search="true" name="adm3"></select>
+				<select id="{{adm4}}" data-live-search="true" name="adm4"></select>
+				<select id="{{adm5}}" data-live-search="true" name="adm5"></select>
 			</div>
 			<div title="Click to clean answer">
 				<button id="{{clean}}" type="button" class="btn btn-primary" style="float:right;"><i class="fa fa-trash-o"></i></button>
@@ -32,9 +32,8 @@
 		</div>
 	</template>
 
-	<script type="text/javascript" src="http://ajax.googleapis.com/ajax/libs/jquery/1.8.2/jquery.min.js"></script>
-	<script type="text/javascript" src="http://geotree.geonames.org/jquery.rightClick.js"></script>
-	<script type="text/javascript" src="http://geotree.geonames.org/jquery.scrollTo-min.js"></script>
+	<script type="text/javascript" src="../lib/jquery.rightClick.js"></script>
+	<script type="text/javascript" src="../lib/jquery.scrollTo-min.js"></script>
 	<script type="text/javascript" src="../js/GeoDropdown.js"></script>
 	<script type="text/javascript" src="../js/continent.js"></script>
 	<script type="text/javascript" src="../js/country.js"></script>
@@ -69,15 +68,17 @@
 				if(answerID[0]!='[') answerID="["+answerID+"]";
 				
 				var cleanID = this.clean;
+				var urlID = this.url;
+				var webserviceID = this.webservice;
 
 				// Local GeoDropdown object
-				var geoDrop = new geoDropdown(continentID,countryID,adm1ID,adm2ID,adm3ID,adm4ID,adm5ID,reachID,answerID,cleanID);
+				var geoDrop = new geoDropdown(continentID,countryID,adm1ID,adm2ID,adm3ID,adm4ID,adm5ID,reachID,answerID,cleanID,urlID,webserviceID);
 				
 				// start 
 				geoDrop.geoReady(this);
 				var self = this;
 				$('button[id="'+ this.clean +'"]').bind( "click", function() {
-				    geoDrop = new geoDropdown(continentID,countryID,adm1ID,adm2ID,adm3ID,adm4ID,adm5ID,reachID,"[\{\}]",cleanID);
+				    geoDrop = new geoDropdown(continentID,countryID,adm1ID,adm2ID,adm3ID,adm4ID,adm5ID,reachID,"[\{\}]",cleanID,urlID,webserviceID);
 				    geoDrop.geoReady(self);
 				    self.fire('changeVal', { continent:'',country:'',adm1:'',adm2:'',adm3:'',adm4:'',adm5:'' });
 			    });
@@ -130,6 +131,16 @@
 				clean:{
 					type:String,
 					value: "default_clean"
+				}, 
+
+				url:{
+					type:String,
+					value: "http://127.0.0.1:8000/geodatabase/"
+				},
+
+				webservice:{
+					type:String,
+					value:"geowebservice"
 				}
 			}
 		});

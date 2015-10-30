@@ -1,0 +1,17 @@
+solr:
+    image: solr
+    hostname: solr
+    ports:
+        - "8983:8983"
+
+
+
+geodropdownservice:
+    image: bioinformaticsua/geodropdownservice
+    ports:
+        - "8886:80"
+    volumes:
+        - .:/opt/django/app
+    links:
+        - solr:solr
+        

@@ -1,23 +1,7 @@
-# Caution!
-Under development
-
 # GeoDropdown
-GeoDropdown makes use of [geonames data server](http://geonames.org/) to create a multiple drodpdown lists system, which guarantees that users will provides well formatted locations, according to ISO-3166.
+GeoDropdown makes use of geowebservice to create a multiple drodpdown lists system, which guarantees that users will provides well formatted locations, according to ISO-3166.
 
-# How to use the API
-To display the dropdowns system on a web page just include the geo-dropdown tag in the HTML, and an identifier for each hierarchical levels.
-Here is an example:
-
-    <geo-dropdown continent="cont" country="count" adm1="a1" adm2="a2" adm3="a3" adm4="a4" adm5="a5"></geo-dropdown> 
-
-By default:
-* continent="continent"
-* country="country"
-* adm1="adm1"
-* adm2="adm2"
-* adm3="adm3"
-* adm4="adm4"
-* adm5="adm5"
+Live demo: [demo.html](demo.html)
 
 # Hierarchical levels
 There are 7 hierarchical levels, which corresponds to 7 dropdown list:
@@ -30,9 +14,77 @@ There are 7 hierarchical levels, which corresponds to 7 dropdown list:
 	5. ADM4
 	6. ADM5
 
+# First Level
+The developer can choose to have continents as first level or countries. If the continent identifier is declared in the GeoDropdown tag, the correspondent dropdown will appear. If not, it won't appear.
+
+# Reach level
+The developer can choose the reach level, ie the end point of the GeoDropdown object, this is made by the reach identifier.
+####How reach works:
+| Identifier Value | Reach Level
+|------------------| :-----------: |
+| no identifier | adm5 |    
+| reach="continent" | continet |
+| reach="country" | country |
+| reach="adm1" | adm1 |
+| reach="adm2" | adm2 |
+| reach="adm3" | adm3 |
+| reach="adm4" | adm4 |
+| reach="adm5" | adm5 |
+| reach with other level | adm5 |
+
 # What is ADM#?
-[ADM](http://www.geonames.org/export/codes.html) comes from administrative division, and it's the way that geonames handles the heterogeneity among the various administrative organizations of all countries. ADM1 corresponds to a primary administrative division of a country, and each following ADM corresponds to a subdivision of the previous ADM. It's not mandatory that every country must reach ADM5. There are examples, such as Bouvet Island in Antarctica, where the maximum level reached is the country level. And there are also examples, such as France, where the maximum level reached is the ADM5 level. 
+[ADM](http://www.geonames.org/export/codes.html) comes from administrative division, and it's the way that geonames handles the heterogeneity among the various administrative organizations of all countries. ADM1 corresponds to a primary administrative division of a country, and each following ADM corresponds to a subdivision of the previous ADM. It's not mandatory that every country reaches ADM5. There are examples, such as Bouvet Island in Antarctica, where the maximum level reached is the country level. And there are also examples, such as France, where the maximum level reached is the ADM5 level.
+
+# How to use the API
+To display the dropdowns system on a web page just include the geo-dropdown tag in the HTML, an identifier for each hierarchical levels and a reach identifier.
+Here are some examples:
+
+    <geo-dropdown continent="cont" country="count" adm1="a1" adm2="a2" adm3="a3" adm4="a4" adm5="a5"></geo-dropdown> 
+    <geo-dropdown country="count" adm1="a1" adm2="a2" adm3="a3" adm4="a4" adm5="a5"></geo-dropdown>
+    <geo-dropdown reach="adm1"></geo-dropdown> 
+
+**Note that:**It is also possible to define a delete button with the clean identifier.And, you can define a answer with the answer identifier. If the answer identifier was defined, that value will be loaded when the geodropdown object starts.
+
+    <geo-dropdown clean="del_button" answer="[{continent:'Europe',country:'Portugal'}]"></geo-dropdown>
+
+By default:
+* country="default_country"
+* adm1="default_adm1"
+* adm2="default_adm2"
+* adm3="default_adm3"
+* adm4="default_adm4"
+* adm5="default_adm5"
+* clean="default_clean"
+* answer="empty"
 
 #Example 
 You can consult a live example of the GeoDropdown library at http://bioinformatics-ua.github.io/GeoDropdown.js/.
-This page displays two Geodropdowns widgets, working simultaneously. One that does not aggregate continents-country, and other that aggregates.
+This page displays two Geodropdowns widgets, working simultaneously. One that does not aggregate continents-country and has adm5 as reach level, and other that aggregates and has adm1 as reach level.
+
+#Web Service 
+The web service is developed in Django, using a MySQL database. The web service functionality is pretty simple, when a geonameid is given to the service, it responds with a json containing all children of the desired location.
+
+###Example
+Portugal (wich is a country) geonameid is 2264397, so you can use the link /geodatabase/2264397 to get all ADM1 of Portugal. It will return a json like this:
+
+```json
+[{"geonameid": 2262961, "fcode": "ADM1", "name": "Distrito de Set\u00c3\u00babal", "adm1": 19}, {"geonameid": 2263478, "fcode": "ADM1", "name": "Distrito de Santar\u00c3\u00a9m", "adm1": 18}, {"geonameid": 2264507, "fcode": "ADM1", "name": "Distrito de Portalegre", "adm1": 16}, {"geonameid": 2267056, "fcode": "ADM1", "name": "Distrito de Lisboa", "adm1": 14}, {"geonameid": 2267094, "fcode": "ADM1", "name": "Distrito de Leiria", "adm1": 13}, {"geonameid": 2268337, "fcode": "ADM1", "name": "Distrito de Faro", "adm1": 9}, {"geonameid": 2268404, "fcode": "ADM1", "name": "Distrito de \u00c3\u2030vora", "adm1": 8}, {"geonameid": 2269513, "fcode": "ADM1", "name": "Distrito de Castelo Branco", "adm1": 6}, {"geonameid": 2270984, "fcode": "ADM1", "name": "Distrito de Beja", "adm1": 3}, {"geonameid": 2593105, "fcode": "ADM1", "name": "Madeira", "adm1": 10}, {"geonameid": 2732264, "fcode": "ADM1", "name": "Distrito de Viseu", "adm1": 22}, {"geonameid": 2732437, "fcode": "ADM1", "name": "Distrito de Vila Real", "adm1": 21}, {"geonameid": 2732772, "fcode": "ADM1", "name": "Distrito de Viana do Castelo", "adm1": 20}, {"geonameid": 2735941, "fcode": "ADM1", "name": "Distrito do Porto", "adm1": 17}, {"geonameid": 2738782, "fcode": "ADM1", "name": "Distrito da Guarda", "adm1": 11}, {"geonameid": 2740636, "fcode": "ADM1", "name": "Distrito de Coimbra", "adm1": 7}, {"geonameid": 2742026, "fcode": "ADM1", "name": "Distrito de Bragan\u00c3\u00a7a", "adm1": 5}, {"geonameid": 2742031, "fcode": "ADM1", "name": "Distrito de Braga", "adm1": 4}, {"geonameid": 2742610, "fcode": "ADM1", "name": "Distrito de Aveiro", "adm1": 2}]
+```
+
+# How to load data to the Web Service databases
+There are two databases to support the service: Geoname and Countryinfo. And there will also exists two csv files with the needed content: allCountries.txt and country.csv. To load the content into the databases just run the following script:
+
+
+# Authors:
+
+- Leonardo Coelho
+
+# Contributors
+- Renato Pinho 
+- Luis A. Bastião Silva - <bastiao@ua.pt>
+
+
+# Mantainers 
+
+- Leonardo Coelho
+- Luis A. Bastião Silva -  <bastiao@ua.pt>

@@ -1,11 +1,11 @@
 function populateADM2(self,instanceLocal){
 	// ADM2 View
-	$('select[id="' + self.country + '"]').show();
-	$('select[id="' + self.adm1 + '"]').show()
-	$('select[id="' + self.adm2 + '"]').show()
-	$('select[id="' + self.adm3 + '"]').hide()
-	$('select[id="' + self.adm4 + '"]').hide()
-	$('select[id="' + self.adm5 + '"]').hide()
+	$('select[id="' + self.country + '"]').selectpicker('show');
+	$('select[id="' + self.adm1 + '"]').selectpicker('show');
+	$('select[id="' + self.adm2 + '"]').selectpicker('show');
+	$('select[id="' + self.adm3 + '"]').selectpicker('hide');
+	$('select[id="' + self.adm4 + '"]').selectpicker('hide');
+	$('select[id="' + self.adm5 + '"]').selectpicker('hide');
 
 	adm2Element = document.getElementById( self.adm2 );
 
@@ -26,11 +26,13 @@ function populateADM2(self,instanceLocal){
 	// If there is a selected item put it at the top of the dropdown
 	else adm2Element.options[0] = new Option(stripGCode(self.levels[3][self.selectedADM2Index-1]),stripGCode(self.levels[3][self.selectedADM2Index-1]));
 	// Fill the dropdown
-	for(i=0,x=self.levels[3].length;i<x;i++)
-	 	adm2Element.options[adm2Element.length] = new Option(stripGCode(self.levels[3][i]),stripGCode(self.levels[3][i]));
+	for(i=0,x=self.levels[3].length;i<x;i++){
+	 	if(self.webservice=="childrenJSON") adm2Element.options[adm2Element.length] = new Option(stripGCode(self.levels[3][i]),stripGCode(self.levels[3][i]));
+	 	else adm2Element.options[adm2Element.length] = new Option(self.levels[3][i]['name'],self.levels[3][i]['name']);
+	 }
 
 	self.names = new Array;
-	self.geoParent.append('<ol>'+self.g.join('')+'</ol>');
+	if(self.webservice=="childrenJSON") self.geoParent.append('<ol>'+self.g.join('')+'</ol>');
 
 	// Assigned all adm2. Now assign event listener for the adm3.
 	if( self.adm3 )
@@ -47,7 +49,7 @@ function populateADM2(self,instanceLocal){
 
 			// Server request with the selected data
 			self.level=4;
-			self.selectedADM2Text = self.levels[3][self.selectedADM2Index-1];
+			self.selectedADM2Text = self.levels[3][self.selectedADM2Index-1]['name'];
 
 			instanceLocal.fire(
 				'changeVal', 
@@ -55,7 +57,13 @@ function populateADM2(self,instanceLocal){
 			);
 			if(self.reach=="adm2") return;
 
-			self.geoClick($('a:contains("'+self.selectedADM2Text.replace(/gcode/,'')+'")'),instanceLocal);
+			if(self.webservice=="childrenJSON") self.geoClick($('a:contains("'+self.selectedADM2Text.replace(/gcode/,'')+'")'),instanceLocal);
+			else{
+				for(i=0;i<self.levels[self.level-1].length;i++){
+					if(self.levels[self.level-1][i]['name'] == self.selectedADM2Text)
+						self.geoClick(undefined,instanceLocal,self.levels[self.level-1][i]['geonameId']);
+				}
+			}
 		});
 	}
 
@@ -72,6 +80,14 @@ function populateADM2(self,instanceLocal){
 		// Server request with the selected data
 		self.level=4;
 		if(self.reach=="adm2") return;
-		self.geoClick($('a:contains("'+self.selectedADM2Text.replace(/gcode/,'')+'")'),instanceLocal);
+		
+		if(self.webservice=="childrenJSON")self.geoClick($('a:contains("'+self.selectedADM2Text.replace(/gcode/,'')+'")'),instanceLocal);
+		else{
+				for(i=0;i<self.levels[self.level-1].length;i++){
+					if(self.levels[self.level-1][i]['name'] == self.selectedADM2Text)
+						self.geoClick(undefined,instanceLocal,self.levels[self.level-1][i]['geonameId']);
+				}
+			}
 	}
+	$(adm2Element).selectpicker('refresh').selectpicker('show');
 }
