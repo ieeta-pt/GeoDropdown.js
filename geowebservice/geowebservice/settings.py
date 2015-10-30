@@ -174,8 +174,6 @@ LOGGING = {
 }
 
 
-
-
-SOLR_HOST = "localhost"
+SOLR_HOST = "hs"
 SOLR_PORT = "8983"
-SOLR_PATH = "/solr/collection1"
+SOLR_PATH = "/solr/geonames"

@@ -50,10 +50,34 @@ def detail(request, geonameid):
     d = results.docs[0]
     
     # Fetch the data to variables, only to facilitate the access and to become the code easy to read. 
-    fcode = d['fcode_t']
+    fcode = d['fcode_t'][0]
     name = d['name_t'][0]
-    print(name)
-    logger.debug(str(name));
+    
+    try:
+        country = d['country_t'][0]
+    except:
+        pass
+    
+    try:
+        admin1 = d['admin1_t'][0]
+    except:
+        pass
+    
+    try:
+        admin1 = d['admin2_t'][0]
+    except:
+        pass
+    
+    try:
+        admin1 = d['admin3_t'][0]
+    except:
+        pass
+    
+    try:
+        admin1 = d['admin4_t'][0]
+    except:
+        pass
+    
     
     response_data = []
 
@@ -89,26 +113,26 @@ def detail(request, geonameid):
 
     elif fcode == 'PCLI':
         #response_object = Geoname.objects.filter(country=location[0].country,fcode='ADM1')
-        response_object = solr.search("contry_t:"+country+" AND fcode_t:ADM1")
-        response_data = buildJson(response_object,response_data)
+        response_object = solr.search("country_t:"+country+" AND fcode_t:ADM1")
+        response_data = buildJson(response_object.docs,response_data)
     elif fcode == 'ADM1':
         response_object = solr.search("country_t:"+country+" AND admin1_t:"+admin1+" AND fcode_t:ADM2")
         #response_object = Geoname.objects.filter(country=location[0].country,admin1=location[0].admin1,fcode='ADM2')
-        response_data=buildJson(response_object,response_data)
+        response_data=buildJson(response_object.docs,response_data)
     elif fcode == 'ADM2':
         #response_object = Geoname.objects.filter(country=location[0].country,admin1=location[0].admin1,admin2=location[0].admin2,fcode='ADM3')
         response_object = solr.search("country_t:"+country+" AND admin1_t:"+admin1+" AND admin2_t:"+admin2+" AND fcode_t:ADM2")
-        response_data = buildJson(response_object,response_data)
+        response_data = buildJson(response_object.docs,response_data)
     elif fcode == 'ADM3':
         #response_object = Geoname.objects.filter(country=location[0].country,admin1=location[0].admin1,admin2=location[0].admin2,admin3=location[0].admin3,fcode='ADM4')
         response_object = solr.search("country_t:"+country+" AND admin1_t:"+admin1+" AND admin2_t:"+admin2+" AND admin3_t:"+admin3+" AND fcode_t:ADM2")
         
-        response_data = buildJson(response_object,response_data)
+        response_data = buildJson(response_object.docs,response_data)
     elif fcode == 'ADM4':
         #response_object = Geoname.objects.filter(country=location[0].country,admin1=location[0].admin1,admin2=location[0].admin2,admin3=location[0].admin3,admin4=location[0].admin4,fcode='ADM5')
         response_object = solr.search("country_t:"+country+" AND admin1_t:"+admin1+" AND admin2_t:"+admin2+" AND admin3_t:"+admin3+" AND admin4_t:"+admin4+" AND fcode_t:ADM2")
         
-        response_data = buildJson(response_object,response_data)
+        response_data = buildJson(response_object.docs,response_data)
 
     return HttpResponse(json.dumps(response_data),content_type="application/json")
 
@@ -130,9 +154,13 @@ def addEntry(geoname,response_data):
     response['geonameid'] = int(geoname['geonameId_t'][0])
     response['name'] = geoname['name_t']
     response['fcode'] = geoname['fcode_t']
-    response['country'] = geoname['country_t']
-    response['adm1'] = geoname['admin1_t']
-    response['adm2'] = geoname['admin2_t']
-    response['adm3'] = geoname['admin2_t']
-    response['adm4'] = geoname['admin3_t']
+    try:
+        response['country'] = geoname['country_t']
+        response['adm1'] = geoname['admin1_t']
+        response['adm2'] = geoname['admin2_t']
+        response['adm3'] = geoname['admin2_t']
+        response['adm4'] = geoname['admin3_t']
+    except:
+        pass
+    
     return [response]

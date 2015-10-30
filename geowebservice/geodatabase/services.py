@@ -100,6 +100,7 @@ class ServiceSolr(object):
                 d = {}
                 
                 d['geonameId_t'] = row[0]
+                print(row[0])
                 d['name_t'] = row[1]
                 d['asciiname_t'] = row[2]
                 d['alternatenames_t'] = row[3]
@@ -107,7 +108,10 @@ class ServiceSolr(object):
                 d['longitude_f'] = row[5]
                 d['fclass_t'] = row[6]
                 d['fcode_t'] = row[7]
-                d['country_t'] = row[8]
+                try:
+                    d['country_t'] = row[8]
+                except:
+                    pass
                 d['cc2_t'] = row[9]
                 d['admin1_t'] = row[10]
                 d['admin2_t'] = row[11]
