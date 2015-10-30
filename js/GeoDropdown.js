@@ -76,11 +76,7 @@ geoDropdown.prototype.geoReady = function(instance){
 		this.geoClick($("#earth"),instance);
 	}
 	// entry point with aggregation
-	else
-	{
-		this.geoClick($("#africa"),instance);
-		this.geoClick($("#mundus"),instance);
-	}
+	else this.geoClick($("#mundus"),instance);
 }
 
 // Request method
