@@ -38,12 +38,12 @@ def detail(request, geonameid):
     
     # TODO: validate geonameid properly.
     if geonameid!="0":
-                solr = ServiceSolr()
-                results = solr.geonameId(geonameid)
-                
-            # Check it, if no results in the geonames database, it returns an error 
-            if (len(results)==0):
-                return HttpResponseBadRequest()
+        solr = ServiceSolr()
+        results = solr.geonameId(geonameid)
+            
+        # Check it, if no results in the geonames database, it returns an error 
+        if (len(results)==0):
+            return HttpResponseBadRequest()
                 
         # Fetch one, and only one document 
         # d variable corresponding now to the geoNameId that is passed as parameter    
