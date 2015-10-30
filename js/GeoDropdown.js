@@ -199,6 +199,8 @@ geoDropdown.prototype.geoClick = function(geo,instance,geonameid) {
 		$.ajax({ 
 				url: 'http://bioinformatics.ua.pt/geodropdown/geodatabase/'+geonameid+'/',
 				success: function(response){
+					if(response.length == 0) return;
+					
 					// build the required data
 					if(self.level!=-1 || self.continent!="default_continent" || self.names.length>=165) self.names = new Array;  
 					for(i=0;i<response.length;i++){
