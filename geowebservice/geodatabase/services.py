@@ -28,6 +28,8 @@ import csv
 import random
 
 import logging
+
+from utils import * 
 logger = logging.getLogger()
 
 logging.basicConfig(level=logging.DEBUG)
@@ -58,7 +60,7 @@ class ServiceSolr(object):
             # Maybe should load default settings here? 
             logger.error("It is not running in Django enviroment")
             raise 
-    def __init__(self, host="127.0.0.1", port="8983", path="/solr", timeout=CONNECTION_TIMEOUT_DEFAULT, core=""):
+    def __init__(self, host="hs", port="8983", path="/solr", timeout=CONNECTION_TIMEOUT_DEFAULT, core="geonames"):
         # Setup a Solr instance. The timeout is optional.
         logger.info("Initial Solr Service")
         try:
@@ -76,7 +78,8 @@ class ServiceSolr(object):
         
         import csv
         ifile = open(countryFile, "rU")
-        reader = csv.reader(ifile, delimiter='\t')
+        #reader = csv.reader(ifile, delimiter='\t')
+        reader = UnicodeReader(ifile, delimiter='\t', )
         for row in reader:
             
             #a.name = row[4]
@@ -90,7 +93,8 @@ class ServiceSolr(object):
         logger.info("Load initial data to Solr")
         
         with open(allCountriesFile) as csvfile:
-            spamreader = csv.reader(csvfile, delimiter='\t', quotechar='|')
+            #spamreader = csv.reader(csvfile, delimiter='\t', quotechar='|')
+            spamreader = UnicodeReader(csvfile, delimiter='\t', quotechar='|')
             list_docs_to_commit = []
             i = 0 
             for row in spamreader:
@@ -167,14 +171,15 @@ class ServiceSolr(object):
 def main():
     s = ServiceSolr()
     allCountriesFile = '/home/sysadmin/Downloads/allCountries.txt'
-    #allCountriesFile = '/Users/bastiao/Downloads/allCountries.txt'
+    allCountriesFile = '/Users/bastiao/Downloads/allCountries.txt'
     countryFile = '/home/sysadmin/GeoDropdown.js/geowebservice/country.csv'
+    countryFile = '/Users/bastiao/GeoDropdown.js/geowebservice/country.csv'
     print(allCountriesFile)
-    #s.load_contry_info(countryFile)
-    #s.load_initial_data(allCountriesFile)
+    s.load_contry_info(countryFile)
+    s.load_initial_data(allCountriesFile)
     
     #results = s.search("3039162")
     #d = results.docs[0]
     #print(d)
-    
-main()
+if __name__ == "__main__":
+    main()

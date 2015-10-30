@@ -1,8 +1,7 @@
-# Caution!
-Under development
-
 # GeoDropdown
 GeoDropdown makes use of geowebservice to create a multiple drodpdown lists system, which guarantees that users will provides well formatted locations, according to ISO-3166.
+
+Live demo: [demo.html](demo.html)
 
 # Hierarchical levels
 There are 7 hierarchical levels, which corresponds to 7 dropdown list:
