@@ -78,7 +78,7 @@ def detail(request, geonameid):
         except:
             pass
     else:
-        name = "Mundus"
+            name = "Mundus"
     response_data = []
 
     if name == 'Earth':
@@ -87,7 +87,7 @@ def detail(request, geonameid):
         
     elif name == 'Mundus':
         solr = ServiceSolr()
-        response_object = solr.search("fcode_t:PCLI")
+        response_object = solr.search("continent_t:EU OR continent_t:AF OR continent_t:OC OR continent_t:SA OR continent_t:NA OR continent_t:AS")
         response_data = buildJson(response_object.docs,response_data)
 
     elif fcode == 'CONT':
