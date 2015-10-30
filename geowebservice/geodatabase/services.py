@@ -60,7 +60,7 @@ class ServiceSolr(object):
             # Maybe should load default settings here? 
             logger.error("It is not running in Django enviroment")
             raise 
-    def __init__(self, host="hs", port="8983", path="/solr", timeout=CONNECTION_TIMEOUT_DEFAULT, core="geonames"):
+    def __init__(self, host="biodatacenter.ieeta.pt", port="7811", path="/solr", timeout=CONNECTION_TIMEOUT_DEFAULT, core="geonames"):
         # Setup a Solr instance. The timeout is optional.
         logger.info("Initial Solr Service")
         try:
