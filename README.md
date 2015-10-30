@@ -81,10 +81,10 @@ There are two databases to support the service: Geoname and Countryinfo. And the
 
 # Contributors
 - Renato Pinho 
-- Luis A. Bastião Silva
+- Luis A. Bastião Silva - <bastiao@ua.pt>
 
 
 # Mantainers 
 
 - Leonardo Coelho
-- Luis A. Bastião Silva
+- Luis A. Bastião Silva -  <bastiao@ua.pt>
