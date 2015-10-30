@@ -204,6 +204,7 @@ geoDropdown.prototype.geoClick = function(geo,instance,geonameid) {
 				url: 'http://bioinformatics.ua.pt/geodropdown/geodatabase/'+geonameid+'/',
 				success: function(response){
 					// build the required data
+					if(self.level!=-1 || self.continent!="default_continent" || self.names.length>=165) self.names = new Array;  
 					for(i=0;i<response.length;i++){
 						if(self.level==1 || (self.level==-1 && self.continent=="default_continent")) entry = { "name":response[i]['country'],"geonameId":response[i]['geonameid'] }
 						else entry = { "name":response[i]['name'],"geonameId":response[i]['geonameid'] }
