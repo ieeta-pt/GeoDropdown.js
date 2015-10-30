@@ -69,15 +69,16 @@
 				
 				var cleanID = this.clean;
 				var urlID = this.url;
+				var webserviceID = this.webservice;
 
 				// Local GeoDropdown object
-				var geoDrop = new geoDropdown(continentID,countryID,adm1ID,adm2ID,adm3ID,adm4ID,adm5ID,reachID,answerID,cleanID,urlID);
+				var geoDrop = new geoDropdown(continentID,countryID,adm1ID,adm2ID,adm3ID,adm4ID,adm5ID,reachID,answerID,cleanID,urlID,webserviceID);
 				
 				// start 
 				geoDrop.geoReady(this);
 				var self = this;
 				$('button[id="'+ this.clean +'"]').bind( "click", function() {
-				    geoDrop = new geoDropdown(continentID,countryID,adm1ID,adm2ID,adm3ID,adm4ID,adm5ID,reachID,"[\{\}]",cleanID);
+				    geoDrop = new geoDropdown(continentID,countryID,adm1ID,adm2ID,adm3ID,adm4ID,adm5ID,reachID,"[\{\}]",cleanID,urlID,webserviceID);
 				    geoDrop.geoReady(self);
 				    self.fire('changeVal', { continent:'',country:'',adm1:'',adm2:'',adm3:'',adm4:'',adm5:'' });
 			    });
@@ -134,7 +135,12 @@
 
 				url:{
 					type:String,
-					value: "no_url"
+					value: "http://127.0.0.1:8000/geodatabase/"
+				},
+
+				webservice:{
+					type:String,
+					value:"geowebservice"
 				}
 			}
 		});

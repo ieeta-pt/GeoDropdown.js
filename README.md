@@ -1,8 +1,7 @@
-# Caution!
-Under development
-
 # GeoDropdown
 GeoDropdown makes use of geowebservice to create a multiple drodpdown lists system, which guarantees that users will provides well formatted locations, according to ISO-3166.
+
+Live demo: [demo.html](demo.html)
 
 # Hierarchical levels
 There are 7 hierarchical levels, which corresponds to 7 dropdown list:
@@ -74,3 +73,18 @@ Portugal (wich is a country) geonameid is 2264397, so you can use the link /geod
 
 # How to load data to the Web Service databases
 There are two databases to support the service: Geoname and Countryinfo. And there will also exists two csv files with the needed content: allCountries.txt and country.csv. To load the content into the databases just run the following script:
+
+
+# Authors:
+
+- Leonardo Coelho
+
+# Contributors
+- Renato Pinho 
+- Luis A. Bastião Silva - <bastiao@ua.pt>
+
+
+# Mantainers 
+
+- Leonardo Coelho
+- Luis A. Bastião Silva -  <bastiao@ua.pt>
