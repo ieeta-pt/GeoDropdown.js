@@ -37,52 +37,57 @@ the proper locations according to the hierarchy.
 def detail(request, geonameid):
     
     # TODO: validate geonameid properly.
-    
-    solr = ServiceSolr()
-    results = solr.geonameId(geonameid)
-    
-    # Check it, if no results in the geonames database, it returns an error 
-    if (len(results)==0):
-        return HttpResponseBadRequest()
+    if geonameid!="0":
+        solr = ServiceSolr()
+        results = solr.geonameId(geonameid)
         
-    # Fetch one, and only one document 
-    # d variable corresponding now to the geoNameId that is passed as parameter    
-    d = results.docs[0]
-    
-    # Fetch the data to variables, only to facilitate the access and to become the code easy to read. 
-    fcode = d['fcode_t'][0]
-    name = d['name_t'][0]
-    
-    try:
-        country = d['country_t'][0]
-    except:
-        pass
-    
-    try:
-        admin1 = d['admin1_t'][0]
-    except:
-        pass
-    
-    try:
-        admin1 = d['admin2_t'][0]
-    except:
-        pass
-    
-    try:
-        admin1 = d['admin3_t'][0]
-    except:
-        pass
-    
-    try:
-        admin1 = d['admin4_t'][0]
-    except:
-        pass
-    
-    
+        # Check it, if no results in the geonames database, it returns an error 
+        if (len(results)==0):
+            return HttpResponseBadRequest()
+                
+        # Fetch one, and only one document 
+        # d variable corresponding now to the geoNameId that is passed as parameter    
+        d = results.docs[0]
+        
+        # Fetch the data to variables, only to facilitate the access and to become the code easy to read. 
+        fcode = d['fcode_t'][0]
+        name = d['name_t'][0]
+        
+        try:
+            country = d['country_t'][0]
+        except:
+            pass
+        
+        try:
+            admin1 = d['admin1_t'][0]
+        except:
+            pass
+        
+        try:
+            admin2 = d['admin2_t'][0]
+        except:
+            pass
+        
+        try:
+            admin3 = d['admin3_t'][0]
+        except:
+            pass
+        
+        try:
+            admin4 = d['admin4_t'][0]
+        except:
+            pass
+
+    name = "Mundus"
     response_data = []
 
     if name == 'Earth':
         response_object = solr.search("fcode_t:CONT")
+        response_data = buildJson(response_object.docs,response_data)
+        
+    elif name == 'Mundus':
+        solr = ServiceSolr()
+        response_object = solr.search("fcode_t:PCLI")
         response_data = buildJson(response_object.docs,response_data)
 
     elif fcode == 'CONT':

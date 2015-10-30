@@ -107,6 +107,7 @@ TEMPLATE_LOADERS = (
 )
 
 MIDDLEWARE_CLASSES = (
+    'corsheaders.middleware.CorsMiddleware',
     'django.middleware.common.CommonMiddleware',
     'django.contrib.sessions.middleware.SessionMiddleware',
     'django.middleware.csrf.CsrfViewMiddleware',
@@ -138,7 +139,7 @@ INSTALLED_APPS = (
     'django.contrib.messages',
     'django.contrib.staticfiles',
     # Uncomment the next line to enable the admin:
-
+    'corsheaders',
     'geodatabase',
     # Uncomment the next line to enable admin documentation:
     # 'django.contrib.admindocs',
@@ -176,3 +177,7 @@ LOGGING = {
 SOLR_HOST = "solr"
 SOLR_PORT = "8983"
 SOLR_PATH = "/solr"
+
+
+
+CORS_ORIGIN_ALLOW_ALL = True

@@ -79,15 +79,8 @@ geoDropdown.prototype.geoReady = function(instance){
 	else
 	{
 		this.geoClick($("#africa"),instance);
-		this.geoClick($("#antarctica"),instance);
-		this.geoClick($("#asia"),instance);
-		this.geoClick($("#europe"),instance);
-		this.geoClick($("#north_america"), instance);
-		this.geoClick($("#oceania"), instance);
-		this.geoClick($("#south_america"), instance);
-		
+		this.geoClick($("#mundus"),instance);
 	}
-
 }
 
 // Request method
@@ -211,7 +204,6 @@ geoDropdown.prototype.geoClick = function(geo,instance,geonameid) {
 				url: 'http://bioinformatics.ua.pt/geodropdown/geodatabase/'+geonameid+'/',
 				success: function(response){
 					// build the required data
-					if(self.level!=-1 || self.continent!="default_continent" || self.names.length>=233) self.names = new Array;  
 					for(i=0;i<response.length;i++){
 						if(self.level==1 || (self.level==-1 && self.continent=="default_continent")) entry = { "name":response[i]['country'],"geonameId":response[i]['geonameid'] }
 						else entry = { "name":response[i]['name'],"geonameId":response[i]['geonameid'] }
@@ -221,7 +213,6 @@ geoDropdown.prototype.geoClick = function(geo,instance,geonameid) {
 					// init level
 					if(self.level==-1){
 						if(self.continent!="default_continent") self.level=0;
-						else if(self.names.length<233) return;
 						else self.level=1;
 					}
 
