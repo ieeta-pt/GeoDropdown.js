@@ -215,7 +215,8 @@ geoDropdown.prototype.geoClick = function(geo,instance,geonameid) {
 						else self.level=1;
 					}
 
-					// add the required data to 3D array	
+					// add the required data to 3D array
+					self.names = sorted(self.names,key=itemgetter('name'))	
 	                self.levels[self.level] = self.names;
 
 	                // Populate the fresh data
