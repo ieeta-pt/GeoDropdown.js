@@ -1,17 +1,15 @@
 solr:
     build: docker/solr
     hostname: solr
-    domainname: localdomain
     ports:
     - "8983:8983"
-    volumes:
 
 
 
 geodropdownservice:
+    build: bioinformaticsua/geodropdownservice
     ports:
-    - "8080:80"
-    
+    - "8886:80"
     
     links:
         - postgres:postgres

@@ -173,7 +173,6 @@ LOGGING = {
     }
 }
 
-
-SOLR_HOST = "hs"
+SOLR_HOST = "localhost"
 SOLR_PORT = "8983"
 SOLR_PATH = "/solr"
