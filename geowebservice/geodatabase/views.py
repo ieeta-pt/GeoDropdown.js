@@ -64,17 +64,17 @@ def detail(request, geonameid):
         pass
     
     try:
-        admin1 = d['admin2_t'][0]
+        admin2 = d['admin2_t'][0]
     except:
         pass
     
     try:
-        admin1 = d['admin3_t'][0]
+        admin3 = d['admin3_t'][0]
     except:
         pass
     
     try:
-        admin1 = d['admin4_t'][0]
+        admin4 = d['admin4_t'][0]
     except:
         pass
     
