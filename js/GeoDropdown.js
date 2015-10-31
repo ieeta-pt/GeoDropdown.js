@@ -217,9 +217,16 @@ geoDropdown.prototype.geoClick = function(geo,instance,geonameid) {
 
 			// order data
 			self.names.sort(function(a, b) {
-				if(a.name < b.name) return -1;
-				if(a.name > b.name) return 1;
-				return 0;
+				if(self.level==1 || (self.level==-1 && self.continent=="default_continent")){
+					if(getCountryName(a.name) < getCountryName(b.name)) return -1;
+					if(getCountryName(a.name) > getCountryName(b.name)) return 1;
+					return 0;	
+				}
+				else{
+					if(a.name < b.name) return -1;
+					if(a.name > b.name) return 1;
+					return 0;
+				}
 			});
 			
 			// add the required data to 3D array	
