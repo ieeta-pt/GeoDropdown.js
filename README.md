@@ -77,7 +77,7 @@ There are two databases to support the service: Geoname and Countryinfo. And the
 
 # Authors:
 
-- Leonardo Coelho
+- Leonardo Coelho - <leonardo.coelho@ua.pt>
 
 # Contributors
 - Renato Pinho 
