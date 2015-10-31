@@ -212,8 +212,15 @@ geoDropdown.prototype.geoClick = function(geo,instance,geonameid) {
 						if(self.continent!="default_continent") self.level=0;
 						else self.level=1;
 					}
-
-					// add the required data to 3D array	
+			
+			// order data
+			self.names.sort(function(a, b) {
+				if(a.name < b.name) return -1;
+				if(a.name > b.name) return 1;
+				return 0;
+			});
+			
+			// add the required data to 3D array	
 	                self.levels[self.level] = self.names;
 
 	                // Populate the fresh data
