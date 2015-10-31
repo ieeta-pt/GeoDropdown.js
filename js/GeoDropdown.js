@@ -167,13 +167,6 @@ geoDropdown.prototype.geoClick = function(geo,instance,geonameid) {
 							if(self.levels[i][0] == self.names[0]) { castView(self.level,self); return; }
 						}
 					}
-	               
-	               // order data
-			self.names.sort(function(a, b) {
-				if(a.name < b.name) return -1;
-				if(a.name > b.name) return 1;
-				return 0;
-			});
 			
 	                // add the required data to 3D array
 	                self.levels[self.level] = self.names;
@@ -222,7 +215,14 @@ geoDropdown.prototype.geoClick = function(geo,instance,geonameid) {
 						else self.level=1;
 					}
 
-					// add the required data to 3D array	
+			// order data
+			self.names.sort(function(a, b) {
+				if(a.name < b.name) return -1;
+				if(a.name > b.name) return 1;
+				return 0;
+			});
+			
+			// add the required data to 3D array	
 	                self.levels[self.level] = self.names;
 
 	                // Populate the fresh data
