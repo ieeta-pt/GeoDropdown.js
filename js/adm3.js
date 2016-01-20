@@ -49,7 +49,8 @@ function populateADM3(self,instanceLocal){
 			
 			// Server request with the selected data
 			self.level=5;
-			self.selectedADM3Text = self.levels[4][self.selectedADM3Index-1]['name'];
+			if(self.webservice=="childrenJSON") self.selectedADM3Text = self.levels[4][self.selectedADM3Index-1];
+			else self.selectedADM3Text = self.levels[4][self.selectedADM3Index-1]['name'];
 
 			instanceLocal.fire(
 				'changeVal', 
@@ -81,7 +82,17 @@ function populateADM3(self,instanceLocal){
 		self.level=5;
 		if(self.reach=="adm3") return;
 		
-		if(self.webservice=="childrenJSON") self.geoClick($('a:contains("'+self.selectedADM3Text.replace(/gcode/,'')+'")'),instanceLocal);
+		if(self.webservice=="childrenJSON"){
+			exists = false;
+			for(i=0;i<self.levels[self.level-1].length;i++){
+				clean = self.selectedADM3Text.replace(/gcode/,'');
+				if(beginsWith(clean,self.levels[self.level-1][i])){
+					exists = true;
+					self.geoClick($('a:contains("'+self.levels[self.level-1][i].replace(/gcode/,'')+'")'),instanceLocal);
+				}
+			}
+			if(!exists) self.geoClick($('a:contains("'+self.selectedADM3Text.replace(/gcode/,'')+'")'),instanceLocal);
+		}
 		else{
 			for(i=0;i<self.levels[self.level-1].length;i++){
 				if(self.levels[self.level-1][i]['name'] == self.selectedADM3Text)

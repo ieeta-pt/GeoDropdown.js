@@ -48,7 +48,9 @@ function populateADM1(self,instanceLocal){
 			
 			// Server request with the selected data
 			self.level=3;
-			self.selectedADM1Text = self.levels[2][self.selectedADM1Index-1]['name'];
+
+			if(self.webservice=="childrenJSON") self.selectedADM1Text = self.levels[2][self.selectedADM1Index-1];
+			else self.selectedADM1Text = self.levels[2][self.selectedADM1Index-1]['name'];
 
 			instanceLocal.fire(
 				'changeVal', 
@@ -56,7 +58,8 @@ function populateADM1(self,instanceLocal){
 			);
 			if(self.reach=="adm1") return;
 
-			if(self.webservice=="childrenJSON") self.geoClick($('a:contains("'+self.selectedADM1Text.replace(/gcode/,'')+'")'),instanceLocal);
+			if(self.webservice=="childrenJSON")
+				self.geoClick($('a:contains("'+self.selectedADM1Text.replace(/gcode/,'')+'")'),instanceLocal);
 			else{
 				for(i=0;i<self.levels[self.level-1].length;i++){
 					if(self.levels[self.level-1][i]['name'] == self.selectedADM1Text)
@@ -78,7 +81,18 @@ function populateADM1(self,instanceLocal){
 			// Server request with the selected data
 			self.level=3;
 			if(self.reach=="adm1") return;
-			if(self.webservice=="childrenJSON") self.geoClick($('a:contains("'+self.selectedADM1Text.replace(/gcode/,'')+'")'),instanceLocal);
+
+			if(self.webservice=="childrenJSON"){
+				exists = false;
+				for(i=0;i<self.levels[self.level-1].length;i++){
+					clean = self.selectedADM1Text.replace(/gcode/,'');
+					if(beginsWith(clean,self.levels[self.level-1][i])){
+						exists = true;
+						self.geoClick($('a:contains("'+self.levels[self.level-1][i].replace(/gcode/,'')+'")'),instanceLocal);
+					}
+				}
+				if(!exists) self.geoClick($('a:contains("'+self.selectedADM1Text.replace(/gcode/,'')+'")'),instanceLocal);
+			}
 			else{
 				for(i=0;i<self.levels[self.level-1].length;i++){
 					if(self.levels[self.level-1][i]['name'] == self.selectedADM1Text)

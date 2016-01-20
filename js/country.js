@@ -22,12 +22,6 @@ function populateCountries(self, instanceLocal){
 	}
 	else countryElement.options[0] = new Option('Select Country','');
 	countryElement.selectedIndex = 0;
-	
-	// Get all country names (not the official ones)
-	if(self.webservice=="childrenJSON"){
-		for(i=0,x=self.levels[1].length;i<x;i++) self.levels[1][i] = getCountryName(self.levels[1][i].substring(self.levels[1][i].length-2,self.levels[1][i].length))
-		self.levels[1] = $.unique(self.levels[1]).sort();
-	}
 
 	// Fill the dropdown
 	for(i=0,x=self.levels[1].length;i<x;i++){

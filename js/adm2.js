@@ -49,7 +49,8 @@ function populateADM2(self,instanceLocal){
 
 			// Server request with the selected data
 			self.level=4;
-			self.selectedADM2Text = self.levels[3][self.selectedADM2Index-1]['name'];
+			if(self.webservice=="childrenJSON") self.selectedADM2Text = self.levels[3][self.selectedADM2Index-1];
+			else self.selectedADM2Text = self.levels[3][self.selectedADM2Index-1]['name'];
 
 			instanceLocal.fire(
 				'changeVal', 
@@ -80,8 +81,18 @@ function populateADM2(self,instanceLocal){
 		// Server request with the selected data
 		self.level=4;
 		if(self.reach=="adm2") return;
-		
-		if(self.webservice=="childrenJSON")self.geoClick($('a:contains("'+self.selectedADM2Text.replace(/gcode/,'')+'")'),instanceLocal);
+
+		if(self.webservice=="childrenJSON"){
+			exists = false;
+			for(i=0;i<self.levels[self.level-1].length;i++){
+				clean = self.selectedADM2Text.replace(/gcode/,'');
+				if(beginsWith(clean,self.levels[self.level-1][i])){
+					exists = true;
+					self.geoClick($('a:contains("'+self.levels[self.level-1][i].replace(/gcode/,'')+'")'),instanceLocal);
+				}
+			}
+			if(!exists) self.geoClick($('a:contains("'+self.selectedADM2Text.replace(/gcode/,'')+'")'),instanceLocal);
+		}
 		else{
 				for(i=0;i<self.levels[self.level-1].length;i++){
 					if(self.levels[self.level-1][i]['name'] == self.selectedADM2Text)

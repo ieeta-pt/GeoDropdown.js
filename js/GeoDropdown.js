@@ -149,7 +149,17 @@ geoDropdown.prototype.geoClick = function(geo,instance,geonameid) {
 						// Stop if non ISO-3166 location
 						if(gcode=='') return; 
 
-	                    self.names.push(this.name+"gcode"+gcode);
+	                    if(self.level!=1){
+	                    	exists = false;
+	                    	for(i=0;i<self.level;i++){
+	                    		if($.inArray(this.name, self.levels[i])){
+	                    			exists = true;
+	                    			self.names.push(this.name+"gcode"+gcode);
+	                    		}
+	                    	}
+	                    	if(!exists) self.names.push(this.name);
+	                    }
+	                    else self.names.push(getCountryName(gcode));
 					});
 					
 					// append all countries
@@ -280,4 +290,8 @@ function castView(level,self){
 	if(self.level<5)	{ $("#"+self.adm3).hide(); self.selectedADM3Text=''; }
 	if(self.level<6)	{ $("#"+self.adm4).hide(); self.selectedADM4Text=''; }
 	if(self.level<7)	{ $("#"+self.adm5).hide(); self.selectedADM5Text=''; }
+}
+
+function beginsWith(needle, haystack){
+    return (haystack.substr(0, needle.length) == needle);
 }
