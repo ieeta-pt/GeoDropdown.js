@@ -62,7 +62,7 @@ You can consult a live example of the GeoDropdown library at http://bioinformati
 This page displays two Geodropdowns widgets, working simultaneously. One that does not aggregate continents-country and has adm5 as reach level, and other that aggregates and has adm1 as reach level.
 
 #Web Service 
-The web service is developed in Django, using a MySQL database. The web service functionality is pretty simple, when a geonameid is given to the service, it responds with a json containing all children of the desired location.
+The web service is developed in Django, using SOLR for data storage. The web service functionality is pretty simple, when a geonameid is given to the service, it responds with a json containing all children of the desired location.
 
 ###Example
 Portugal (wich is a country) geonameid is 2264397, so you can use the link /geodatabase/2264397 to get all ADM1 of Portugal. It will return a json like this:
@@ -72,12 +72,12 @@ Portugal (wich is a country) geonameid is 2264397, so you can use the link /geod
 ```
 
 # How to load data to the Web Service databases
-There are two databases to support the service: Geoname and Countryinfo. And there will also exists two csv files with the needed content: allCountries.txt and country.csv. To load the content into the databases just run the following script:
-
+To load all the required data, you will need two files from geonames: allCountries.txt and countryInfo.txt.
+You can find them here: [files link](http://download.geonames.org/export/dump/)
 
 # Authors:
 
-- Leonardo Coelho
+- Leonardo Coelho	- <leonardo.coelho@ua.pt>
 
 # Contributors
 - Renato Pinho 
@@ -86,5 +86,5 @@ There are two databases to support the service: Geoname and Countryinfo. And the
 
 # Mantainers 
 
-- Leonardo Coelho
+- Leonardo Coelho	- <leonardo.coelho@ua.pt>
 - Luis A. Bastião Silva -  <bastiao@ua.pt>
