@@ -237,24 +237,32 @@ geoDropdown.prototype.geoClick = function(geo,instance,geonameid) {
 				}
 			});
 			
-			// add the required data to 3D array	
-	                self.levels[self.level] = self.names;
-
-	                // Populate the fresh data
-	                switch(self.level)
-	                {
-	                    case 0: { populateContinents(self,instanceLocal); break; } 
-	                    case 1: { populateCountries(self,instanceLocal); break; }
-	                    case 2: { populateADM1(self,instanceLocal); break; }
-	                    case 3: { populateADM2(self,instanceLocal); break; }
-	                    case 4: { populateADM3(self,instanceLocal); break; }
-	                    case 5: { populateADM4(self,instanceLocal); break; }
-	                    case 6: { populateADM5(self,instanceLocal); break; }
-	                }
-	            },
-	            error: function() {
-	            	console.log("ERRO!!!");
-	            }
+			// add the required data to 3D array
+			var flags = {};
+			self.names = self.names.filter(function(entry) {
+			    if (flags[entry['name']]) {
+			        return false;
+			    }
+			    flags[entry['name']] = true;
+			    return true;
+			});
+            self.levels[self.level] = self.names;
+            
+            // Populate the fresh data
+            switch(self.level)
+            {
+                case 0: { populateContinents(self,instanceLocal); break; } 
+                case 1: { populateCountries(self,instanceLocal); break; }
+                case 2: { populateADM1(self,instanceLocal); break; }
+                case 3: { populateADM2(self,instanceLocal); break; }
+                case 4: { populateADM3(self,instanceLocal); break; }
+                case 5: { populateADM4(self,instanceLocal); break; }
+                case 6: { populateADM5(self,instanceLocal); break; }
+            }
+	        },
+	        error: function() {
+	        	console.log("ERRO!!!");
+	        }
 		});
 	}
 }

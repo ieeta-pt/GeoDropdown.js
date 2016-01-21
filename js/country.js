@@ -52,7 +52,7 @@ function populateCountries(self, instanceLocal){
 			);
 			if(self.reach=="country") return;
 
-			if(self.webservice=="childrenJSON") /*if(self.selectedCountryText != 'AD')*/ self.geoClick($('a:contains("'+self.selectedCountryText+'")'),instanceLocal);
+			if(self.webservice=="childrenJSON") self.geoClick($('a:contains("'+self.selectedCountryText+'")'),instanceLocal);
 			else{
 				for(i=0;i<self.levels[self.level-1].length;i++){
 					if(self.levels[self.level-1][i]['name'] == self.selectedCountryText)
@@ -73,7 +73,7 @@ function populateCountries(self, instanceLocal){
 			// Server request with the selected data
 			self.level=2;
 			if(self.reach=="country") return;
-			if(self.webservice=="childrenJSON") /*if(self.selectedCountryText != 'AD')*/ self.geoClick($('a:contains("'+self.selectedCountryText+'")'),instanceLocal);
+			if(self.webservice=="childrenJSON") self.geoClick($('a:contains("'+self.selectedCountryText+'")'),instanceLocal);
 			else{
 				for(i=0;i<self.levels[self.level-1].length;i++){
 					if(self.levels[self.level-1][i]['name'] == self.selectedCountryText)

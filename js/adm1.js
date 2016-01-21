@@ -13,7 +13,6 @@ function populateADM1(self,instanceLocal){
 	adm1Element.length=1;
 	// init adm1 dropdown list
 	if(self.selectedADM1Index < 0){
-		
 		if(self.answer!=undefined && JSON.parse(self.answer)[0]['adm1'] && self.selectedADM1Index==-2){
 			adm1Element.options[0] = new Option(stripGCode(JSON.parse(self.answer)[0]['adm1']),'');
 			self.selectedADM1Text = JSON.parse(self.answer)[0]['adm1'];
