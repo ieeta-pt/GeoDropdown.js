@@ -84,7 +84,9 @@ Now, you need to have data related to all locations around the world
 # How to load data to the Web Service databases
 To load all the required data, you will need two files from geonames: allCountries.txt and countryInfo.txt.
 You can find them here: [files link](http://download.geonames.org/export/dump/)
+
 The next step is to give the location of those files to the webservice. So you need to change the paths in geowebservice/geodatabase/services.py file, lines 178 and 179.
+
 Now you are prepared to load all locations, simply execute python services.py in console.
 
 # Authors:
