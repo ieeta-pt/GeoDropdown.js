@@ -46,6 +46,8 @@ Here are some examples:
 **Note that:**It is also possible to define a delete button with the clean identifier.And, you can define a answer with the answer identifier. If the answer identifier was defined, that value will be loaded when the geodropdown object starts.
 
     <geo-dropdown clean="del_button" answer="[{continent:'Europe',country:'Portugal'}]"></geo-dropdown>
+    
+**Note that:**There is also a files called url, where you can define the url to the server where are the locations information
 
 By default:
 * country="default_country"
