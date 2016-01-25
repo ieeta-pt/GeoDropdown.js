@@ -71,9 +71,23 @@ Portugal (wich is a country) geonameid is 2264397, so you can use the link /geod
 [{"geonameid": 2262961, "fcode": "ADM1", "name": "Distrito de Set\u00c3\u00babal", "adm1": 19}, {"geonameid": 2263478, "fcode": "ADM1", "name": "Distrito de Santar\u00c3\u00a9m", "adm1": 18}, {"geonameid": 2264507, "fcode": "ADM1", "name": "Distrito de Portalegre", "adm1": 16}, {"geonameid": 2267056, "fcode": "ADM1", "name": "Distrito de Lisboa", "adm1": 14}, {"geonameid": 2267094, "fcode": "ADM1", "name": "Distrito de Leiria", "adm1": 13}, {"geonameid": 2268337, "fcode": "ADM1", "name": "Distrito de Faro", "adm1": 9}, {"geonameid": 2268404, "fcode": "ADM1", "name": "Distrito de \u00c3\u2030vora", "adm1": 8}, {"geonameid": 2269513, "fcode": "ADM1", "name": "Distrito de Castelo Branco", "adm1": 6}, {"geonameid": 2270984, "fcode": "ADM1", "name": "Distrito de Beja", "adm1": 3}, {"geonameid": 2593105, "fcode": "ADM1", "name": "Madeira", "adm1": 10}, {"geonameid": 2732264, "fcode": "ADM1", "name": "Distrito de Viseu", "adm1": 22}, {"geonameid": 2732437, "fcode": "ADM1", "name": "Distrito de Vila Real", "adm1": 21}, {"geonameid": 2732772, "fcode": "ADM1", "name": "Distrito de Viana do Castelo", "adm1": 20}, {"geonameid": 2735941, "fcode": "ADM1", "name": "Distrito do Porto", "adm1": 17}, {"geonameid": 2738782, "fcode": "ADM1", "name": "Distrito da Guarda", "adm1": 11}, {"geonameid": 2740636, "fcode": "ADM1", "name": "Distrito de Coimbra", "adm1": 7}, {"geonameid": 2742026, "fcode": "ADM1", "name": "Distrito de Bragan\u00c3\u00a7a", "adm1": 5}, {"geonameid": 2742031, "fcode": "ADM1", "name": "Distrito de Braga", "adm1": 4}, {"geonameid": 2742610, "fcode": "ADM1", "name": "Distrito de Aveiro", "adm1": 2}]
 ```
 
+# Server Side:
+# How to make it run
+There is a docker file to run this application. Therefore, if you want to run geodropdown, just go to geowebservice folder and run the following commands:
+```
+sh build.sh
+docker-compose up
+```
+
+Now, you need to have data related to all locations around the world
+
 # How to load data to the Web Service databases
 To load all the required data, you will need two files from geonames: allCountries.txt and countryInfo.txt.
 You can find them here: [files link](http://download.geonames.org/export/dump/)
+
+The next step is to give the location of those files to the webservice. So you need to change the paths in geowebservice/geodatabase/services.py file, lines 178 and 179.
+
+Now you are prepared to load all locations, simply execute python services.py in console.
 
 # Authors:
 
