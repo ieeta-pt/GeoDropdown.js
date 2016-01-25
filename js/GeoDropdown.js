@@ -82,7 +82,7 @@ geoDropdown.prototype.geoReady = function(instance){
 // Request method
 geoDropdown.prototype.geoClick = function(geo,instance,geonameid) {
 	var self = this;
-	//if(geo!=undefined) this.geoParent = geo.parent();
+	
 	if(geo!=undefined)
 		this.geoParent = geo.parent().first();
 	 
@@ -207,7 +207,7 @@ geoDropdown.prototype.geoClick = function(geo,instance,geonameid) {
 	else{
 		if(geonameid == undefined) geonameid = geo.attr("gid");
 		$.ajax({ 
-				url: 'http://bioinformatics.ua.pt/geodropdown/geodatabase/'+geonameid+'/',
+				url: self.url+geonameid+'/',
 				success: function(response){
 					// build the required data
 					if(self.level!=-1 || self.continent!="default_continent" || self.names.length>=165) self.names = new Array;  
@@ -236,8 +236,8 @@ geoDropdown.prototype.geoClick = function(geo,instance,geonameid) {
 					return 0;
 				}
 			});
-			
-			// add the required data to 3D array
+
+			// remove duplicates
 			var flags = {};
 			self.names = self.names.filter(function(entry) {
 			    if (flags[entry['name']]) {
@@ -246,7 +246,10 @@ geoDropdown.prototype.geoClick = function(geo,instance,geonameid) {
 			    flags[entry['name']] = true;
 			    return true;
 			});
+			
+			// add the required data to 3D array
             self.levels[self.level] = self.names;
+            if(self.names.length==0) return;
             
             // Populate the fresh data
             switch(self.level)

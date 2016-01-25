@@ -29,17 +29,17 @@
 
     <div class="example">
        <!-- all identifiers defined (no aggregation) -->
-      <p>Example1 (no aggregation, reach level adm5):</p> <geo-dropdown id="ex1" continent="ex1_a" country="ex1_b" adm1="ex1_c" adm2="ex1_d" adm3="ex1_e" adm4="ex1_f" adm5="ex1_g"></geo-dropdown>
+      <p>Example1 (no aggregation, reach level adm5):</p> <geo-dropdown id="ex1" continent="ex1_a" country="ex1_b" adm1="ex1_c" adm2="ex1_d" adm3="ex1_e" adm4="ex1_f" adm5="ex1_g" webservice="childrenJSON" answer='[{"continent":"Europe","country":"France","adm1":"Île-de-France","adm2":"Paris","adm3":"Paris","adm4":"Paris","adm5":"Paris 01"}]'></geo-dropdown>
     </div>
    
     <div class="example">
       <!-- all identifiers by default (aggregation) -->
-      <p>Example2 (aggregation, reach level adm1):</p> <geo-dropdown id="ex2" reach="adm1"></geo-dropdown>
+      <p>Example2 (aggregation, reach level adm1):</p> <geo-dropdown url='http://bioinformatics.ua.pt/geodropdown/geodatabase/' d="ex2" reach="adm1"></geo-dropdown>
     </div>
 
     <div class="example">
       <!-- all identifiers by default (aggregation) -->
-      <p>Example3 (no aggregation, reach level adm5, has answer):</p> <geo-dropdown id="ex3" continent="ex3_a" country = "ex3_b" adm1="ex3_c" adm2="ex3_d" adm3="ex3_e" adm4="ex3_f" adm5="ex3_g" answer='[{"continent":"Europe","country":"France","adm1":"Île-de-France","adm2":"Paris","adm3":"Paris","adm4":"Paris","adm5":"Paris 01"}]'></geo-dropdown>
+      <p>Example3 (no aggregation, reach level adm5, has answer):</p> <geo-dropdown url='http://bioinformatics.ua.pt/geodropdown/geodatabase/' id="ex3" continent="ex3_a" country = "ex3_b" adm1="ex3_c" adm2="ex3_d" adm3="ex3_e" adm4="ex3_f" adm5="ex3_g" answer='[{"continent":"Europe","country":"France","adm1":"Île-de-France","adm2":"Paris","adm3":"Paris","adm4":"Paris","adm5":"Paris 01"}]'></geo-dropdown>
     </div>
 
 
