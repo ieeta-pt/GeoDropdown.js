@@ -169,3 +169,30 @@ def addEntry(geoname,response_data):
         pass
     
     return [response]
+
+"""
+Get coordinates by location name and fcode
+"""
+def getCoordinates(request,name,fcode):
+    response_data = []
+    if name == 'Earth':
+        response_data = []
+        return HttpResponse(json.dumps(response_data),content_type="application/json")
+
+    if fcode == 'PCLI':
+        geonameid = Countryinfo.objects.get(name=name).geonameId
+        solr = ServiceSolr()
+        response_object = solr.search("geonameId_t:"+geonameId)
+        response_data = buildCoordinates(response_object.docs,response_data)
+        return HttpResponse(json.dumps(response_data),content_type="application/json")
+    
+    solr = ServiceSolr()
+    response_object = solr.search("fcode_t:"+fcode+" AND name_t:"+name)
+    response_data = buildCoordinates(response_object.docs,response_data)
+    return HttpResponse(json.dumps(response_data),content_type="application/json")
+
+"""
+Build a list with latitude and longitude of the location
+"""
+def buildCoordinates(response_object,response_data):
+    return [ response_object['latitude_f'], response_object['longitude_f'] ]
