@@ -98,7 +98,7 @@ class ServiceSolr(object):
             list_docs_to_commit = []
             i = 0 
             for row in spamreader:
-                if not (row[1]=='Earth' or row[7] == 'CONT' or row[7] == 'PCLI' or row[7] == 'ADM1' or  row[7] == 'ADM2' or  row[7] == 'ADM3' or  row[7] == 'ADM4'): 
+                if not (row[1]=='Earth' or row[7] == 'CONT' or row[7] == 'PCLI' or row[7] == 'ISLS' or row[7] == 'ADM1' or  row[7] == 'ADM2' or  row[7] == 'ADM3' or  row[7] == 'ADM4'): 
                     continue
                 i = i + 1
                 d = {}

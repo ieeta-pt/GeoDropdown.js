@@ -118,9 +118,9 @@ def detail(request, geonameid):
 
     elif fcode == 'PCLI':
         #response_object = Geoname.objects.filter(country=location[0].country,fcode='ADM1')
-        response_object = solr.search("country_t:"+country+" AND fcode_t:ADM1")
+        response_object = solr.search("country_t:"+country+" AND (fcode_t:ADM1 OR fcode_t:ISLS)")
         response_data = buildJson(response_object.docs,response_data)
-    elif fcode == 'ADM1':
+    elif fcode == 'ADM1' or fcode == 'ISLS':
         response_object = solr.search("country_t:"+country+" AND admin1_t:"+admin1+" AND fcode_t:ADM2")
         #response_object = Geoname.objects.filter(country=location[0].country,admin1=location[0].admin1,fcode='ADM2')
         response_data=buildJson(response_object.docs,response_data)
