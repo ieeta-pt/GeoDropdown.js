@@ -50,31 +50,31 @@ def detail(request, geonameid):
         d = results.docs[0]
         
         # Fetch the data to variables, only to facilitate the access and to become the code easy to read. 
-        fcode = d['fcode_t'][0]
-        name = d['name_t'][0]
+        fcode = d['fcode_t']
+        name = d['name_t']
         
         try:
-            country = d['country_t'][0]
+            country = d['country_t']
         except:
             pass
         
         try:
-            admin1 = d['admin1_t'][0]
+            admin1 = d['admin1_t']
         except:
             pass
         
         try:
-            admin2 = d['admin2_t'][0]
+            admin2 = d['admin2_t']
         except:
             pass
         
         try:
-            admin3 = d['admin3_t'][0]
+            admin3 = d['admin3_t']
         except:
             pass
         
         try:
-            admin4 = d['admin4_t'][0]
+            admin4 = d['admin4_t']
         except:
             pass
     else:
@@ -156,7 +156,7 @@ Handles a GeoName entry
 def addEntry(geoname,response_data):    
     response = {}    
     print(geoname)
-    response['geonameid'] = int(geoname['geonameId_t'][0])
+    response['geonameid'] = int(geoname['geonameId_t'])
     response['name'] = geoname['name_t']
     response['fcode'] = geoname['fcode_t']
     try:
@@ -173,23 +173,25 @@ def addEntry(geoname,response_data):
 """
 Get coordinates by location name and fcode
 """
-def getCoordinates(request,name,fcode):
-    response_data = []
-    if name == 'Earth':
-        response_data = []
-        return HttpResponse(json.dumps(response_data),content_type="application/json")
+def getCoordinates(request,location):
+    if location == '' or location == None:
+        return HttpResponse(json.dumps([]),content_type="application/json")
 
-    if fcode == 'PCLI':
-        geonameid = Countryinfo.objects.get(name=name).geonameId
-        solr = ServiceSolr()
-        response_object = solr.search("geonameId_t:"+geonameId)
-        response_data = buildCoordinates(response_object.docs,response_data)
-        return HttpResponse(json.dumps(response_data),content_type="application/json")
+    location = location.strip().split(',')
+    levels = [ 'PCLI', 'ADM1', 'ADM2', 'ADM3', 'ADM4', 'ADM5' ]
+    fcode = levels[len(location)-1]
+    name = location[0]
     
-    solr = ServiceSolr()
-    response_object = solr.search("fcode_t:"+fcode+" AND name_t:"+name)
-    response_data = buildCoordinates(response_object.docs,response_data)
-    return HttpResponse(json.dumps(response_data),content_type="application/json")
+    try:
+        solr = ServiceSolr()
+        response_object = solr.search("fcode_t:"+fcode+" AND name_t:"+name)
+        if fcode == 'ADM1' and response_object.hits == 0:
+            response_object = solr.search("fcode_t:ISLS AND name_t:"+name)
+        response_object = response_object.docs[0]
+        response_data = buildCoordinates(response_object,[])
+        return HttpResponse(json.dumps(response_data),content_type="application/json")
+    except:
+        return HttpResponse(json.dumps([]),content_type="application/json")
 
 """
 Build a list with latitude and longitude of the location

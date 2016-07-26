@@ -66,11 +66,11 @@ class ServiceSolr(object):
         try:
             self.__fetch_initial_settings()
         except:
-            self.SOLR_HOST = host
-            self.SOLR_PORT = port
-            self.SOLR_PATH = path
-            
-        self.solr = pysolr.Solr('http://' +self.SOLR_HOST+ ':'+ self.SOLR_PORT+self.SOLR_PATH+'/'+core, timeout=timeout)
+            self.SOLR_HOST = "localhost"
+            self.SOLR_PORT = "8983"
+            self.SOLR_PATH = "/solr"
+
+        self.solr = pysolr.Solr('http://' +self.SOLR_HOST+ ':'+ self.SOLR_PORT+self.SOLR_PATH+'/', timeout=timeout)
         logger.info("Connected to Solr")   
         
     def load_contry_info(self, countryFile="country.csv"):
@@ -97,12 +97,13 @@ class ServiceSolr(object):
             spamreader = UnicodeReader(csvfile, delimiter='\t', quotechar='|')
             list_docs_to_commit = []
             i = 0 
+
             for row in spamreader:
                 if not (row[1]=='Earth' or row[7] == 'CONT' or row[7] == 'PCLI' or row[7] == 'ISLS' or row[7] == 'ADM1' or  row[7] == 'ADM2' or  row[7] == 'ADM3' or  row[7] == 'ADM4'): 
                     continue
                 i = i + 1
                 d = {}
-                
+                d['id'] = i
                 d['geonameId_t'] = row[0]
                 print(row[0])
                 d['name_t'] = row[1]
@@ -129,7 +130,7 @@ class ServiceSolr(object):
                 if row[0] in self.contryInfo:
                     d['continent_t'] = self.contryInfo[row[0]]['continent']
                     d['name_t'] = self.contryInfo[row[0]]['name']
-                    
+
                 #print(d)
                 d = dict(d.items())
                 list_docs_to_commit.append(d)
@@ -170,10 +171,8 @@ class ServiceSolr(object):
     
 def main():
     s = ServiceSolr()
-    allCountriesFile = '/home/sysadmin/Downloads/allCountries.txt'
-    allCountriesFile = '/Users/bastiao/Downloads/allCountries.txt'
-    countryFile = '/home/sysadmin/GeoDropdown.js/geowebservice/country.csv'
-    countryFile = '/Users/bastiao/GeoDropdown.js/geowebservice/country.csv'
+    allCountriesFile = '/home/leonardo/Área de Trabalho/geonames_files/allCountries.txt'
+    countryFile = '/home/leonardo/Área de Trabalho/geonames_files/country.csv'
     print(allCountriesFile)
     s.load_contry_info(countryFile)
     s.load_initial_data(allCountriesFile)
