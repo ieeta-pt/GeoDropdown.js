@@ -14,7 +14,7 @@ urlpatterns = patterns('',
     url(r'^geodatabase/(?P<geonameid>\d+)/$', 'geodatabase.views.detail'),
 
     # get coordinates by name and fcode
-    url(r'^geodatabase/(?P<location>[a-zA-Z,]+)/$', 'geodatabase.views.getCoordinates'),
+    url(r'^geodatabase/(?P<location>[a-zA-Z, ]+)/$', 'geodatabase.views.getCoordinates'),
 
     # Uncomment the admin/doc line below to enable admin documentation:
     # url(r'^admin/doc/', include('django.contrib.admindocs.urls')),
