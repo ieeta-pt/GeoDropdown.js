@@ -95,7 +95,7 @@ function populateADM3(self,instanceLocal){
 		}
 		else{
 			for(i=0;i<self.levels[self.level-1].length;i++){
-				if(self.levels[self.level-1][i]['name'] == self.selectedADM3Text)
+				if(self.levels[self.level-1][i]['name'] == stripGCode(self.selectedADM3Text))
 					self.geoClick(undefined,instanceLocal,self.levels[self.level-1][i]['geonameId']);
 			}
 		}
