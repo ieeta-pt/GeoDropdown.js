@@ -48,7 +48,7 @@ Search service, that contains all the information about contries.
 It also has methods to load the initial data and to update them 
 """
 class ServiceSolr(object):
-    CONNECTION_TIMEOUT_DEFAULT = 10000000
+    CONNECTION_TIMEOUT_DEFAULT = 99000000
     
     def __fetch_initial_settings(self):
         try:
@@ -60,7 +60,7 @@ class ServiceSolr(object):
             # Maybe should load default settings here? 
             logger.error("It is not running in Django enviroment")
             raise 
-    def __init__(self, host="biodatacenter.ieeta.pt", port="7811", path="/solr", timeout=CONNECTION_TIMEOUT_DEFAULT, core="geonames"):
+    def __init__(self, host="solr", port="8983", path="/solr", timeout=CONNECTION_TIMEOUT_DEFAULT, core="geonames"):
         # Setup a Solr instance. The timeout is optional.
         logger.info("Initial Solr Service")
         try:
@@ -170,10 +170,10 @@ class ServiceSolr(object):
     
 def main():
     s = ServiceSolr()
-    allCountriesFile = '/home/sysadmin/Downloads/allCountries.txt'
-    allCountriesFile = '/Users/bastiao/Downloads/allCountries.txt'
-    countryFile = '/home/sysadmin/GeoDropdown.js/geowebservice/country.csv'
-    countryFile = '/Users/bastiao/GeoDropdown.js/geowebservice/country.csv'
+    allCountriesFile = '/opt/django/app/allCountries.txt'
+    allCountriesFile = '../allCountries.txt'
+    countryFile = '/opt/django/app/country.csv'
+    countryFile = '../country.csv'
     print(allCountriesFile)
     s.load_contry_info(countryFile)
     s.load_initial_data(allCountriesFile)
