@@ -10,7 +10,7 @@ services:
     build:
       context: .
     ports:
-      - "8886:80"
+      - "8886:8000"
     volumes:
       - .:/opt/django/app
     depends_on:

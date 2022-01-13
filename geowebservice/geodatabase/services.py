@@ -16,14 +16,11 @@
 """A module to index 
 .. moduleauthor:: Luís A. Bastião Silva <bastiao@ua.pt>
 """
-
-from __future__ import print_function
+import csv
 import logging
 
 import pysolr
 from django.conf import settings
-
-from geodatabase.utils import UnicodeReader
 
 logger = logging.getLogger()
 logging.basicConfig(level=logging.DEBUG)
@@ -53,7 +50,7 @@ class ServiceSolr(object):
 
     def load_country_info(self, countryFile):
         with open(countryFile, "rU") as ifile:
-            reader = UnicodeReader(ifile, delimiter='\t', )
+            reader = csv.reader(ifile, delimiter="\t")
 
             self.countryInfo = {row[11]: {'continent': row[8], 'name': row[4]} for row in reader}
 
@@ -61,7 +58,7 @@ class ServiceSolr(object):
         logger.info("Load initial data to Solr")
 
         with open(allCountriesFile) as csvfile:
-            spamreader = UnicodeReader(csvfile, delimiter='\t', quotechar='|')
+            spamreader = csv.reader(csvfile, delimiter='\t', quotechar='|')
             list_docs_to_commit = []
             i = 0
 

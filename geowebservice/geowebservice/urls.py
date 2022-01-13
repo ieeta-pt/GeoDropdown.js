@@ -1,11 +1,10 @@
-from django.conf.urls import patterns, url
+from django.urls import re_path
+from geodatabase import views
 
-urlpatterns = patterns(
-    "",
-
+urlpatterns = [
     # get child locations by geonameid
-    url(r'^geodatabase/(?P<geonameid>\d+)/$', 'geodatabase.views.detail'),
+    re_path(r"^geodatabase/(?P<geonameid>\d+)/$", views.detail),
 
     # get coordinates by name and fcode
-    url(r'^geodatabase/(?P<location>[a-zA-Z, ]+)/$', 'geodatabase.views.getCoordinates'),
-)
+    re_path(r"^geodatabase/(?P<location>[a-zA-Z, ]+)/$", views.getCoordinates),
+]

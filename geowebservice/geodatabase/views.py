@@ -144,20 +144,15 @@ def detail(request, geonameid):
 def buildJson(response_object, response_data):
     """ Builds the answer with multiples geonames entries"""
     for i in range(0, len(response_object) - 1):
-        print(response_object[i])
-        response_data = response_data + addEntry(response_object[i], response_data)
+        response_data = response_data + addEntry(response_object[i])
     return response_data
 
 
-def addEntry(geoname, response_data):
+def addEntry(geoname):
     """
     Handles a GeoName entry
     """
-    response = {}
-    print(geoname)
-    response['geonameid'] = int(geoname['geonameId_t'])
-    response['name'] = geoname['name_t']
-    response['fcode'] = geoname['fcode_t']
+    response = {'geonameid': int(geoname['geonameId_t']), 'name': geoname['name_t'], 'fcode': geoname['fcode_t']}
     try:
         response['country'] = geoname['country_t']
         response['adm1'] = geoname['admin1_t']
@@ -188,13 +183,13 @@ def getCoordinates(request, location):
         if fcode == 'ADM1' and response_object.hits == 0:
             response_object = solr.search("fcode_t:ISLS AND name_t:" + name)
         response_object = response_object.docs[0]
-        response_data = buildCoordinates(response_object, [])
+        response_data = buildCoordinates(response_object)
         return HttpResponse(json.dumps(response_data), content_type="application/json")
     except:
         return HttpResponse(json.dumps([]), content_type="application/json")
 
 
-def buildCoordinates(response_object, response_data):
+def buildCoordinates(response_object):
     """
     Build a list with latitude and longitude of the location
     """
