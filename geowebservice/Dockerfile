@@ -1,12 +1,11 @@
-FROM debian:jessie
+FROM debian:stretch
 MAINTAINER Matt Bentley <mbentley@mbentley.net>
 
-RUN (apt-get update && DEBIAN_FRONTEND=noninteractive apt-get install -y build-essential git python python-dev python-setuptools nginx sqlite3 supervisor)
-RUN (easy_install pip &&\
-  pip install uwsgi)
+RUN apt update && \
+    DEBIAN_FRONTEND=noninteractive apt install -y build-essential python python-dev python-setuptools nginx sqlite3 supervisor python-pip
 
 ADD requirements.txt /opt/django/app/requirements.txt
-RUN pip install -r /opt/django/app/requirements.txt
+RUN pip install -r /opt/django/app/requirements.txt && pip install uwsgi
 ADD . /opt/django/
 
 RUN (echo "daemon off;" >> /etc/nginx/nginx.conf &&\

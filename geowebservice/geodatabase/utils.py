@@ -15,28 +15,38 @@
 # along with this program.  If not, see <http://www.gnu.org/licenses/>.
 
 # From http://stackoverflow.com/questions/17245415/read-and-write-csv-files-including-unicode-with-python-2-7
-import csv,codecs,cStringIO
+import cStringIO
+import codecs
+import csv
+
 
 class UTF8Recoder:
     def __init__(self, f, encoding):
         self.reader = codecs.getreader(encoding)(f)
+
     def __iter__(self):
         return self
+
     def next(self):
         return self.reader.next().encode("utf-8")
+
 
 class UnicodeReader:
     def __init__(self, f, dialect=csv.excel, encoding="utf-8-sig", **kwds):
         f = UTF8Recoder(f, encoding)
         self.reader = csv.reader(f, dialect=dialect, **kwds)
+
     def next(self):
-        '''next() -> unicode
+        """
+        next() -> unicode
         This function reads and returns the next line as a Unicode string.
-        '''
+        """
         row = self.reader.next()
         return [unicode(s, "utf-8") for s in row]
+
     def __iter__(self):
         return self
+
 
 class UnicodeWriter:
     def __init__(self, f, dialect=csv.excel, encoding="utf-8-sig", **kwds):
@@ -44,10 +54,12 @@ class UnicodeWriter:
         self.writer = csv.writer(self.queue, dialect=dialect, **kwds)
         self.stream = f
         self.encoder = codecs.getincrementalencoder(encoding)()
+
     def writerow(self, row):
-        '''writerow(unicode) -> None
+        """
+        writerow(unicode) -> None
         This function takes a Unicode string and encodes it to the output.
-        '''
+        """
         self.writer.writerow([s.encode("utf-8") for s in row])
         data = self.queue.getvalue()
         data = data.decode("utf-8")

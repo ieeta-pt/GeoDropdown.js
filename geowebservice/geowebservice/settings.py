@@ -8,20 +8,6 @@ ADMINS = (
 
 MANAGERS = ADMINS
 
-
-
-
-DATABASES = {
-    'default': {
-        'ENGINE': 'django.db.backends.mysql',
-        'NAME': 'geonames',
-        'USER': 'root',
-        'PASSWORD': 'root',
-        'HOST': 'hs',
-        'PORT': '3306',
-    }
-}
-
 DATABASES = {
     'default' : {
         'ENGINE' :'django.db.backends.sqlite3',
@@ -29,11 +15,6 @@ DATABASES = {
     }
 }
 
-TEMPLATE_LOADERS = (
-    'django.template.loaders.filesystem.Loader',
-    'django.template.loaders.app_directories.Loader',
-    #     'django.template.loaders.eggs.Loader',
-)
 
 # Hosts/domain names that are valid for this site; required if DEBUG is False
 # See https://docs.djangoproject.com/en/1.4/ref/settings/#allowed-hosts
@@ -103,7 +84,6 @@ SECRET_KEY = '%suk*!m42-@mw+)))6%g6u=dpwseyxew&amp;zij619qovu&amp;=#4yk#'
 TEMPLATE_LOADERS = (
     'django.template.loaders.filesystem.Loader',
     'django.template.loaders.app_directories.Loader',
-#     'django.template.loaders.eggs.Loader',
 )
 
 MIDDLEWARE_CLASSES = (
@@ -129,20 +109,15 @@ TEMPLATE_DIRS = (
 )
 
 INSTALLED_APPS = (
-
-    'django.contrib.admin',
-
     'django.contrib.auth',
     'django.contrib.contenttypes',
     'django.contrib.sessions',
     'django.contrib.sites',
     'django.contrib.messages',
     'django.contrib.staticfiles',
-    # Uncomment the next line to enable the admin:
+
     'corsheaders',
     'geodatabase',
-    # Uncomment the next line to enable admin documentation:
-    # 'django.contrib.admindocs',
 )
 
 # A sample logging configuration. The only tangible logging
@@ -174,10 +149,8 @@ LOGGING = {
     }
 }
 
-SOLR_HOST = "localhost"
+SOLR_HOST = "solr"
 SOLR_PORT = "8983"
-SOLR_PATH = "/solr"
-
-
+SOLR_CORE = "geonames"
 
 CORS_ORIGIN_ALLOW_ALL = True
