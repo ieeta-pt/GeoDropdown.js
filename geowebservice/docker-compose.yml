@@ -3,6 +3,8 @@ version: "3"
 services:
   solr:
     image: solr:5.5.3
+    volumes:
+      - geodata:/opt/solr/server/solr
 
   geodropdownservice:
     build:
@@ -11,3 +13,6 @@ services:
       - "8886:8000"
     depends_on:
       - solr
+
+volumes:
+  geodata:
