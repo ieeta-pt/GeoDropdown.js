@@ -3,15 +3,11 @@ version: "3"
 services:
   solr:
     image: solr:5.5.3
-    ports:
-      - 8983:8983
 
   geodropdownservice:
     build:
       context: .
     ports:
       - "8886:8000"
-    volumes:
-      - .:/opt/django/app
     depends_on:
       - solr

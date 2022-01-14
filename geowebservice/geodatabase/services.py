@@ -39,16 +39,14 @@ class ServiceSolr(object):
         logger.info("Initial Solr Service")
 
         self.solr = pysolr.Solr(
-            'http://{}:{}/solr/{}/'.format(
-                settings.SOLR_HOST,
-                settings.SOLR_PORT,
-                settings.SOLR_CORE,
-            ),
+            f"http://{settings.SOLR_HOST}:{settings.SOLR_PORT}/solr/{settings.SOLR_CORE}/",
             timeout=self.CONNECTION_TIMEOUT_DEFAULT,
         )
         logger.info("Connected to Solr")
 
     def load_country_info(self, countryFile):
+        logger.info("Loading country info")
+
         with open(countryFile, "rU") as ifile:
             reader = csv.reader(ifile, delimiter="\t")
 
@@ -63,8 +61,7 @@ class ServiceSolr(object):
             i = 0
 
             for row in spamreader:
-                if not (row[1] == 'Earth' or row[7] == 'CONT' or row[7] == 'PCLI' or row[7] == 'ISLS' or
-                        row[7] == 'ADM1' or row[7] == 'ADM2' or row[7] == 'ADM3' or row[7] == 'ADM4'):
+                if not (row[1] == 'Earth' or row[7] == 'CONT' or row[7] == 'PCLI' or row[7] == 'ISLS' or row[7] == 'ADM1' or row[7] == 'ADM2' or row[7] == 'ADM3' or row[7] == 'ADM4'):
                     continue
                 i = i + 1
                 d = {'id': i, 'geonameId_t': row[0], 'name_t': row[1], 'asciiname_t': row[2],
@@ -78,7 +75,6 @@ class ServiceSolr(object):
                     d['continent_t'] = self.countryInfo[row[0]]['continent']
                     d['name_t'] = self.countryInfo[row[0]]['name']
 
-                d = dict(d.items())
                 list_docs_to_commit.append(d)
                 if i % 60000 == 0:
                     self.solr.add(list_docs_to_commit)

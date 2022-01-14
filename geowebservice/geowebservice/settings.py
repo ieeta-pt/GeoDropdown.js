@@ -1,5 +1,5 @@
 # Django settings for geowebservice project.
-
+import os
 from pathlib import Path
 
 # Build paths inside the project like this: BASE_DIR / "subdir".
@@ -136,8 +136,9 @@ LOGGING = {
     }
 }
 
-SOLR_HOST = "solr"
-SOLR_PORT = "8983"
-SOLR_CORE = "geonames"
+
+SOLR_HOST = os.environ.get("SOLR_HOST", "solr")
+SOLR_PORT = os.environ.get("SOLR_PORT", "8983")
+SOLR_CORE = os.environ.get("SOLR_CORE", "geonames")
 
 CORS_ORIGIN_ALLOW_ALL = True

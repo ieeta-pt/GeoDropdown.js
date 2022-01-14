@@ -36,10 +36,10 @@ def detail(request, geonameid):
     it will analyse what type of location that it handles and then returns
     the proper locations according to the hierarchy.
     """
+    solr = ServiceSolr()
 
     # TODO: validate geonameid properly.
     if geonameid != "0":
-        solr = ServiceSolr()
         results = solr.geonameId(geonameid)
 
         # Check it, if no results in the geonames database, it returns an error 
@@ -87,7 +87,6 @@ def detail(request, geonameid):
         response_data = buildJson(response_object.docs, response_data)
 
     elif name == 'Mundus':
-        solr = ServiceSolr()
         response_object = solr.search(
             "continent_t:EU OR continent_t:AF OR continent_t:OC OR continent_t:SA OR continent_t:NA OR continent_t:AS")
         response_data = buildJson(response_object.docs, response_data)
