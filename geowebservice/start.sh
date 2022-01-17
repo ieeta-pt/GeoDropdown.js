@@ -12,7 +12,7 @@ done
 (
     set -e
 
-    docker-compose exec -T solr sh -c "solr create_core -c geonames -d basic_configs"
+    docker-compose exec -T solr sh -c "solr create_core -c geonames -d _default"
 
     docker-compose up -d geodropdownservice
 

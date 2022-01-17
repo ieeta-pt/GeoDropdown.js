@@ -2,7 +2,7 @@ version: "3"
 
 services:
   solr:
-    image: solr:5.5.3
+    image: solr:8.11
     volumes:
       - geodata:/opt/solr/server/solr
 
