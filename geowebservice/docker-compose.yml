@@ -1,17 +1,18 @@
-solr:
+version: "3"
+
+services:
+  solr:
     image: solr:5.5.3
-    hostname: solr
-    ports:
-        - "8887:8983"
-
-
-
-geodropdownservice:
-    image: bioinformaticsua/geodropdownservice
-    ports:
-        - "8886:80"
     volumes:
-        - .:/opt/django/app
-    links:
-        - solr:solr
-        
+      - geodata:/opt/solr/server/solr
+
+  geodropdownservice:
+    build:
+      context: .
+    ports:
+      - "8886:8000"
+    depends_on:
+      - solr
+
+volumes:
+  geodata:
