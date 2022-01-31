@@ -87,6 +87,8 @@ grunt
 serve
 ```
 
+If you open [http://localhost:3000/demo](http://localhost:3000/demo) you should be able to see the components working.
+
 ## Server Side:
 ### How to make it run
 There is a docker-compose file to run this application. Therefore, if you want to run geodropdown, just go to geowebservice folder and run the following commands:
@@ -95,6 +97,8 @@ cd geowebservice
 docker-compose build
 ./start.sh
 ```
+
+Change the `url` attribute of the `geo-dropdown` components in demo.html from `https://emif-catalogue.eu/geodropdown/geodatabase/` to `http://localhost:8886/geodatabase/`.
 
 ### How to load data to the Web Service databases
 
