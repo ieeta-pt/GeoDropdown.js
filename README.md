@@ -76,15 +76,18 @@ Portugal (wich is a country) geonameid is 2264397, so you can use the link /geod
 ```sh
 npm install -g grunt bower serve
 
-# download external dependencies
+# download external dependencies. These are old and some of these versions are not in npm.
 bower install
 
 # build dist files
+npm install  # install used dependencies by grunt
 grunt
 
 # start a dev server to test demo.html
 serve
 ```
+
+If you open [http://localhost:3000/demo](http://localhost:3000/demo) you should be able to see the components working.
 
 ## Server Side:
 ### How to make it run
@@ -94,6 +97,8 @@ cd geowebservice
 docker-compose build
 ./start.sh
 ```
+
+Change the `url` attribute of the `geo-dropdown` components in demo.html from `https://emif-catalogue.eu/geodropdown/geodatabase/` to `http://localhost:8886/geodatabase/`.
 
 ### How to load data to the Web Service databases
 
