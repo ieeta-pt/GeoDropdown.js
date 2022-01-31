@@ -76,10 +76,11 @@ Portugal (wich is a country) geonameid is 2264397, so you can use the link /geod
 ```sh
 npm install -g grunt bower serve
 
-# download external dependencies
+# download external dependencies. These are old and some of these versions are not in npm.
 bower install
 
 # build dist files
+npm install  # install used dependencies by grunt
 grunt
 
 # start a dev server to test demo.html
