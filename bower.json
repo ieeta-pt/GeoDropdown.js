@@ -1,7 +1,7 @@
 {
   "name": "GeoDropdown",
   "main": "GeoDropdown.js",
-  "version": "0.0.0",
+  "version": "2.1.2",
   "description": "dropdown lists location system",
   "authors": [
     "Leonardo Coelho"
