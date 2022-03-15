@@ -142,8 +142,8 @@ def detail(request, geonameid):
 
 def buildJson(response_object, response_data):
     """ Builds the answer with multiples geonames entries"""
-    for i in range(0, len(response_object) - 1):
-        response_data = response_data + addEntry(response_object[i])
+    for entry in response_object:
+        response_data = response_data + addEntry(entry)
     return response_data
 
 
