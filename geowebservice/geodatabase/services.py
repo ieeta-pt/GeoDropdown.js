@@ -50,7 +50,7 @@ class ServiceSolr(object):
         with open(countryFile, "rU") as ifile:
             reader = csv.reader(ifile, delimiter="\t")
 
-            self.countryInfo = {row[11]: {'continent': row[8], 'name': row[4]} for row in reader}
+            self.countryInfo = {row[16]: {'continent': row[8], 'name': row[4]} for row in reader}
 
     def load_initial_data(self, allCountriesFile):
         logger.info("Load initial data to Solr")
@@ -78,7 +78,7 @@ class ServiceSolr(object):
                 list_docs_to_commit.append(d)
                 if i % 60000 == 0:
                     self.solr.add(list_docs_to_commit)
-                    list_docs_to_commit = []
+                    list_docs_to_commit.clear()
                     print(i)
 
             self.solr.add(list_docs_to_commit)

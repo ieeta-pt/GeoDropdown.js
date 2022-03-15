@@ -12,16 +12,24 @@ done
 (
     set -e
 
-    docker-compose exec -T solr sh -c "solr create_core -c geonames -d _default"
+    docker-compose exec -T solr sh -c """
+    solr create_core -c geonames -d _default
+    solr config -c geonames -p 8983 -action set-user-property -property update.autoCreateFields -value false
+    """
 
     docker-compose up -d geodropdownservice
 
     docker-compose exec -T geodropdownservice sh -c """
     set -x
-    wget -P /tmp http://download.geonames.org/export/dump/allCountries.zip
+
+    wget -nv -P /tmp http://download.geonames.org/export/dump/allCountries.zip
     unzip /tmp/allCountries.zip -d /tmp
-    python manage.py load_data country.csv /tmp/allCountries.txt
-    rm /tmp/allCountries.*
+
+    wget -nv -P /tmp http://download.geonames.org/export/dump/countryInfo.txt
+    sed -i "/^#/d" /tmp/countryInfo.txt
+
+    python manage.py load_data /tmp/countryInfo.txt /tmp/allCountries.txt
+    rm -f /tmp/allCountries.* /tmp/countryInfo.txt
     """
 )
 
