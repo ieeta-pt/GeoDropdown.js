@@ -3,12 +3,14 @@ version: "3"
 services:
   solr:
     image: solr:8.11
+    restart: always
     volumes:
       - geodata:/opt/solr/server/solr
 
   geodropdownservice:
     build:
       context: .
+    restart: always
     ports:
       - "8886:8000"
     depends_on:
